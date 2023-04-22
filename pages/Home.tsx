@@ -127,7 +127,7 @@ export default function Home() {
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            Chat With Your Text Book
+            Chat With Your Textbook
           </h1>
           <main className={styles.main}>
             <div className={styles.cloud}>
@@ -216,6 +216,14 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.center}>
+              <input type="button" value="What is the subject of the book?"
+              onClick={(e) => 
+                {setQuery("What is the subject of the book?")
+                handleSubmit}
+              }
+              
+              ></input>
+
               <div className={styles.cloudform}>
                 <form onSubmit={handleSubmit}>
                   <textarea
