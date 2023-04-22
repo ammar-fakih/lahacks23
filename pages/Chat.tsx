@@ -12,8 +12,18 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import getColors from 'get-image-colors';
+import { hex, Color } from 'chroma-js';
 
-export default function Home(filePath: string) {
+async function getColorPallete(filePath: string) {
+  var file_image = 'stats.png';
+  const colors = await getColors(file_image, { count: 2 });
+  return colors;
+}
+
+export default function Chat() {
+  const namespace = 'docs/Stats';
+
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -25,7 +35,7 @@ export default function Home(filePath: string) {
   }>({
     messages: [
       {
-        message: 'Hi, ask me anything about {filePath}!',
+        message: `Hi, ask me anything about '${namespace}'!`,
         type: 'apiMessage',
       },
     ],
@@ -37,8 +47,21 @@ export default function Home(filePath: string) {
   const messageListRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
+  // Update Avatar image based on text
+  const botAvatarSrc = `https://robohash.org/${namespace}.png?size=400x400&set=set4`;
+
+  // generate document metadata
+  // background & accent colors
+  const [themeColors, setThemeColors] = useState([ hex("#FFF"), hex("#000") ]);
+
+  // On Page Load:
   useEffect(() => {
     textAreaRef.current?.focus();
+
+    getColorPallete(namespace).then((colors) => {
+      setThemeColors(colors);
+      console.log(colors);
+    });
   }, []);
 
   //handle form submission
@@ -77,7 +100,7 @@ export default function Home(filePath: string) {
         body: JSON.stringify({
           question,
           history,
-          filePath,
+          namespace,
         }),
       });
       const data = await response.json();
@@ -124,7 +147,7 @@ export default function Home(filePath: string) {
   return (
     <>
       <Layout>
-        <div className="mx-auto flex flex-col gap-4">
+        <div style={{backgroundColor: themeColors[0].brighten(0).hex(), color: themeColors[1].brighten(0).hex()}} className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             Chat With Your Text Book
           </h1>
@@ -138,10 +161,10 @@ export default function Home(filePath: string) {
                     icon = (
                       <Image
                         key={index}
-                        src="/bot-image.png"
+                        src={botAvatarSrc}
                         alt="AI"
-                        width="40"
-                        height="40"
+                        width="60"
+                        height="60"
                         className={styles.boticon}
                         priority
                       />
@@ -262,9 +285,7 @@ export default function Home(filePath: string) {
           </main>
         </div>
         <footer className="m-auto p-4">
-          <a href="https://twitter.com/mayowaoshin">
-            Made for LA Hacks
-          </a>
+          <a href="https://twitter.com/mayowaoshin">Made for LA Hacks</a>
         </footer>
       </Layout>
     </>
