@@ -59,6 +59,7 @@ export default function ListPage() {
             justifyContent: 'center',
             paddingRight: 50,
             paddingLeft: 50,
+            paddingBottom: 50
           }}
         >
           {renderListings()}
