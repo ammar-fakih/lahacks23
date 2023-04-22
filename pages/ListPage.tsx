@@ -8,33 +8,21 @@ export default function ListPage() {
   const [textbooks, setTextBooks] = useState([
     {
       name: 'OpenIntro Statistics',
-      subject: 'Math',
+      subject: 'Fourth Edition',
+      folder: "docs/Stats",
       image: '/stats.png',
     },
     {
-      name: 'OpenIntro Statistics',
-      subject: 'Math',
-      image: '/stats.png',
+      name: 'Elementary Principles of Chemical Processes',
+      subject: 'Fourth Edition',
+      folder: "/docs/chemistry",
+      image: '/chem.jpg',
     },
     {
-      name: 'OpenIntro Statistics',
-      subject: 'Math',
-      image: '/stats.png',
-    },
-    {
-      name: 'OpenIntro Statistics',
-      subject: 'Math',
-      image: '/stats.png',
-    },
-    {
-      name: 'OpenIntro Statistics',
-      subject: 'Math',
-      image: '/stats.png',
-    },
-    {
-      name: 'OpenIntro Statistics',
-      subject: 'Math',
-      image: '/stats.png',
+      name: 'Style: Lessons in Clarity and Grace',
+      subject: 'Eleventh Edition',
+      folder: "docs/english",
+      image: '/eng.jpg',
     },
   ]);
 
@@ -63,9 +51,6 @@ export default function ListPage() {
       <Layout title="MuddBot">
         <div style={{ flex: 10, padding: 30 }}></div>
 
-        <div className="fullwidth">
-          <h1 style={{ textAlign: 'center' }}>TextBooks</h1>
-        </div>
         <div
           className="flex flex-wrap space-x-2"
           style={{

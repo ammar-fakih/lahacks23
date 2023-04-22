@@ -7,9 +7,11 @@ interface CardProps {
 }
 
 export default function Card({ data }: CardProps) {
+
+
   return (
-    <a href={`#${data.url}`} target="_blank" rel="noreferrer">
-      <div className="hidden lg:block rounded-2xl border-2 border-gray-100 shadow-md bg-white hover:shadow-xl hover:-translate-y-1 transition-all ease duration-200">
+    <a href={`${data.url}`}>
+      <div style={{width: "20rem"}} className="hidden lg:block rounded-2xl border-2 border-gray-100 shadow-md bg-white hover:shadow-xl hover:-translate-y-1 transition-all ease duration-200">
         <div className="rounded-t-2xl overflow-hidden">
           <BlurImage
             alt={data.name ?? 'Card Thumbnail'}
@@ -21,7 +23,7 @@ export default function Card({ data }: CardProps) {
             // blurDataURL={data.imageBlurhash ?? undefined}
           />
         </div>
-        <div className="py-6 px-5 h-36">
+        <div className="py-6 px-5 h-36 w-500">
           <h3 className="font-cal text-2xl font-bold tracking-wide truncate">
             {data.name}
           </h3>
