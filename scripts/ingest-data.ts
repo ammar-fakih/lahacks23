@@ -12,6 +12,9 @@ const directory = 'docs';
 
 export const run = async (filePath: string) => {
   try {
+    const namespace = filePath.split('/')[1];
+    console.log('namespace', namespace);
+
     /*load raw docs from the all files in the directory */
     const directoryLoader = new DirectoryLoader(filePath, {
       '.pdf': (path) => new CustomPDFLoader(path),
@@ -37,7 +40,7 @@ export const run = async (filePath: string) => {
     //embed the PDF documents
     await PineconeStore.fromDocuments(docs, embeddings, {
       pineconeIndex: index,
-      namespace: PINECONE_NAME_SPACE+'-'+filePath,
+      namespace,
       textKey: 'text',
     });
   } catch (error) {
