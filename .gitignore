@@ -39,3 +39,5 @@ next-env.d.ts
 #Notion_db
 /Notion_DB
 node_modules
+
+/docs
