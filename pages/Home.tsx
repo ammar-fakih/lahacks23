@@ -13,7 +13,8 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
-export default function Home(filePath: string) {
+export default function Home() {
+  const filePath = 'docs/Stats';
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -25,7 +26,7 @@ export default function Home(filePath: string) {
   }>({
     messages: [
       {
-        message: 'Hi, ask me anything about {filePath}!',
+        message: `Hi, ask me anything about ${filePath}!`,
         type: 'apiMessage',
       },
     ],
@@ -185,8 +186,11 @@ export default function Home(filePath: string) {
                             collapsible
                             className="flex-col"
                           >
-                            {message.sourceDocs.map((doc, index) => (
-                              <div key={`messageSourceDocs-${index}`}>
+                            {message.sourceDocs.map((doc, index) => {
+                              console.log("meta: ", doc.metadata);
+                              console.log("metadata: ", doc.metadata.source);
+                              console.log("doc: ", doc);
+                              return <div key={`messageSourceDocs-${index}`}>
                                 <AccordionItem value={`item-${index}`}>
                                   <AccordionTrigger>
                                     <h3>Source {index + 1}</h3>
@@ -196,12 +200,13 @@ export default function Home(filePath: string) {
                                       {doc.pageContent}
                                     </ReactMarkdown>
                                     <p className="mt-2">
-                                      <b>Source:</b> {doc.metadata.source}
+                                      <b>Source:</b> {doc.metadata.source.substring(doc.metadata.source.lastIndexOf("/")+1)}
+
                                     </p>
                                   </AccordionContent>
                                 </AccordionItem>
                               </div>
-                            ))}
+                            })}
                           </Accordion>
                         </div>
                       )}
