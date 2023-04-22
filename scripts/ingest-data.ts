@@ -5,11 +5,12 @@ import { pinecone } from '@/utils/pinecone-client';
 import { CustomPDFLoader } from '@/utils/customPDFLoader';
 import { PINECONE_INDEX_NAME, PINECONE_NAME_SPACE } from '@/config/pinecone';
 import { DirectoryLoader } from 'langchain/document_loaders/fs/directory';
+import fs from 'fs';
 
 /* Name of directory to retrieve your files from */
-const docPath = 'docs';
+const directory = 'docs';
 
-export const run = async (filePath) => {
+export const run = async (filePath: string) => {
   try {
     /*load raw docs from the all files in the directory */
     const directoryLoader = new DirectoryLoader(filePath, {
@@ -36,7 +37,7 @@ export const run = async (filePath) => {
     //embed the PDF documents
     await PineconeStore.fromDocuments(docs, embeddings, {
       pineconeIndex: index,
-      namespace: PINECONE_NAME_SPACE,
+      namespace: PINECONE_NAME_SPACE+'-'+filePath,
       textKey: 'text',
     });
   } catch (error) {
@@ -46,7 +47,21 @@ export const run = async (filePath) => {
 };
 
 (async () => {
-  // for folder in docPath:
-    await run();
+  await fs.readdir(directory, async (err: any, folders: string[]) => { 
+    console.log(folders);
+    if(err) { 
+      // handle error; e.g., folder didn't exist 
+      console.log(err);
+    } 
+    for (let folder_i in folders) {
+      console.log("folder: ", folders[folder_i]);
+      await run(`${directory}/${folders[folder_i]}`);
+
+      //await () => {};
+      //await run(directory+folder);
+    }
+  }); 
+
+   
   console.log('ingestion complete');
 })();

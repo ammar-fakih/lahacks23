@@ -13,7 +13,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
-export default function Home() {
+export default function Home(filePath: string) {
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -25,7 +25,7 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: 'Hi, ask me anything about this textbook!',
+        message: 'Hi, ask me anything about {filePath}!',
         type: 'apiMessage',
       },
     ],
@@ -77,6 +77,7 @@ export default function Home() {
         body: JSON.stringify({
           question,
           history,
+          filePath,
         }),
       });
       const data = await response.json();
