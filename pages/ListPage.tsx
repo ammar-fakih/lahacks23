@@ -9,19 +9,19 @@ export default function ListPage() {
     {
       name: 'OpenIntro Statistics',
       subject: 'Fourth Edition',
-      folder: "docs/Stats",
+      folder: "/chat?book=stats",
       image: '/stats.png',
     },
     {
       name: 'Elementary Principles of Chemical Processes',
       subject: 'Fourth Edition',
-      folder: "/docs/chemistry",
+      folder: "/chat?book=chemistry",
       image: '/chem.jpg',
     },
     {
       name: 'Style: Lessons in Clarity and Grace',
       subject: 'Eleventh Edition',
-      folder: "docs/english",
+      folder: "/chat?book=eng",
       image: '/eng.jpg',
     },
   ]);
@@ -35,7 +35,7 @@ export default function ListPage() {
           <Card
             data={{
               name: textbook.name,
-              url: '',
+              url: textbook.folder,
               image: textbook.image,
               description: textbook.subject,
               imageBlurhash: '',
