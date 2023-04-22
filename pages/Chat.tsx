@@ -208,8 +208,11 @@ export default function Chat() {
                             collapsible
                             className="flex-col"
                           >
-                            {message.sourceDocs.map((doc, index) => (
-                              <div key={`messageSourceDocs-${index}`}>
+                            {message.sourceDocs.map((doc, index) => {
+                              console.log("meta: ", doc.metadata);
+                              console.log("metadata: ", doc.metadata.source);
+                              console.log("doc: ", doc);
+                              return <div key={`messageSourceDocs-${index}`}>
                                 <AccordionItem value={`item-${index}`}>
                                   <AccordionTrigger>
                                     <h3>Source {index + 1}</h3>
@@ -219,12 +222,13 @@ export default function Chat() {
                                       {doc.pageContent}
                                     </ReactMarkdown>
                                     <p className="mt-2">
-                                      <b>Source:</b> {doc.metadata.source}
+                                      <b>Source:</b> {doc.metadata.source.substring(doc.metadata.source.lastIndexOf("/")+1)}
+
                                     </p>
                                   </AccordionContent>
                                 </AccordionItem>
                               </div>
-                            ))}
+                            })}
                           </Accordion>
                         </div>
                       )}
