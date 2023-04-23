@@ -11,6 +11,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  console.log("arrived into api/char.ts")
 
   const pinecone = await initPinecone(use_cohere)
   const PINECONE_INDEX_NAME = GET_PINECONE_INDEX_NAME(use_cohere);

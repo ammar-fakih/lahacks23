@@ -140,20 +140,18 @@ export default function Chat() {
     setQuery('');
 
     try {
-      const formatted_question = question; //.replaceAll('book', title).trim();
-      console.log(formatted_question);
+      const formatted_question = question.replaceAll('book', title).trim();
       const response = await fetch('api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          formatted_question,
+          question: formatted_question,
           history,
           filePath,
         }),
       });
-      console.log(response);
       const data = await response.json();
 
       if (data.error) {
