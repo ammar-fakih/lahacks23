@@ -266,16 +266,40 @@ export default function Chat() {
                 })}
               </div>
             </div>
-            <div className={styles.center}>
-              <input
-                type="button"
-                value="What is the subject of the book?"
-                onClick={(e) => {
-                  setQuery('What is the subject of the book?');
-                  handleSubmit;
-                }}
+            <div>
+              Suggested Questions: 
+
+              <input type="button" value="What is the subject of the book?"
+                color="primary"
+                onClick={() => 
+                  setQuery("What is the subject of the book?")
+                  //handleSubmit
+                }
+                className={styles.generatesuggestion}
+                disabled={loading}
+              >
+
+
+              </input>
+
+              <input type="button" value="What are the main ideas of the book?"
+                onClick={() => 
+                  setQuery("What are the main ideas of the book?")
+                  //handleSubmit
+                }
+                className={styles.generatesuggestion}
               ></input>
 
+              <input type="button" value="Make a review guide for the book."
+                onClick={() => 
+                  setQuery("Make a review guide for the book.")
+                  //{handleSubmit}
+                }
+                className={styles.generatesuggestion}
+              ></input>
+
+            </div>
+            <div className={styles.center}>
               <div className={styles.cloudform}>
                 <form onSubmit={handleSubmit}>
                   <textarea
@@ -290,7 +314,7 @@ export default function Chat() {
                     placeholder={
                       loading
                         ? 'Waiting for response...'
-                        : 'What is chapter 3 about?'
+                        : 'Enter your question here'
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
