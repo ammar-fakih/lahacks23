@@ -60,8 +60,8 @@
   position: center;
   /*top: 0.87rem;
   right: 1rem;*/
-  color: rgb(255, 255, 255);
-  background: rgb(7, 0, 0);
+  color: rgb(0, 0, 0);
+  /*background: rgb(7, 0, 0);*/
   padding: 0.3rem;
   border: 0.4rem;
   border-spacing: 15px;
