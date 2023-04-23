@@ -1,4 +1,4 @@
-import Home from "./chat";
+import Home from "./Chat";
 import ListPage from "./ListPage";
 
 

@@ -12,9 +12,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { useRouter } from 'next/router';
 
 export default function Home() {
-  const filePath = 'docs/Stats';
+  const router = useRouter();
+  const { filePath, title } = router.query;
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,7 +28,7 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: `Hi, ask me anything about ${filePath}!`,
+        message: `Hi, ask me anything about ${title}!`,
         type: 'apiMessage',
       },
     ],

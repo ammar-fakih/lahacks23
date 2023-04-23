@@ -9,19 +9,19 @@ export default function ListPage() {
     {
       name: 'OpenIntro Statistics',
       subject: 'Fourth Edition',
-      folder: "/chat?book=stats",
+      folder: "/Chat?filePath=stats&title=OpenIntro Statistics",
       image: '/stats.png',
     },
     {
       name: 'Elementary Principles of Chemical Processes',
       subject: 'Fourth Edition',
-      folder: "/chat?book=chemistry",
+      folder: "/Chat?filePath=chemistry&title=Elementary Principles of Chemical Processes",
       image: '/chem.jpg',
     },
     {
       name: 'Style: Lessons in Clarity and Grace',
       subject: 'Eleventh Edition',
-      folder: "/chat?book=eng",
+      folder: "/Chat?filePath=english&title=Style: Lessons in Clarity and Grace",
       image: '/eng.jpg',
     },
   ]);
@@ -50,7 +50,7 @@ export default function ListPage() {
     <div className="flex h-screen flex-col">
       <Layout title="MuddBot">
         <div style={{ flex: 10, padding: 30 }}></div>
-
+        
         <div
           className="flex flex-wrap space-x-2"
           style={{
