@@ -322,7 +322,9 @@ export default function Chat() {
                 }
                 className={styles.generatesuggestion}
                 disabled={loading}
-              ></input>
+              >
+
+              </input>
               <input
                 type="button"
                 value="What are the main ideas of the textbook?"
