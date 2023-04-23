@@ -1,13 +1,12 @@
 /**
  * Change the namespace to the namespace on Pinecone you'd like to store your embeddings.
  */
+const GET_PINECONE_INDEX_NAME = (use_cohere: boolean) => (use_cohere ? process.env.COHERE_PINECONE_INDEX_NAME : process.env.OPENAI_PINECONE_INDEX_NAME) as string;
 
-if (!process.env.PINECONE_INDEX_NAME) {
-  throw new Error('Missing Pinecone index name in .env file');
-}
+const GET_PINECONE_ENVIRONMENT = (use_cohere: boolean) => (use_cohere ? process.env.COHERE_PINECONE_ENVIRONMENT : process.env.OPENAI_PINECONE_ENVIRONMENT) as string;
 
-const PINECONE_INDEX_NAME = process.env.PINECONE_INDEX_NAME ?? '';
+const GET_PINECONE_API_KEY = (use_cohere: boolean) => (use_cohere ? process.env.COHERE_PINECONE_API_KEY : process.env.OPENAI_PINECONE_API_KEY) as string;
 
-const PINECONE_NAME_SPACE = 'pdf-test'; //namespace is optional for your vectors
 
-export { PINECONE_INDEX_NAME, PINECONE_NAME_SPACE };
+
+export { GET_PINECONE_INDEX_NAME, GET_PINECONE_ENVIRONMENT, GET_PINECONE_API_KEY };

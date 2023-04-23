@@ -2,8 +2,13 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { PineconeStore } from 'langchain/vectorstores/pinecone';
 import { makeChain } from '@/utils/makechain';
-import { pinecone } from '@/utils/pinecone-client';
-import { PINECONE_INDEX_NAME } from '@/config/pinecone';
+import { initPinecone } from '@/utils/pinecone-client';
+import { GET_PINECONE_INDEX_NAME } from '@/config/pinecone';
+
+const use_cohere = true;
+
+const pinecone = await initPinecone(use_cohere)
+const PINECONE_INDEX_NAME = GET_PINECONE_INDEX_NAME(use_cohere);
 
 export default async function handler(
   req: NextApiRequest,

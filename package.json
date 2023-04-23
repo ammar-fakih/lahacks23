@@ -15,11 +15,16 @@
     "ingest": "tsx -r dotenv/config scripts/ingest-data.ts"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
     "@microsoft/fetch-event-source": "^2.0.1",
+    "@mui/material": "^5.12.1",
+    "@mui/styled-engine-sc": "^5.12.0",
     "@pinecone-database/pinecone": "0.0.12",
     "@prisma/client": "^4.13.0",
     "@radix-ui/react-accordion": "^1.1.1",
     "clsx": "^1.2.1",
+    "cohere-ai": "^6.2.0",
     "dotenv": "^16.0.3",
     "fs": "^0.0.1-security",
     "fs-extra": "^11.1.1",
@@ -27,10 +32,11 @@
     "langchain": "0.0.55",
     "lucide-react": "^0.125.0",
     "next": "13.2.3",
-    "pdf-parse": "1.1.1",
+    "pdf-parse": "^1.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-markdown": "^8.0.5",
+    "styled-components": "^5.3.10",
     "tailwind-merge": "^1.10.0"
   },
   "devDependencies": {
