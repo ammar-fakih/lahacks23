@@ -24,7 +24,7 @@ function getMessageState(title: string) {
   return {
     messages: [
       {
-        message: `Hi, ask me anything about '${title}'!`,
+        message: `Hi, ask me anything about ${title}!`,
         type: 'apiMessage',
       },
     ],
@@ -161,6 +161,18 @@ export default function Chat() {
     }
   };
 
+  const getPdf = () => {
+    let fileNames: string[] = [];
+    // filePath as string
+    readdir("public-docs/stats", (err, files) => {
+      fileNames = files;
+    });
+
+    return fileNames.map((file) => {
+      return <li><a href={file}>Textbook Name</a></li>
+    });
+  };
+
   return (
     <>
       <Layout>
@@ -174,6 +186,10 @@ export default function Chat() {
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             Chat With Your Textbook
           </h1>
+          <p>Read the full textbook:</p>
+          <ul>
+            {getPdf()}
+          </ul>
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
@@ -327,7 +343,9 @@ export default function Chat() {
           </main>
         </div>
         <footer className="m-auto p-4">
-          <a href="https://twitter.com/mayowaoshin">Made for LA Hacks</a>
+          <a href="https://twitter.com/mayowaoshin">
+            Made for LA Hacks
+          </a>
         </footer>
       </Layout>
     </>
