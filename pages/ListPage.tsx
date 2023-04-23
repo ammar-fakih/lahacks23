@@ -17,7 +17,7 @@ export default function ListPage() {
       name: 'Elementary Principles of Chemical Processes',
       subject: 'Fourth Edition',
       folder: "/Chat?filePath=chemistry&title=Elementary Principles of Chemical Processes",
-      image: '/chem.jpg',
+      image: '/chemistry.png',
       pdf: "/public-docs/stats/ElementaryChemical.pdf"
 
     },
@@ -25,7 +25,7 @@ export default function ListPage() {
       name: 'Style: Lessons in Clarity and Grace',
       subject: 'Eleventh Edition',
       folder: "/Chat?filePath=english&title=Style: Lessons in Clarity and Grace",
-      image: '/eng.jpg',
+      image: '/english.png',
       pdf: "/public-docs/english/Williams Style 11th edition.pdf"
     },
   ]);

@@ -8,7 +8,7 @@ interface LayoutProps {
 }
 
 export default function Layout({
-  styleDarker,
+  styleDarker = { backgroundColor: 'white' },
   styleLighter,
   children,
   title = 'MuddBot',

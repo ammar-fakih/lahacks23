@@ -33,13 +33,22 @@ function getMessageState(title: string) {
 }
 
 function linkToPDF(title: string) {
-  if (title == "OpenIntro Statistics") {
-    return (<a href="public-docs/stats/Intro Stats.pdf">here</a>)
-  } else if (title == "Elementary Principles of Chemical Processes") {
-    return (<a href="public-docs/stats/ElementaryChemical.pdf">here</a>)
-  } else {
-    return (<a href="public-docs/english/Williams Style 11th edition.pdf">here</a>)
+  let url = '';
+  switch (title) {
+    case 'OpenIntro Statistics':
+      url = 'public-docs/stats/Intro Stats.pdf';
+      break;
+    case 'Elementary Principles of Chemical Processes':
+      url = 'public-docs/stats/ElementaryChemical.pdf';
+      break;
+    default:
+      url = 'public-docs/english/Williams Style 11th edition.pdf';
   }
+  return (
+    <a target="_blank" href="url">
+      here
+    </a>
+  );
 }
 
 export default function Chat() {
@@ -114,6 +123,7 @@ export default function Chat() {
     }
 
     const question = query.trim();
+    console.log(question);
 
     setMessageState((state) => ({
       ...state,
@@ -130,19 +140,21 @@ export default function Chat() {
     setQuery('');
 
     try {
-      const response = await fetch('/api/chat', {
+      const formatted_question = question; //.replaceAll('book', title).trim();
+      console.log(formatted_question);
+      const response = await fetch('api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          question,
+          formatted_question,
           history,
           filePath,
         }),
       });
+      console.log(response);
       const data = await response.json();
-      console.log('data', data);
 
       if (data.error) {
         setError(data.error);
@@ -160,7 +172,6 @@ export default function Chat() {
           history: [...state.history, [question, data.text]],
         }));
       }
-      console.log('messageState', messageState);
 
       setLoading(false);
 
@@ -192,7 +203,9 @@ export default function Chat() {
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             Chat With Your Textbook
           </h1>
-          <p>Read the full textbook <b>{linkToPDF(title)}</b>.</p>
+          <p>
+            Read the full textbook <b>{linkToPDF(title)}</b>.
+          </p>
           <main className={styles.main}>
             <div
               style={{ borderColor: themeColors[1].hex() }}
@@ -370,7 +383,11 @@ export default function Chat() {
           </main>
         </div>
         <footer className="m-auto p-4">
-          <a style={styleDarker} href="https://twitter.com/mayowaoshin">
+          <a
+            style={styleDarker}
+            target="_blank"
+            href="https://lahacks.com/live/home"
+          >
             Made for LA Hacks
           </a>
         </footer>

@@ -15,6 +15,7 @@ export default function BlurImage(props: BlurImageProps) {
   return (
     <Image
       {...props}
+      style={{objectFit: 'contain'}}
       alt={props.alt}
       className={cn(
         props.className,
