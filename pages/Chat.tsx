@@ -24,12 +24,22 @@ function getMessageState(title: string) {
   return {
     messages: [
       {
-        message: `Hi, ask me anything about '${title}'!`,
+        message: `Hi, ask me anything about ${title}!`,
         type: 'apiMessage',
       },
     ],
     history: [],
   };
+}
+
+function linkToPDF(title: string) {
+  if (title == "OpenIntro Statistics") {
+    return (<a href="public-docs/stats/Intro Stats.pdf">here</a>)
+  } else if (title == "Elementary Principles of Chemical Processes") {
+    return (<a href="public-docs/stats/ElementaryChemical.pdf">here</a>)
+  } else {
+    return (<a href="public-docs/english/Williams Style 11th edition.pdf">here</a>)
+  }
 }
 
 export default function Chat() {
@@ -182,6 +192,7 @@ export default function Chat() {
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             Chat With Your Textbook
           </h1>
+          <p>Read the full textbook <b>{linkToPDF(title)}</b>.</p>
           <main className={styles.main}>
             <div
               style={{ borderColor: themeColors[1].hex() }}

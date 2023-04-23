@@ -11,18 +11,22 @@ export default function ListPage() {
       subject: 'Fourth Edition',
       folder: "/Chat?filePath=stats&title=OpenIntro Statistics",
       image: '/stats.png',
+      pdf: "public-docs/stats/Intro Stats.pdf"
     },
     {
       name: 'Elementary Principles of Chemical Processes',
       subject: 'Fourth Edition',
       folder: "/Chat?filePath=chemistry&title=Elementary Principles of Chemical Processes",
       image: '/chem.jpg',
+      pdf: "/public-docs/stats/ElementaryChemical.pdf"
+
     },
     {
       name: 'Style: Lessons in Clarity and Grace',
       subject: 'Eleventh Edition',
       folder: "/Chat?filePath=english&title=Style: Lessons in Clarity and Grace",
       image: '/eng.jpg',
+      pdf: "/public-docs/english/Williams Style 11th edition.pdf"
     },
   ]);
 
