@@ -1,4 +1,5 @@
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface LayoutProps {
   children?: React.ReactNode;
@@ -11,7 +12,16 @@ export default function Layout({ children, title = 'MuddBot' }: LayoutProps) {
       <header className="container sticky top-0 z-40 bg-white">
         <div className="h-16 border-b border-b-slate-200 py-4">
           <nav className="ml-4 pl-6">
-            <Link href="/" className="hover:text-slate-600 cursor-pointer">
+            <Link
+              href="/"
+              className="hover:text-slate-600 cursor-pointer flex flex-row items-center"
+            >
+              <Image
+                src="/logo.jpg"
+                alt="MuddBot Logo"
+                width={35}
+                height={35}
+              />
               {title}
             </Link>
           </nav>

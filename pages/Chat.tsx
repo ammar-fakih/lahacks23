@@ -12,33 +12,16 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-
-import getColors from 'get-image-colors';
-import { hex, Color } from 'chroma-js';
 import { useRouter } from 'next/router';
-
+import getColors from 'get-image-colors';
+import { hex } from 'chroma-js';
 
 async function getColorPallete(filePath: string) {
-  var file_image = 'stats.png';
-  const colors = await getColors(file_image, { count: 2 });
-  return colors;
+  return await getColors(filePath + '.png', { count: 2 });
 }
 
-export default function Chat() {
-
-  const router = useRouter();
-  const { filePath, title } = router.query;
-  
-
-  const [query, setQuery] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [messageState, setMessageState] = useState<{
-    messages: Message[];
-    pending?: string;
-    history: [string, string][];
-    pendingSourceDocs?: Document[];
-  }>({
+function getMessageState(title: string) {
+  return {
     messages: [
       {
         message: `Hi, ask me anything about '${title}'!`,
@@ -46,7 +29,25 @@ export default function Chat() {
       },
     ],
     history: [],
-  });
+  };
+}
+
+export default function Chat() {
+  const router = useRouter();
+
+  const [filePath, setFilePath] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const [query, setQuery] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const [messageState, setMessageState] = useState<{
+    messages: Message[];
+    pending?: string;
+    history: [string, string][];
+    pendingSourceDocs?: Document[];
+    // @ts-ignore
+  }>(getMessageState(title));
 
   const { messages, history } = messageState;
 
@@ -58,17 +59,27 @@ export default function Chat() {
 
   // generate document metadata
   // background & accent colors
-  const [themeColors, setThemeColors] = useState([ hex("#FFF"), hex("#000") ]);
+  const [themeColors, setThemeColors] = useState([hex('#FFF'), hex('#000')]);
 
   // On Page Load:
   useEffect(() => {
     textAreaRef.current?.focus();
-
-    getColorPallete(filePath as string).then((colors) => {
-      setThemeColors(colors);
-      console.log(colors);
-    });
   }, []);
+
+  useEffect(() => {
+    // @ts-ignore
+    setMessageState(getMessageState(title));
+  }, [title]);
+
+  useEffect(() => {
+    if (router.isReady) {
+      console.log('filePath: ', router.query.filePath);
+      console.log('title: ', router.query.title);
+
+      setFilePath(router.query.filePath as string);
+      setTitle(router.query.title as string);
+    }
+  }, [router.isReady, router.query]);
 
   //handle form submission
   async function handleSubmit(e: any) {
@@ -153,7 +164,13 @@ export default function Chat() {
   return (
     <>
       <Layout>
-        <div style={{backgroundColor: themeColors[0].brighten(0).hex(), color: themeColors[1].brighten(0).hex()}} className="mx-auto flex flex-col gap-4">
+        <div
+          style={{
+            backgroundColor: themeColors[0].brighten(0).hex(),
+            color: themeColors[1].brighten(0).hex(),
+          }}
+          className="mx-auto flex flex-col gap-4"
+        >
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             Chat With Your Textbook
           </h1>
@@ -168,9 +185,10 @@ export default function Chat() {
                       <Image
                         key={index}
                         src={botAvatarSrc}
+                        loader={() => botAvatarSrc}
                         alt="AI"
-                        width="60"
-                        height="60"
+                        width="40"
+                        height="40"
                         className={styles.boticon}
                         priority
                       />
@@ -215,25 +233,30 @@ export default function Chat() {
                             className="flex-col"
                           >
                             {message.sourceDocs.map((doc, index) => {
-                              console.log("meta: ", doc.metadata);
-                              console.log("metadata: ", doc.metadata.source);
-                              console.log("doc: ", doc);
-                              return <div key={`messageSourceDocs-${index}`}>
-                                <AccordionItem value={`item-${index}`}>
-                                  <AccordionTrigger>
-                                    <h3>Source {index + 1}</h3>
-                                  </AccordionTrigger>
-                                  <AccordionContent>
-                                    <ReactMarkdown linkTarget="_blank">
-                                      {doc.pageContent}
-                                    </ReactMarkdown>
-                                    <p className="mt-2">
-                                      <b>Source:</b> {doc.metadata.source.substring(doc.metadata.source.lastIndexOf("/")+1)}
-
-                                    </p>
-                                  </AccordionContent>
-                                </AccordionItem>
-                              </div>
+                              console.log('meta: ', doc.metadata);
+                              console.log('metadata: ', doc.metadata.source);
+                              console.log('doc: ', doc);
+                              return (
+                                <div key={`messageSourceDocs-${index}`}>
+                                  <AccordionItem value={`item-${index}`}>
+                                    <AccordionTrigger>
+                                      <h3>Source {index + 1}</h3>
+                                    </AccordionTrigger>
+                                    <AccordionContent>
+                                      <ReactMarkdown linkTarget="_blank">
+                                        {doc.pageContent}
+                                      </ReactMarkdown>
+                                      <p className="mt-2">
+                                        <b>Source:</b>{' '}
+                                        {doc.metadata.source.substring(
+                                          doc.metadata.source.lastIndexOf('/') +
+                                            1,
+                                        )}
+                                      </p>
+                                    </AccordionContent>
+                                  </AccordionItem>
+                                </div>
+                              );
                             })}
                           </Accordion>
                         </div>
@@ -244,12 +267,13 @@ export default function Chat() {
               </div>
             </div>
             <div className={styles.center}>
-              <input type="button" value="What is the subject of the book?"
-              onClick={(e) => 
-                {setQuery("What is the subject of the book?")
-                handleSubmit}
-              }
-              
+              <input
+                type="button"
+                value="What is the subject of the book?"
+                onClick={(e) => {
+                  setQuery('What is the subject of the book?');
+                  handleSubmit;
+                }}
               ></input>
 
               <div className={styles.cloudform}>
@@ -309,4 +333,3 @@ export default function Chat() {
     </>
   );
 }
-
