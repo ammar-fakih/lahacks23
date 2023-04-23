@@ -45,7 +45,7 @@ function linkToPDF(title: string) {
       url = 'public-docs/english/Williams Style 11th edition.pdf';
   }
   return (
-    <a target="_blank" href="url">
+    <a target="_blank" href={url}>
       here
     </a>
   );
