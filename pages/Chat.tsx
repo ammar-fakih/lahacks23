@@ -71,13 +71,20 @@ export default function Chat() {
   // background & accent colors
   const [themeColors, setThemeColors] = useState([hex('#FFF'), hex('#000')]);
 
+  const styleLighter = {
+    backgroundColor: themeColors[0].brighten(1.25).hex(),
+    color: themeColors[1].darken(1.25).hex(),
+    borderColor: themeColors[0].hex(),
+  };
+  const styleDarker = {
+    backgroundColor: themeColors[0].hex(),
+    color: themeColors[1].hex(),
+    borderColor: themeColors[0].brighten(1.25).hex(),
+  };
+
   // On Page Load:
   useEffect(() => {
     textAreaRef.current?.focus();
-
-    getColorPallete(filePath as string).then((colors) => {
-      setThemeColors(colors);
-    });
   }, []);
 
   useEffect(() => {
@@ -87,11 +94,11 @@ export default function Chat() {
 
   useEffect(() => {
     if (router.isReady) {
-      console.log('filePath: ', router.query.filePath);
-      console.log('title: ', router.query.title);
-
       setFilePath(router.query.filePath as string);
       setTitle(router.query.title as string);
+      getColorPallete(router.query.filePath as string).then((colors) => {
+        setThemeColors(colors);
+      });
     }
   }, [router.isReady, router.query]);
 
@@ -177,23 +184,20 @@ export default function Chat() {
 
   return (
     <>
-      <Layout style={{
-            backgroundColor: themeColors[0].hex(),
-            color: themeColors[1].hex(),
-          }}>
+      <Layout styleDarker={styleDarker} styleLighter={styleLighter}>
         <div
           className="mx-auto flex flex-col gap-4"
-          style={{
-            backgroundColor: themeColors[0].brighten(1).hex(),
-            color: themeColors[1].darken(1).hex(),
-          }}
+          style={{ ...styleLighter, padding: 20 }}
         >
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             Chat With Your Textbook
           </h1>
           <p>Read the full textbook <b>{linkToPDF(title)}</b>.</p>
           <main className={styles.main}>
-            <div className={styles.cloud}>
+            <div
+              style={{ borderColor: themeColors[1].hex() }}
+              className={styles.cloud}
+            >
               <div ref={messageListRef} className={styles.messagelist}>
                 {messages.map((message, index) => {
                   let icon;
@@ -251,9 +255,6 @@ export default function Chat() {
                             className="flex-col"
                           >
                             {message.sourceDocs.map((doc, index) => {
-                              console.log('meta: ', doc.metadata);
-                              console.log('metadata: ', doc.metadata.source);
-                              console.log('doc: ', doc);
                               return (
                                 <div key={`messageSourceDocs-${index}`}>
                                   <AccordionItem value={`item-${index}`}>
@@ -285,42 +286,42 @@ export default function Chat() {
               </div>
             </div>
             <div>
-              Suggested Questions: 
-
-              <input type="button" value="What is the subject of the book?"
+              Suggested Questions:
+              <input
+                type="button"
+                value="What is the subject of the book?"
                 color="primary"
-                onClick={() => 
-                  setQuery("What is the subject of the book?")
+                onClick={
+                  () => setQuery('What is the subject of the book?')
                   //handleSubmit
                 }
                 className={styles.generatesuggestion}
                 disabled={loading}
-              >
-
-
-              </input>
-
-              <input type="button" value="What are the main ideas of the book?"
-                onClick={() => 
-                  setQuery("What are the main ideas of the book?")
+              ></input>
+              <input
+                type="button"
+                value="What are the main ideas of the book?"
+                onClick={
+                  () => setQuery('What are the main ideas of the book?')
                   //handleSubmit
                 }
                 className={styles.generatesuggestion}
               ></input>
-
-              <input type="button" value="Make a review guide for the book."
-                onClick={() => 
-                  setQuery("Make a review guide for the book.")
+              <input
+                type="button"
+                value="Make a review guide for the book."
+                onClick={
+                  () => setQuery('Make a review guide for the book.')
                   //{handleSubmit}
                 }
                 className={styles.generatesuggestion}
               ></input>
-
             </div>
             <div className={styles.center}>
               <div className={styles.cloudform}>
                 <form onSubmit={handleSubmit}>
                   <textarea
+                    style={{ borderColor: themeColors[1].hex() }}
                     disabled={loading}
                     onKeyDown={handleEnter}
                     ref={textAreaRef}
@@ -369,7 +370,7 @@ export default function Chat() {
           </main>
         </div>
         <footer className="m-auto p-4">
-          <a href="https://twitter.com/mayowaoshin">
+          <a style={styleDarker} href="https://twitter.com/mayowaoshin">
             Made for LA Hacks
           </a>
         </footer>
