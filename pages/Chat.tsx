@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import Layout from '@/components/layout';
-import styles from '@/styles/Home.module.css';
+import styles from '@/styles/Chat.module.css';
 import { Message } from '@/types/chat';
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
@@ -64,6 +64,10 @@ export default function Chat() {
   // On Page Load:
   useEffect(() => {
     textAreaRef.current?.focus();
+
+    getColorPallete(filePath as string).then((colors) => {
+      setThemeColors(colors);
+    });
   }, []);
 
   useEffect(() => {
@@ -163,13 +167,16 @@ export default function Chat() {
 
   return (
     <>
-      <Layout>
+      <Layout style={{
+            backgroundColor: themeColors[0].hex(),
+            color: themeColors[1].hex(),
+          }}>
         <div
-          style={{
-            backgroundColor: themeColors[0].brighten(0).hex(),
-            color: themeColors[1].brighten(0).hex(),
-          }}
           className="mx-auto flex flex-col gap-4"
+          style={{
+            backgroundColor: themeColors[0].brighten(1).hex(),
+            color: themeColors[1].darken(1).hex(),
+          }}
         >
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             Chat With Your Textbook
