@@ -235,8 +235,8 @@ export default function Chat() {
                         key={index}
                         src="/usericon.png"
                         alt="Me"
-                        width="30"
-                        height="30"
+                        width="40"
+                        height="40"
                         className={styles.usericon}
                         priority
                       />
