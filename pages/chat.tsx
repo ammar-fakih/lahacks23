@@ -217,6 +217,7 @@ export default function Home() {
                 })}
               </div>
             </div>
+            let hasEntry:boolean = false;
             <div>
               Suggested Questions: 
 
@@ -239,11 +240,15 @@ export default function Home() {
                   //handleSubmit
                 }
                 className={styles.generatesuggestion}
-              ></input>
+              >
+              
 
-              <input type="button" value="Make a review guide for the textbook."
-                onClick={() => 
-                  setQuery("Make a review guide for the book.")
+              </input>
+              <input
+                type="button"
+                value="Make a review guide for the textbook."
+                onClick={
+                  () => setQuery('Make a review guide for the textbook.')
                   //{handleSubmit}
                 }
                 className={styles.generatesuggestion}
