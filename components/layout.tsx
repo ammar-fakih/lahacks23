@@ -22,16 +22,16 @@ export default function Layout({
         className="container sticky top-0 z-40 drop-shadow-lg"
         style={{ minWidth: '100%' }}
       >
-        <div style={styleDarker} className=" p-2">
-          <nav style={styleLighter} className="ml-4 p-1 mr-4">
+        <div style={styleDarker} className="p-2 flex justify-between">
+          <nav className="ml-4 p-1 mr-4">
             <Link
               href="/"
-              className="hover:text-slate-600 cursor-pointer flex flex-row items-center"
+              className="hover:text-slate-600 cursor-pointer flex flex-row items-center  z-40"
             >
               <Image
-                src="/logo.jpg"
+                src="/muddbots.jpg"
                 alt="MuddBot Logo"
-                width={50}
+                width={200}
                 height={50}
                 style={{
                   padding: '6px',
@@ -39,10 +39,19 @@ export default function Layout({
                 }}
               />
               &nbsp;&nbsp;
-              <h2 className="text-4xl font-bold">{title}</h2>
+              {/* <h2 className="text-4xl font-bold">{title}</h2> */}
               {/* {title} */}
             </Link>
           </nav>
+
+          <div className="flex flex-row justify-end pr-10">
+            <Link
+              className="hover:text-slate-800 cursor-pointer flex flex-row items-center"
+              href="/"
+            >
+              <h2 className="text-xl font-bold">➕ Add Your Book</h2>
+            </Link>
+          </div>
         </div>
       </header>
       <div>
