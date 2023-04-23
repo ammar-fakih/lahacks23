@@ -175,12 +175,18 @@ export default function Chat() {
   return (
     <>
       <Layout styleDarker={styleDarker} styleLighter={styleLighter}>
-        <div className="mx-auto flex flex-col gap-4" style={{...styleLighter, padding: 20}}>
+        <div
+          className="mx-auto flex flex-col gap-4"
+          style={{ ...styleLighter, padding: 20 }}
+        >
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             Chat With Your Textbook
           </h1>
           <main className={styles.main}>
-            <div style={{borderColor: themeColors[1].hex()}} className={styles.cloud}>
+            <div
+              style={{ borderColor: themeColors[1].hex() }}
+              className={styles.cloud}
+            >
               <div ref={messageListRef} className={styles.messagelist}>
                 {messages.map((message, index) => {
                   let icon;
@@ -269,43 +275,42 @@ export default function Chat() {
               </div>
             </div>
             <div>
-              Suggested Questions: 
-
-              <input type="button" value="What is the subject of the book?"
+              Suggested Questions:
+              <input
+                type="button"
+                value="What is the subject of the book?"
                 color="primary"
-                onClick={() => 
-                  setQuery("What is the subject of the book?")
+                onClick={
+                  () => setQuery('What is the subject of the book?')
                   //handleSubmit
                 }
                 className={styles.generatesuggestion}
                 disabled={loading}
-              >
-
-
-              </input>
-
-              <input type="button" value="What are the main ideas of the book?"
-                onClick={() => 
-                  setQuery("What are the main ideas of the book?")
+              ></input>
+              <input
+                type="button"
+                value="What are the main ideas of the book?"
+                onClick={
+                  () => setQuery('What are the main ideas of the book?')
                   //handleSubmit
                 }
                 className={styles.generatesuggestion}
               ></input>
-
-              <input type="button" value="Make a review guide for the book."
-                onClick={() => 
-                  setQuery("Make a review guide for the book.")
+              <input
+                type="button"
+                value="Make a review guide for the book."
+                onClick={
+                  () => setQuery('Make a review guide for the book.')
                   //{handleSubmit}
                 }
                 className={styles.generatesuggestion}
               ></input>
-
             </div>
             <div className={styles.center}>
               <div className={styles.cloudform}>
                 <form onSubmit={handleSubmit}>
                   <textarea
-                    style={{borderColor: themeColors[1].hex()}}
+                    style={{ borderColor: themeColors[1].hex() }}
                     disabled={loading}
                     onKeyDown={handleEnter}
                     ref={textAreaRef}
@@ -354,7 +359,9 @@ export default function Chat() {
           </main>
         </div>
         <footer className="m-auto p-4">
-          <a style={styleDarker} href="https://twitter.com/mayowaoshin">Made for LA Hacks</a>
+          <a style={styleDarker} href="https://twitter.com/mayowaoshin">
+            Made for LA Hacks
+          </a>
         </footer>
       </Layout>
     </>
