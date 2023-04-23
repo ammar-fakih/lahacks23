@@ -1,0 +1,3306 @@
+221A Lecture Notes
+Notes on Tensor Product
+1  What is “Tensor”?
+After discussing the tensor product in the class, I received many questions
+what it means. I’ve also talked to Daniel, and he felt this is a subject he
+had learned on the way here and there, never in a course or a book. I myself
+don’t remember where and when I learned about it. It may be worth solving
+this problem once and for all.
+Apparently, Tensor is a manufacturer of fancy floor lamps. See
+http://growinglifestyle.shop.com/cc.class/cc?pcd=7878065&ccsyn=13549.
+For us, the word “tensor” refers to objects that have multiple indices. In
+comparison, a “scalar” does not have an index, and a “vector” one index. It
+appears in many different contexts, but this point is always the same.
+2  Direct Sum
+Before getting into the subject of tensor product, let me first discuss “direct
+sum.” This is a way of getting a new big vector space from two (or more)
+smaller vector spaces in the simplest way one can imagine: you just line them
+up.
+2.1  Space
+You start with two vector spaces,Vthat isn-dimensional, andWthat is
+m-dimensional.  The tensor product of these two vector spaces isn+m-
+dimensional. Here is how it works.
+Let{~e
+1
+, ~e
+2
+,· · ·, ~e
+n
+}be the basis system ofV, and similarly{
+~
+f
+1
+,
+~
+f
+2
+,· · ·,
+~
+f
+m
+}
+that ofW. We now definen+mbasis vectors{~e
+1
+,· · ·, ~e
+n
+,
+~
+f
+1
+,· · ·,
+~
+f
+m
+}. The
+vector space spanned by these basis vectors isV⊕W, and is called the direct
+sum ofVandW.
+1
+
+2.2  Vectors
+Any vector~v∈Vcan be written as a linear combination of the basis vectors,
+~v=v
+1
+~e
+1
++v
+2
+~e
+2
++· · ·+v
+n
+~e
+n
+. We normally express this fact in the form of a
+column vector,
+~v=
+
+
+
+
+
+
+v
+1
+v
+2
+.
+.
+.
+v
+n
+
+
+
+
+
+
+V
+
+
+
+
+
+
+
+
+
+
+
+n.(1)
+Here, it is emphasized that this is an element of the vector spaceV, and the
+column vector hasncomponents. In particular, the basis vectors themselves
+can be written as,
+~e
+1
+=
+
+
+
+
+
+
+1
+0
+.
+.
+.
+0
+
+
+
+
+
+
+V
+,~e
+2
+=
+
+
+
+
+
+
+0
+1
+.
+.
+.
+0
+
+
+
+
+
+
+V
+,· · ·,~e
+n
+=
+
+
+
+
+
+
+0
+0
+.
+.
+.
+1
+
+
+
+
+
+
+V
+.(2)
+If the basis system is orthonormal,i.e.,~e
+i
+·~e
+j
+=δ
+ij
+, thenv
+i
+=~e
+i
+·~v. Similarly
+for any vectorw, we can write
+~w=
+
+
+
+
+
+
+w
+1
+w
+2
+.
+.
+.
+w
+n
+
+
+
+
+
+
+W
+
+
+
+
+
+
+
+
+
+
+
+m.(3)
+The basis vectors are
+~
+f
+1
+=
+
+
+
+
+
+
+1
+0
+.
+.
+.
+0
+
+
+
+
+
+
+W
+,
+~
+f
+2
+=
+
+
+
+
+
+
+0
+1
+.
+.
+.
+0
+
+
+
+
+
+
+W
+,· · ·,
+~
+f
+m
+=
+
+
+
+
+
+
+0
+0
+.
+.
+.
+1
+
+
+
+
+
+
+W
+.(4)
+The vectors are naturally elements of the direct sum, just by filling zeros
+2
+
+to the unused entries,
+~v=
+
+
+
+
+
+
+
+
+
+
+
+
+v
+1
+.
+.
+.
+v
+n
+0
+.
+.
+.
+0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+n+m,~w=
+
+
+
+
+
+
+
+
+
+
+
+
+0
+.
+.
+.
+0
+w
+1
+.
+.
+.
+w
+m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+n+m.(5)
+One can also define a direct sum of two non-zero vectors,
+~v⊕~w=
+
+
+
+
+
+
+
+
+
+
+
+
+v
+1
+.
+.
+.
+v
+n
+w
+1
+.
+.
+.
+w
+m
+
+
+
+
+
+
+
+
+
+
+
+
+=
+(
+~v
+~w
+)}
+n+m,(6)
+where the last expression is used to save space and it is understood that~v
+and~ware each column vector.
+2.3  Matrices
+A matrix is mathematically a linear map from a vector space to another
+vector space.  Here, we specialize to the maps from a vector space to the
+same one because of our interest in applications to quantum mechanics,A:
+V→V,e.g.,
+~v7→A~v,(7)
+or
+
+
+
+
+
+
+v
+1
+v
+2
+.
+.
+.
+v
+n
+
+
+
+
+
+
+V
+7−→
+
+
+
+
+
+
+a
+11
+a
+12
+· · ·a
+1n
+a
+22
+a
+22
+· · ·a
+2n
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+a
+n1
+a
+n2
+· · ·a
+nn
+
+
+
+
+
+
+V
+
+
+
+
+
+
+v
+1
+v
+2
+.
+.
+.
+v
+n
+
+
+
+
+
+
+V
+.(8)
+Similarly,B:W→W, andB:~w7→B ~w.
+On the direct sum space, the same matrices can still act on the vectors,
+so that~v7→A~v, and~w7→B ~w. This matrix is written asA⊕B. This can
+3
+
+be achieved by lining up all matrix elements in ablock-diagonalform,
+A⊕B=
+(
+A0
+n×m
+0
+m×n
+B
+)
+.(9)
+For instance, ifn= 2 andm= 3, and
+A=
+(
+a
+11
+a
+12
+a
+21
+a
+22
+)
+V
+,B=
+
+
+
+b
+11
+b
+12
+b
+13
+b
+21
+b
+22
+b
+23
+b
+31
+b
+32
+b
+33
+
+
+
+W
+,(10)
+where it is emphasized thatAandBact on different spaces. Their direct
+sum is
+A⊕B=
+
+
+
+
+
+
+
+
+a
+11
+a
+12
+0   0   0
+a
+21
+a
+22
+0   0   0
+0   0b
+11
+b
+12
+b
+13
+0   0b
+21
+b
+22
+b
+23
+0   0b
+31
+b
+32
+b
+33
+
+
+
+
+
+
+
+
+.(11)
+The reason why the block-diagonal form is appropriate is clear once you
+act it on~v⊕~w,
+(A⊕B)(~v⊕~w) =
+(
+A0
+n×m
+0
+m×n
+B
+)(
+~v
+~w
+)
+=
+(
+A~v
+B ~w
+)
+= (A~v)⊕(B ~w).(12)
+If you have two matrices, their multiplications are done on each vector
+space separately,
+(A
+1
+⊕B
+1
+)(A
+2
+⊕B
+2
+) = (A
+1
+A
+2
+)⊕(B
+1
+B
+2
+).(13)
+Note that not every matrix onV⊕Wcan be written as a direct sum of a
+matrix onVand another onW. There are (n+m)
+2
+independent matrices on
+V⊕W, while there are onlyn
+2
+andm
+2
+matrices onVandW, respectively.
+Remaining (n+m)
+2
+−n
+2
+−m
+2
+= 2nmmatrices cannot be written as a direct
+sum.
+Other useful formulae are
+det(A⊕B) = (detA)(detB),(14)
+Tr(A⊕B) = (TrA) + (TrB).(15)
+4
+
+3  Tensor Product
+The word “tensor product” refers to another way of constructing a big vector
+space out of two (or more) smaller vector spaces. You can see that the spirit
+of the word “tensor” is there. It is also called Kronecker product or direct
+product.
+3.1  Space
+You start with two vector spaces,Vthat isn-dimensional, andWthat
+ism-dimensional.  The tensor product of these two vector spaces isnm-
+dimensional. Here is how it works.
+Let{~e
+1
+, ~e
+2
+,· · ·, ~e
+n
+}be the basis system ofV, and similarly{
+~
+f
+1
+,
+~
+f
+2
+,· · ·,
+~
+f
+m
+}
+that ofW. We now definenmbasis vectors~e
+i
+⊗
+~
+f
+j
+, wherei= 1,· · ·, nand
+j= 1,· · ·, m. Never mind what⊗means at this moment. We will be more
+explicit later. Just regard it a symbol that defines a new set of basis vectors.
+This is why the word “tensor” is used for this: the basis vectors have two
+indices.
+3.2  Vectors
+We use the same notation for the column vectors as in Section 2.2.
+The tensor product isbilinear, namely linear inVand also linear inW.
+(If there are more than two vector spaces, it ismultilinear.) What it implies
+is that~v⊗~w= (
+∑
+n
+i
+v
+i
+~e
+i
+)⊗(
+∑
+m
+j
+w
+j
+~
+f
+j
+) =
+∑
+n
+i
+∑
+m
+j
+v
+i
+w
+j
+(~e
+i
+⊗
+~
+f
+j
+).  In other
+words, it is a vector inV⊗W, spanned by the basis vectors~e
+i
+⊗
+~
+f
+j
+, and the
+coefficients are given byv
+i
+w
+j
+for each basis vector.
+One way to make it very explicit is to literally write it out. For example,
+let us taken= 2 andm= 3. The tensor product space isnm= 6 dimen-
+sional. The new basis vectors are~e
+1
+⊗
+~
+f
+1
+,~e
+1
+⊗
+~
+f
+2
+,~e
+1
+⊗
+~
+f
+3
+,~e
+2
+⊗
+~
+f
+1
+,~e
+2
+⊗
+~
+f
+2
+,
+and~e
+2
+⊗
+~
+f
+3
+. Let us write them as a six-component column vector,
+~e
+1
+⊗
+~
+f
+1
+=
+
+
+
+
+
+
+
+
+
+
+1
+0
+0
+0
+0
+0
+
+
+
+
+
+
+
+
+
+
+,   ~e
+1
+⊗
+~
+f
+2
+=
+
+
+
+
+
+
+
+
+
+
+0
+1
+0
+0
+0
+0
+
+
+
+
+
+
+
+
+
+
+,   ~e
+1
+⊗
+~
+f
+3
+=
+
+
+
+
+
+
+
+
+
+
+0
+0
+1
+0
+0
+0
+
+
+
+
+
+
+
+
+
+
+,
+5
+
+~e
+2
+⊗
+~
+f
+1
+=
+
+
+
+
+
+
+
+
+
+
+0
+0
+0
+1
+0
+0
+
+
+
+
+
+
+
+
+
+
+,   ~e
+2
+⊗
+~
+f
+2
+=
+
+
+
+
+
+
+
+
+
+
+0
+0
+0
+0
+1
+0
+
+
+
+
+
+
+
+
+
+
+,   ~e
+2
+⊗
+~
+f
+3
+=
+
+
+
+
+
+
+
+
+
+
+0
+0
+0
+0
+0
+1
+
+
+
+
+
+
+
+
+
+
+.(16)
+Here, I drew a horizontal lines to separate two sets of basis vectors, the first
+set that is made of~e
+1
+, and the second made of~e
+2
+. For general vectors~vand
+~w, the tensor product is
+~v⊗~w=
+
+
+
+
+
+
+
+
+
+
+v
+1
+w
+1
+v
+1
+w
+2
+v
+1
+w
+3
+v
+2
+w
+1
+v
+2
+w
+2
+v
+2
+w
+3
+
+
+
+
+
+
+
+
+
+
+.(17)
+3.3  Matrices
+A matrix is mathematically a linear map from a vector space to another
+vector space.  Here, we specialize to the maps from a vector space to the
+same one because of our interest in applications to quantum mechanics,A:
+V→V,e.g.,
+~v7−→A~v,(18)
+or
+
+
+
+
+
+
+v
+1
+v
+2
+.
+.
+.
+v
+n
+
+
+
+
+
+
+V
+7−→
+
+
+
+
+
+
+a
+11
+a
+12
+· · ·a
+1n
+a
+22
+a
+22
+· · ·a
+2n
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+a
+n1
+a
+n2
+· · ·a
+nn
+
+
+
+
+
+
+
+
+
+
+
+
+v
+1
+v
+2
+.
+.
+.
+v
+n
+
+
+
+
+
+
+V
+.(19)
+On the tensor product space, the same matrix can still act on the vectors,
+so that~v7→A~v, but~w7→~wuntouched. This matrix is written asA⊗I,
+whereIis the identity matrix. In the previous example ofn= 2 andm= 3,
+6
+
+the matrixAis two-by-two, whileA⊗Iis six-by-six,
+A⊗I=
+
+
+
+
+
+
+
+
+
+
+a
+11
+0   0
+a
+12
+0   0
+0a
+11
+00a
+12
+0
+0   0a
+11
+0   0a
+12
+a
+21
+0   0a
+22
+0   0
+0a
+21
+00a
+22
+0
+0   0a
+21
+0   0a
+22
+
+
+
+
+
+
+
+
+
+
+.(20)
+The reason why this expression is appropriate is clear once you act it on
+~v⊗~w,
+(A⊗I)(~v⊗~w)  =
+
+
+
+
+
+
+
+
+
+
+a
+11
+0   0
+a
+12
+0   0
+0a
+11
+00a
+12
+0
+0   0a
+11
+0   0a
+12
+a
+21
+0   0a
+22
+0   0
+0a
+21
+00a
+22
+0
+0   0a
+21
+0   0a
+22
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+v
+1
+w
+1
+v
+1
+w
+2
+v
+1
+w
+3
+v
+2
+w
+1
+v
+2
+w
+2
+v
+2
+w
+3
+
+
+
+
+
+
+
+
+
+
+=
+
+
+
+
+
+
+
+
+
+
+(a
+11
+v
+1
++a
+12
+v
+2
+)w
+1
+(a
+11
+v
+1
++a
+12
+v
+2
+)w
+2
+(a
+11
+v
+1
++a
+12
+v
+2
+)w
+3
+(a
+21
+v
+1
++a
+22
+v
+2
+)w
+1
+(a
+21
+v
+1
++a
+22
+v
+2
+)w
+2
+(a
+21
+v
+1
++a
+22
+v
+2
+)w
+3
+
+
+
+
+
+
+
+
+
+
+= (A~v)⊗~w.(21)
+Clearly the matrixAacts only on~v∈Vand leaves~w∈Wuntouched.
+Similarly, the matrixB:W→Wmaps~w7→B ~w. It can also act on
+V⊗WasI⊗B, where
+I⊗B=
+
+
+
+
+
+
+
+
+
+
+b
+11
+b
+12
+b
+13
+0   0   0
+b
+21
+b
+22
+b
+23
+0   0   0
+b
+31
+b
+32
+b
+33
+0   0   0
+0   0   0b
+11
+b
+12
+b
+13
+0   0   0b
+21
+b
+22
+b
+23
+0   0   0b
+31
+b
+32
+b
+33
+
+
+
+
+
+
+
+
+
+
+.(22)
+7
+
+It acts on~v⊗~was
+(I⊗B)(~v⊗~w)  =
+
+
+
+
+
+
+
+
+
+
+b
+11
+b
+12
+b
+13
+0   0   0
+b
+21
+b
+22
+b
+23
+0   0   0
+b
+31
+b
+32
+b
+33
+0   0   0
+0   0   0b
+11
+b
+12
+b
+13
+0   0   0b
+21
+b
+22
+b
+23
+0   0   0b
+31
+b
+32
+b
+33
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+v
+1
+w
+1
+v
+1
+w
+2
+v
+1
+w
+3
+v
+2
+w
+1
+v
+2
+w
+2
+v
+2
+w
+3
+
+
+
+
+
+
+
+
+
+
+=
+
+
+
+
+
+
+
+
+
+
+v
+1
+(b
+11
+w
+1
++b
+12
+w
+2
++b
+13
+w
+3
+)
+v
+1
+(b
+21
+w
+1
++b
+22
+w
+2
++b
+23
+w
+3
+)
+v
+1
+(b
+31
+w
+1
++b
+32
+w
+2
++b
+33
+w
+3
+)
+v
+2
+(b
+11
+w
+1
++b
+12
+w
+2
++b
+13
+w
+3
+)
+v
+2
+(b
+21
+w
+1
++b
+22
+w
+2
++b
+23
+w
+3
+)
+v
+2
+(b
+31
+w
+1
++b
+32
+w
+2
++b
+33
+w
+3
+)
+
+
+
+
+
+
+
+
+
+
+=~v⊗(B ~w).(23)
+In general, (A⊗I)(~v⊗~w) = (A~v)⊗~w, and (I⊗B)(~v⊗~w) =~v⊗(B ~w).
+If you have two matrices, their multiplications are done on each vector
+space separately,
+(A
+1
+⊗I)(A
+2
+⊗I) = (A
+1
+A
+2
+)⊗I,
+(I⊗B
+1
+)(I⊗B
+2
+) =I⊗(B
+1
+B
+2
+),
+(A⊗I)(I⊗B) = (I⊗B)(A⊗I) = (A⊗B).(24)
+The last expression allows us to write outA⊗Bexplicitly,
+A⊗B=
+
+
+
+
+
+
+
+
+
+
+a
+11
+b
+11
+a
+11
+b
+12
+a
+11
+b
+13
+a
+12
+b
+11
+a
+12
+b
+12
+a
+12
+b
+13
+a
+11
+b
+21
+a
+11
+b
+22
+a
+11
+b
+23
+a
+12
+b
+21
+a
+12
+b
+22
+a
+12
+b
+23
+a
+11
+b
+31
+a
+11
+b
+32
+a
+11
+b
+33
+a
+12
+b
+31
+a
+12
+b
+32
+a
+12
+b
+33
+a
+21
+b
+11
+a
+21
+b
+12
+a
+21
+b
+13
+a
+22
+b
+11
+a
+22
+b
+12
+a
+22
+b
+13
+a
+21
+b
+21
+a
+21
+b
+22
+a
+21
+b
+23
+a
+22
+b
+21
+a
+22
+b
+22
+a
+22
+b
+23
+a
+21
+b
+31
+a
+21
+b
+32
+a
+21
+b
+33
+a
+22
+b
+31
+a
+22
+b
+32
+a
+22
+b
+33
+
+
+
+
+
+
+
+
+
+
+.(25)
+It is easy to verify that (A⊗B)(~v⊗~w) = (A~v)⊗(B ~w).
+Note that not every matrix onV⊗Wcan be written as a tensor product
+of a matrix onVand another onW.
+Other useful formulae are
+det(A⊗B) = (detA)
+m
+(detB)
+n
+,(26)
+Tr(A⊗B) = (TrA)(TrB).(27)
+8
+
+InMathematica, you can define the tensor product of two square matrices
+by
+Needs["LinearAlgebra‘MatrixManipulation‘"];
+KroneckerProduct[a_?SquareMatrixQ, b_?SquareMatrixQ] :=
+BlockMatrix[Outer[Times, a, b]]
+and then
+KroneckerProduct[A,B]
+3.4  Tensor Product in Quantum Mechanics
+In quantum mechanics, we associate a Hilbert space for each dynamical de-
+gree of freedom. For example, a free particle in three dimensions has three
+dynamical degrees of freedom,p
+x
+,p
+y
+, andp
+z
+. Note that we can specify only
+p
+x
+orx, but not both, and hence each dimension gives only one degree of
+freedom, unlike in classical mechanics where you have two. Therefore, mo-
+mentum eigenketsP
+x
+|p
+x
+〉=p
+x
+|p
+x
+〉from a basis system for the Hilbert space
+H
+x
+, etc.
+The eigenstate of the full Hamiltonian is obtained by the tensor product
+of momentum eigenstates in each direction,
+|p
+x
+, p
+y
+, p
+z
+〉=|p
+x
+〉 ⊗ |p
+y
+〉 ⊗ |p
+z
+〉.(28)
+We normally don’t bother writing it this way, but it is nothing but a tensor
+product.
+The operatorP
+x
+is thenP
+x
+⊗I⊗I, and acts as
+(P
+x
+⊗I⊗I)(|p
+x
+〉⊗|p
+y
+〉⊗|p
+z
+〉) = (P
+x
+|p
+x
+〉)⊗(I|p
+y
+〉)⊗(I|p
+z
+〉) =p
+x
+|p
+x
+〉⊗|p
+y
+〉⊗|p
+z
+〉
+(29)
+and similarly forP
+y
+andP
+z
+.
+The Hamiltonian is actually
+H=
+1
+2m
+(
+(P
+x
+⊗I⊗I)
+2
++ (I⊗P
+y
+⊗I)
+2
++ (I⊗I⊗P
+z
+)
+2
+)
+.(30)
+Clearly we don’t want to write the tensor products explicitly each time!
+9
+
+3.5  Addition of Angular Momenta
+Using the example ofn= 2 andm= 3, one can discuss the addition of
+s= 1/2 andl= 1.Vis two-dimensional, representing the spin 1/2, while
+Wis three-dimensional, representing the orbital angular momentum one. As
+usual, the basis vectors are
+|
+1
+2
+,
+1
+2
+〉=
+(
+1
+0
+)
+,|
+1
+2
+,−
+1
+2
+〉=
+(
+0
+1
+)
+,(31)
+fors= 1/2, and
+|1,1〉=
+
+
+
+1
+0
+0
+
+
+
+,|1,0〉=
+
+
+
+0
+1
+0
+
+
+
+,|1,−1〉=
+
+
+
+0
+0
+1
+
+
+
+,(32)
+forl= 1. The matrix representations of the angular momentum operators
+are
+S
++
+=  ̄h
+(
+0  1
+0  0
+)
+,S
+−
+=  ̄h
+(
+0  0
+1  0
+)
+,S
+z
+=
+ ̄h
+2
+(
+1  0
+0−1
+)
+,(33)
+while
+L
++
+=  ̄h
+
+
+
+0
+√
+2   0
+0   0
+√
+2
+0   0   0
+
+
+
+,   L
+−
+=  ̄h
+
+
+
+0   0   0
+√
+2   0   0
+0
+√
+2  0
+
+
+
+,   L
+z
+=  ̄h
+
+
+
+1  0  0
+0  0  0
+0  0−1
+
+
+
+.
+(34)
+On the tensor product spaceV⊗W, they become
+S
++
+⊗I=  ̄h
+
+
+
+
+
+
+
+
+
+
+0  0  0
+1  0  0
+0  0  00  1  0
+0  0  00  0  1
+0  0  00  0  0
+0  0  00  0  0
+0  0  00  0  0
+
+
+
+
+
+
+
+
+
+
+, I⊗L
++
+=  ̄h
+
+
+
+
+
+
+
+
+
+
+
+0
+√
+2   00   0   0
+0   0
+√
+20   0   0
+0   0   00   0   0
+0   0   00
+√
+2   0
+0   0   00   0
+√
+2
+0   0   0
+0   0   0
+
+
+
+
+
+
+
+
+
+
+
+,
+S
+−
+⊗I=  ̄h
+
+
+
+
+
+
+
+
+
+
+0  0  0
+0  0  0
+0  0  00  0  0
+0  0  00  0  0
+1  0  00  0  0
+0  1  00  0  0
+0  0  10  0  0
+
+
+
+
+
+
+
+
+
+
+, I⊗L
+−
+=  ̄h
+
+
+
+
+
+
+
+
+
+
+
+0   0   0
+0   0   0
+√
+2   0   00   0   0
+0
+√
+2  00   0   0
+0   0   00   0   0
+0   0   0
+√
+2   0   0
+0   0   00
+√
+2  0
+
+
+
+
+
+
+
+
+
+
+
+,
+10
+
+S
+z
+⊗I=
+ ̄h
+2
+
+
+
+
+
+
+
+
+
+
+1  0  0
+0   0   0
+0  1  00   0   0
+0  0  10   0   0
+0  0  0−1  0   0
+0  0  00−1  0
+0  0  00   0−1
+
+
+
+
+
+
+
+
+
+
+, I⊗L
+z
+=  ̄h
+
+
+
+
+
+
+
+
+
+
+1  0  0
+0  0  0
+0  0  00  0  0
+0  0−10  0  0
+0  0  01  0  0
+0  0  00  0  0
+0  0  00  0−1
+
+
+
+
+
+
+
+
+
+
+.
+(35)
+The addition of angular momenta is done simply by adding these matrices,
+J
+±,z
+=S
+±,z
+⊗I+I⊗L
+±,z
+,
+J
++
+=  ̄h
+
+
+
+
+
+
+
+
+
+
+
+0
+√
+2   01   0   0
+0   0
+√
+20   1   0
+0   0   00   0   1
+0   0   00
+√
+2   0
+0   0   00   0
+√
+2
+0   0   00   0   0
+
+
+
+
+
+
+
+
+
+
+
+,
+J
+−
+=  ̄h
+
+
+
+
+
+
+
+
+
+
+
+0   0   0
+0   0   0
+√
+2   0   00   0   0
+0
+√
+2  00   0   0
+1   0   00   0   0
+0   1   0
+√
+2   0   0
+0   0   10
+√
+2  0
+
+
+
+
+
+
+
+
+
+
+
+,
+J
+z
+=  ̄h
+
+
+
+
+
+
+
+
+
+
+3
+2
+0   00   0   0
+0
+1
+2
+00   0   0
+0  0−
+1
+2
+0   0   0
+0  0   0
+1
+2
+0   0
+0  0   00−
+1
+2
+0
+0  0   00   0−
+3
+2
+
+
+
+
+
+
+
+
+
+
+.(36)
+It is clear that
+|
+3
+2
+,
+3
+2
+〉=
+
+
+
+
+
+
+
+
+
+
+1
+0
+0
+0
+0
+0
+
+
+
+
+
+
+
+
+
+
+,|
+3
+2
+,−
+3
+2
+〉=
+
+
+
+
+
+
+
+
+
+
+0
+0
+0
+0
+0
+1
+
+
+
+
+
+
+
+
+
+
+.(37)
+11
+
+They satisfyJ
++
+|
+3
+2
+,
+3
+2
+〉=J
+−
+|
+3
+2
+,−
+3
+2
+〉= 0.  By using the general formula
+J
+±
+|j, m〉=
+√
+j(j+ 1)−m(m±1)|j, m±1〉, we find
+J
+−
+|
+3
+2
+,
+3
+2
+〉=
+
+
+
+
+
+
+
+
+
+
+0
+√
+2
+0
+1
+0
+0
+
+
+
+
+
+
+
+
+
+
+=
+√
+3|
+3
+2
+,
+1
+2
+〉,J
++
+|
+3
+2
+,−
+3
+2
+〉=
+
+
+
+
+
+
+
+
+
+
+0
+0
+1
+0
+√
+2
+0
+
+
+
+
+
+
+
+
+
+
+=
+√
+3|
+3
+2
+,−
+1
+2
+〉.
+(38)
+We normally write them without using column vectors,
+J
+−
+|
+3
+2
+,
+3
+2
+〉=J
+−
+|
+1
+2
+,
+1
+2
+〉 ⊗ |1,1〉
+=|
+1
+2
+,−
+1
+2
+〉 ⊗ |1,1〉+
+√
+2|
+1
+2
+,
+1
+2
+〉 ⊗ |1,0〉=
+√
+3|
+3
+2
+,
+1
+2
+〉,(39)
+J
++
+|
+3
+2
+,−
+3
+2
+〉=J
++
+|
+1
+2
+,−
+1
+2
+〉 ⊗ |1,−1〉
+=|
+1
+2
+,
+1
+2
+〉 ⊗ |1,−1〉+
+√
+2|
+1
+2
+,−
+1
+2
+〉 ⊗ |1,0〉=
+√
+3|
+3
+2
+,−
+1
+2
+〉.(40)
+Their orthogonal linear combinations belong to thej= 1/2 representation,
+|
+1
+2
+,
+1
+2
+〉=
+1
+√
+3
+
+
+
+
+
+
+
+
+
+
+0
+1
+0
+−
+√
+2
+0
+0
+
+
+
+
+
+
+
+
+
+
+,|
+1
+2
+,−
+1
+2
+〉=
+1
+√
+3
+
+
+
+
+
+
+
+
+
+
+0
+0
+√
+2
+0
+−1
+0
+
+
+
+
+
+
+
+
+
+
+.(41)
+It is easy to verifyJ
++
+|
+1
+2
+,
+1
+2
+〉=J
+−
+|
+1
+2
+,−
+1
+2
+〉= 0, andJ
+−
+|
+1
+2
+,
+1
+2
+〉=|
+1
+2
+,−
+1
+2
+〉.
+Now we can go to a new basis system by a unitary rotation
+U=
+
+
+
+
+
+
+
+
+
+
+
+
+
+1   0    0
+00   0
+0
+√
+2
+3
+0
+1
+√
+3
+0   0
+0   0
+1
+√
+3
+0
+√
+2
+3
+0
+0   0    0
+00   1
+0
+1
+√
+3
+0−
+√
+2
+3
+0   0
+0   0
+√
+2
+3
+0−
+1
+√
+3
+0
+
+
+
+
+
+
+
+
+
+
+
+
+
+.(42)
+12
+
+This matrix puts transpose of vectors in successive rows so that the vectors
+of definitejandmare mapped to simply each component of the vector,
+U|
+3
+2
+,
+3
+2
+〉=
+
+
+
+
+
+
+
+
+
+
+1
+0
+0
+0
+0
+0
+
+
+
+
+
+
+
+
+
+
+, U|
+3
+2
+,
+1
+2
+〉=
+
+
+
+
+
+
+
+
+
+
+0
+1
+0
+0
+0
+0
+
+
+
+
+
+
+
+
+
+
+, U|
+3
+2
+,−
+1
+2
+〉=
+
+
+
+
+
+
+
+
+
+
+0
+0
+1
+0
+0
+0
+
+
+
+
+
+
+
+
+
+
+, U|
+3
+2
+,−
+3
+2
+〉=
+
+
+
+
+
+
+
+
+
+
+0
+0
+0
+1
+0
+0
+
+
+
+
+
+
+
+
+
+
+,
+U|
+1
+2
+,
+1
+2
+〉=
+
+
+
+
+
+
+
+
+
+
+0
+0
+0
+0
+1
+0
+
+
+
+
+
+
+
+
+
+
+, U|
+3
+2
+,
+3
+2
+〉=
+
+
+
+
+
+
+
+
+
+
+0
+0
+0
+0
+0
+1
+
+
+
+
+
+
+
+
+
+
+.(43)
+For the generators, we find
+U J
+z
+U
+†
+=   ̄h
+
+
+
+
+
+
+
+
+
+
+3
+2
+0   0   00   0
+0
+1
+2
+0   00   0
+0  0−
+1
+2
+00   0
+0  0   0−
+3
+2
+0   0
+0  0   0   0
+1
+2
+0
+0  0   0   0
+0−
+1
+2
+
+
+
+
+
+
+
+
+
+
+,(44)
+U J
++
+U
+†
+=   ̄h
+
+
+
+
+
+
+
+
+
+
+0
+√
+3  0   00  0
+0   0   2   00  0
+0   0   0
+√
+30  0
+0   0   0   0
+0  0
+0   0   0   00  1
+0   0   0   0
+0  0
+
+
+
+
+
+
+
+
+
+
+,(45)
+U J
+−
+U
+†
+=   ̄h
+
+
+
+
+
+
+
+
+
+
+0   0   0   0
+0  0
+√
+3  0   0   00  0
+0   2   0   00  0
+0   0
+√
+3  00  0
+0   0   0   00  0
+0   0   0   01  0
+
+
+
+
+
+
+
+
+
+
+.(46)
+Here, the matrices are written in a block-diagonal form. What we see here
+is that this space is actually a direct sum of two representationsj= 3/2 and
+13
+
+j= 1/2. In other words,
+V
+1/2
+⊗V
+1
+=V
+3/2
+⊕V
+1/2
+.(47)
+This is what we do with Clebsch–Gordan coefficients.  Namely that the
+Clebsch–Gordan coefficients define a unitary transformation that allow us
+todecomposethe tensor product space into a direct sum ofirreduciblerep-
+resentations of the angular momentum. As a mnemonic, we often write it
+as
+2⊗3 = 4⊕2.(48)
+Here, the numbers refer to the dimensionality of each representation 2j+ 1.
+If I replace⊗by×and⊕by +, my eight-year old daughter can confirm that
+this equation is true. The added meaning here is that the right-hand side
+shows a specific way how the tensor product space decomposes to a direct
+sum.
+14

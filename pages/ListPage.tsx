@@ -48,6 +48,22 @@ export default function ListPage() {
 
   const [courses, setCourses] = useState([
     {
+      name: 'MATH391',
+      subject: 'Advanced Tensor Calculus',
+      folder: '/Chat?filePath=tensorCalc&title=Tensor Calculus',
+      image: '/tensor.jpeg',
+      pdf: [
+        'public/public-docs/tensorCalc/2010-Lisbon-TensorCalculus-Lecture1.pdf',
+        'public/public-docs/tensorCalc/2010-Lisbon-TensorCalculus-Lecture2.pdf',
+        'public/public-docs/tensorCalc/IntroductionToVectorsAndTensorsVol1.pdf',
+        'public/public-docs/tensorCalc/IntroductionToVectorsAndTensorsVol2.pdf',
+        'public/public-docs/tensorCalc/tensor-primer.pdf',
+        'public/public-docs/tensorCalc/tensor.pdf',
+        'public/public-docs/tensorCalc/tensorproduct (1).pdf',
+      ],
+      colleges: ['Harvey Mudd College'],
+    },
+    {
       name: 'MATH062',
       subject: 'Probability and Statistics',
       folder: '/Chat?filePath=stats&title=OpenIntro Statistics',

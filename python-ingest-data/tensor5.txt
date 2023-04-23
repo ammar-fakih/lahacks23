@@ -1,0 +1,13685 @@
+A Primer on
+Tensor Calculus
+David A. Clarke
+Saint Mary’s University, Halifax NS, Canada
+dclarke@ap.smu.ca
+June, 2011
+Copyright
+c
+
+David A. Clarke, 2011
+
+
+
+Contents
+Prefaceii
+1  Introduction1
+2  Definition of a tensor3
+3  The metric9
+3.1  Physical components and basis vectors. . . . . . . . . . . . . . . . . . . . .   11
+3.2  The scalar and inner products. . . . . . . . . . . . . . . . . . . . . . . . . .   14
+3.3  Invariance of tensor expressions. . . . . . . . . . . . . . . . . . . . . . . . .   17
+3.4  The permutation tensors. . . . . . . . . . . . . . . . . . . . . . . . . . . . .   18
+4  Tensor derivatives21
+4.1 “Christ-awful symbols”. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   21
+4.2  Covariant derivative. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   25
+5  Connexion to vector calculus30
+5.1  Gradient of a scalar. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   30
+5.2  Divergence of a vector. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   30
+5.3  Divergence of a tensor. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   32
+5.4  The Laplacian of a scalar. . . . . . . . . . . . . . . . . . . . . . . . . . . . .   33
+5.5  Curl of a vector. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   34
+5.6  The Laplacian of a vector. . . . . . . . . . . . . . . . . . . . . . . . . . . .   35
+5.7  Gradient of a vector. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   35
+5.8  Summary. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   36
+5.9  A tensor-vector identity. . . . . . . . . . . . . . . . . . . . . . . . . . . . .   37
+6  Cartesian, cylindrical, spherical polar coordinates39
+6.1  Cartesian coordinates. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   40
+6.2  Cylindrical coordinates. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   40
+6.3  Spherical polar coordinates. . . . . . . . . . . . . . . . . . . . . . . . . . . .   41
+7  An application to viscosity42
+i
+
+Preface
+These notes stem from my own need to refresh my memory on the fundamentals of tensor
+calculus, having seriously considered them last some 25 years ago in grad school. Since then,
+while I have had ample opportunity to teach, use, and even program numerous ideas from
+vector calculus, tensor analysis has faded from my consciousness. How much it had faded
+became clear recently when I tried to program the viscosity tensor into my fluids code, and
+couldn’t account for, much less derive, the myriad of “strange terms” (ultimately from the
+dreaded “Christ-awful” symbols) that arise when programming a tensor quantity valid in
+curvilinear coordinates.
+My goal here is to reconstruct my understanding of tensor analysis enough to make the
+connexion between covarient, contravariant, and physicalvector components, to understand
+the usual vector derivative constructs (∇,∇·,∇×) in terms of tensor differentiation, to put
+dyads(e.g.,∇~v) into proper context, to understand how to derive certain identities involving
+tensors, and finally, the true test, how to program a realistic viscous tensor to endow a fluid
+with the non-isotropic stresses associated with Newtonianviscosity in curvilinear coordinates.
+Inasmuch as these notes may help others, the reader is free touse, distribute, and modify
+them as needed so long as they remain in the public domain and are passed on to others free
+of charge.
+David Clarke
+Saint Mary’s University
+June, 2011
+Primers by David Clarke:
+1.
+A FORTRAN Primer
+2.A UNIX Primer
+3.A DBX (debugger) Primer
+4.A Primer on Tensor Calculus
+I also give a link to David R. Wilkins’ excellent primerGetting Started withL
+A
+T
+E
+X, in
+which I have added a few sections on adding figures, colour, and HTML links.
+ii
+
+A Primer on Tensor Calculus
+1  Introduction
+In physics, there is an overwhelming need to formulate the basic laws in a so-calledinvariant
+form; that is, one that does not depend on the chosen coordinate system. As a start, the
+freshman university physics student learns that in ordinary Cartesian coordinates, Newton’s
+Second Law,
+P
+i
+~
+F
+i
+=m~a, has the identical form regardless of whichinertialframe of
+reference (not accelerating with respect to the backgroundstars) one chooses.  Thus two
+observers taking independent measures of the forces and accelerations would agree on each
+measurement made, regardless of how rapidly one observer ismoving relative to the other
+so long as neither observer is accelerating.
+However, the sophomore student soon learns that if one chooses to examine Newton’s
+Second Law in a curvilinear coordinate system, such as right-cylindrical or spherical polar
+coordinates, new terms arise that stem from the fact that theorientation of some coordinate
+unit vectors change with position. Once these terms, which resemble thecentrifugaland
+Coriolisterms appearing in a rotating frame of reference, have been properly accounted for,
+physical laws involving vector quantities can once again bemade to “look” the same as they
+do in Cartesian coordinates, restoring their “invariance”.
+Alas, once the student reaches their junior year, the complexity of the problems has
+forced the introduction of rank 2 constructs such as matrices to describe certain physical
+quantities (e.g., moment of inertia, viscosity, spin) and in the senior year,Riemannian ge-
+ometry and general relativity require mathematical entities of still higher rank. The tools
+of vector analysis are simply incapable of allowing one to write down the governing laws in
+an invariant form, and one has to adopt a different mathematics from the vector analysis
+taught in the freshman and sophomore years.
+Tensor calculus is that mathematics.  Clues that tensor-like entities are ultimately
+needed exist even in a first year physics course. Consider thetask of expressing a velocity
+as a vector quantity. In Cartesian coordinates, the task is rather trivial and no ambiguities
+arise. Each component of the vector is given by the rate of change of the object’s coordinates
+as a function of time:
+~v= (  ̇x, ̇y, ̇z) =  ̇xˆe
+x
++  ̇yˆe
+y
++  ̇zˆe
+z
+,(1)
+where I use the standard notation of an “over-dot” for time differentiation, and where ˆe
+x
+is
+the unit vector in thex-direction,etc.Each component has the unambiguous units of m s
+−1
+,
+the unit vectors point in the same direction no matter where the object may be, and the
+velocity is completely well-defined.
+Ambiguities start when one wishes to express the velocity inspherical-polar coordinates,
+for example.  If, following equation (
+1), we write the velocity components as the time-
+derivatives of the coordinates, we might write
+~v= (  ̇r,
+ ̇
+θ, ̇φ).(2)
+1
+
+Introduction2
+dr
+y
+z
+xx
+rsinθdφ
+dθr
+y
+z
+dz
+dy
+dx
+Figure 1:(left) A differential volume in Cartesian coordinates, and (right) a differential
+volume in spherical polar coordinates, both with their edge-lengths indicated.
+An immediate “cause for pause” is that the three components do not share the same “units”,
+and thus we cannot expand this ordered triple into a series involving the respective unit
+vectors as was done in equation (
+1). A little reflection might lead us to examine a differential
+“box” in each of the coordinate systems as shown in Fig.
+1. The sides of the Cartesian box
+have lengthdx,dy, anddz, while the spherical polar box has sides of lengthdr,r dθ, and
+rsinθ dφ. We might argue that the components of a physical velocity vector should be the
+lengths of the differential box divided bydt, and thus:
+~v= (  ̇r, r
+ ̇
+θ, rsinθ ̇φ) =  ̇rˆe
+r
++r
+ ̇
+θˆe
+θ
++rsinθ ̇φˆe
+φ
+,(3)
+which addresses the concern about units. So which is the “correct” form?
+In the pages that follow, we shall see that atensormay be designated ascontravariant,
+covariant, ormixed, and that the velocity expressed in equation (
+2) is in its contravariant
+form. The velocity vector in equation (
+3) corresponds to neither the covariant nor contravari-
+ant form, but is in its so-calledphysicalform that we would measure with a speedometer.
+Each form has a purpose, no form is any more fundamental than the other, and all are linked
+via a very fundamental tensor called themetric. Understanding the role of the metric in
+linking the various forms of tensors
+1
+and, more importantly, in differentiating tensors is the
+basis oftensor calculus, and the subject of this primer.
+1
+Examples of tensors the reader is already familiar with include scalars (rank 0 tensors) and vectors
+(rank 1 tensors).
+
+2  Definition of a tensor
+As mentioned, the need for a mathematical construct such as tensors stems from the need
+to know how the functional dependence of a physical quantityon the position coordinates
+changes with a change in coordinates. Further, we wish to render the fundamental laws of
+physics relating these quantitiesinvariantunder coordinate transformations. Thus, while
+the functional form of the acceleration vector may change from one coordinate system to
+another, the functional changes to
+~
+Fandmwill be such that
+~
+Fwill always be equal tom~a,
+and not some other function ofm,~a, and/or some other variables or constants depending
+on the coordinate system chosen.
+Consider two coordinate systems,x
+i
+and  ̃x
+i
+, in ann-dimensional space wherei=
+1,2, . . . , n
+2
+.x
+i
+and  ̃x
+i
+could be two Cartesian coordinate systems, one moving at a con-
+stant velocity relative to the other, orx
+i
+could be Cartesian coordinates and  ̃x
+i
+spherical
+polar coordinates whose origins are coincident and in relative rest. Regardless, one should
+be able, in principle, to write down the coordinate transformations in the following form:
+ ̃x
+i
+=  ̃x
+i
+(x
+1
+, x
+2
+, . . . , x
+n
+),(4)
+one for eachi, and their inverse transformations:
+x
+i
+=x
+i
+( ̃x
+1
+, ̃x
+2
+, . . . , ̃x
+n
+).(5)
+Note that which of equations (4) and (5) is referred to as the “transformation”, and which
+as the “inverse” is completely arbitrary.  Thus, in the first example where the Cartesian
+coordinate system  ̃x
+i
+= ( ̃x, ̃y, ̃z) is moving with velocityvalong the +xaxis of the Cartesian
+coordinate systemx
+i
+= (x, y, z), the transformation relations and their inverses are:
+ ̃x=x−vt,x=  ̃x+vt,
+ ̃y=y,y=  ̃y,
+ ̃z=z,z=  ̃z.
+
+
+
+
+
+(6)
+For the second example, the coordinate transformations andtheir inverses between Cartesian,
+x
+i
+= (x, y, z), and spherical polar,  ̃x
+i
+= (r, θ, φ) coordinates are:
+r=
+p
+x
+2
++y
+2
++z
+2
+,x=rsinθcosφ,
+θ= tan
+−1
+
+p
+x
+2
++y
+2
+z
+
+,y=rsinθsinφ,
+φ= tan
+−1
+
+y
+x
+
+,z=rcosθ.
+
+
+
+
+
+
+
+
+
+
+
+
+
+(7)
+Now, letfbe some function of the coordinates that represents a physical quantity
+of interest.  Consider again two generic coordinate systems,x
+i
+and  ̃x
+i
+, and assume their
+transformation relations, equations (
+4) and (5), are known. If the components of the gradient
+2
+In physics,nis normally 3 or 4 depending on whether the discussion is non-relativistic or relativistic,
+though our discussion matters little on a specific value ofn. Only when we are speaking of the curl and
+cross-products in general will we deliberately restrict our discussion to 3-space.
+3
+
+Definition of a tensor4
+offinx
+j
+, namely∂f /∂x
+j
+, are known, then we can find the components of the gradient in
+ ̃x
+i
+, namely∂f /∂ ̃x
+i
+, by the chain rule:
+∂f
+∂ ̃x
+i
+=
+∂f
+∂x
+1
+∂x
+1
+∂ ̃x
+i
++
+∂f
+∂x
+2
+∂x
+2
+∂ ̃x
+i
++· · ·+
+∂f
+∂x
+n
+∂x
+n
+∂ ̃x
+i
+=
+n
+X
+j=1
+∂x
+j
+∂ ̃x
+i
+∂f
+∂x
+j
+.(8)
+Note that the coordinate transformation information appears as partial derivatives of the
+oldcoordinates,x
+j
+, with respect to thenewcoordinates,  ̃x
+i
+.
+Next, let us ask how a differential of one of the new coordinates,d ̃x
+i
+, is related to
+differentials of the old coordinates,dx
+i
+. Again, an invocation of the chain rule yields:
+d ̃x
+i
+=dx
+1
+∂ ̃x
+i
+∂x
+1
++dx
+2
+∂ ̃x
+i
+∂x
+2
++· · ·+dx
+n
+∂ ̃x
+i
+∂x
+n
+=
+n
+X
+j=1
+∂ ̃x
+i
+∂x
+j
+dx
+j
+.(9)
+This time, the coordinate transformation information appears as partial derivatives of the
+newcoordinates,  ̃x
+i
+, with respect to theoldcoordinates,x
+j
+, and the inverse of equation (
+8).
+We now redefine what it means to be avector(equally, arank 1 tensor).
+Definition 2.1.The components of acovariant vectortransform like a gra-
+dient and obey the transformation law:
+ ̃
+A
+i
+=
+n
+X
+j=1
+∂x
+j
+∂ ̃x
+i
+A
+j
+.(10)
+Definition 2.2.The components of acontravariant vectortransform like a
+coordinate differential and obey the transformation law:
+ ̃
+A
+i
+=
+n
+X
+j=1
+∂ ̃x
+i
+∂x
+j
+A
+j
+.(11)
+It is customary, as illustrated in equations (10) and (11), to leave the indices of covariant
+tensors as subscripts, and to raise the indices of contravariant tensors to superscripts: “co-
+low, contra-high”
+3
+. In this convention,dx
+i
+→dx
+i
+. As a practical modification to this rule,
+because of the difference between the definitions of covariant and contravariant components
+(equations
+10and11), acontravariantindex in the denominator is equivalent to acovarient
+index in the numerator, andvice versa. Thus, in the construct∂x
+j
+/∂ ̃x
+i
+,jis contravariant
+whileiis considered to be covariant.
+Superscripts indicating raising a variable to some power will generally be clear by con-
+text, but where there is any ambiguity, indices representing powers will be enclosed in square
+brackets. Thus,A
+2
+will normally be, from now on, the “2-component of the contravariant
+vectorA”, whereasA
+[2]
+will be “A-squared” whenA
+2
+could be ambiguous.
+3
+Thanks to Rob Thacker, SMU, for this handy mnemonic.
+
+Definition of a tensor5
+Finally, we shall adopt here, as is done most everywhere else, theEinstein summation
+conventionin which a covariant index followed by the identical contravariant index (orvice
+versa) is implicitly summed over the indexwithout the use of a summation sign, rendering
+the repeated index a dummy index. On rare occasions where a sum is to be taken over two
+repeated covariant or two repeated contravariant indices,a summation sign will be given
+explicitly. Conversely, if properly repeated indices (e.g., one covariant, one contravariant)
+arenotto be summed, a note to that effect will be given. Further, any indices enclosed
+in parentheses [e.g., (i)] will not be summed. Thus,A
+i
+B
+i
+is normally summed whileA
+i
+B
+i
+,
+A
+i
+B
+i
+, andA
+(i)
+B
+(i)
+are not.
+To the uninitiated who may think at first blush that this convention may be fraught with
+exceptions, it turns out to be remarkably robust and rarely will it pose any ambiguities. In
+tensor analysis, it is rare that two properly repeated indices should not, in fact, be summed.
+It is equally rare that two repeated covariant (or contravariant) indices should be summed,
+and rarer still that an index appears more than twice in any given term.
+As a first illustration, applying the Einstein summation convention changes equations
+(
+10) and (11) to:
+ ̃
+A
+i
+=
+∂x
+j
+∂ ̃x
+i
+A
+j
+,and
+ ̃
+A
+i
+=
+∂ ̃x
+i
+∂x
+j
+A
+j
+,
+respectively, where summation is implicit over the indexjin both cases.
+Remark2.1.Whiledx
+i
+is the prototypical rank 1 contravariant tensor (e.g., equation
+9),x
+i
+is not a tensor as its transformation follows neither equations (
+10) nor (11). Still, we will
+follow the up-down convention for coordinate indices as it serves a purpose to distinguish
+between covariant-likeand contravariant-likecoordinates. It will usually be the case anyway
+thatx
+i
+will appear as part ofdx
+i
+or∂/∂x
+i
+.
+Tensors of higher rank
+4
+are defined in an entirely analogous way. A tensor of dimension
+m(each index varies from 1 tom) and rankn(number of indices) is an entity that, under
+an arbitrary coordinate transformation, transforms as:
+ ̃
+T
+i
+1
+...i
+p
+k
+1
+...k
+q
+=
+∂x
+j
+1
+∂ ̃x
+i
+1
+. . .
+∂x
+j
+p
+∂ ̃x
+i
+p
+∂ ̃x
+k
+1
+∂x
+l
+1
+. . .
+∂ ̃x
+k
+q
+∂x
+l
+q
+T
+j
+1
+...j
+p
+l
+1
+...l
+q
+,
+(12)
+wherep+q=n, and where the indicesi
+1
+, . . . , i
+p
+andj
+1
+, . . . , j
+p
+are covariant indices and
+k
+1
+, . . . , k
+q
+andl
+1
+, . . . , l
+q
+are contravariant indices. Indices that appear just once ina term
+(e.g.,i
+1
+, . . . , i
+p
+andk
+1
+, . . . , k
+q
+in equation
+12) are calledfreeindices, while indices appearing
+twice—one covariant and one contravariant—(e.g.,j
+1
+, . . . , j
+p
+andl
+1
+, . . . , l
+q
+in equation
+12),
+are calleddummyindices as they disappear after the implied sum is carried forth.In a
+4
+There is great potential for confusion on the use of the termrank, as it is not used consistently in the
+literature. In the context of matrices, if thencolumn vectors in anm×nmatrix (with “tensor-rank” 2)
+can all be expressed as a linear combination ofr≤min(m, n)m-dimensional vectors, that matrix has a
+“matrix-rank”rwhich, of course, need not be 2. For this reason, some authorsprefer to useorderrather
+thanrankfor tensors so that a scalar is anorder-0tensor, a vector anorder-1tensor, and a matrix an
+order-2tensor. Still other authors usedimensioninstead ofrank, although this then gets confused with the
+dimensionof a vector (number of linearly independent vectors that span the parent vector space).
+Despite its potential for confusion, I use the termrankfor the number of indices on a tensor, which is in
+keeping with the most common practise.
+
+Definition of a tensor6
+valid tensor relationship, each term, whether on the left orright side of the equation, must
+have the same free indices each in the same position.If a certain free index is covariant
+(contravariant) in one term, it must be covariant (contravariant) in all terms.
+Ifq= 0 (p= 0), then all indices are covariant (contravariant) and thetensor is said to
+be covariant (contravariant). Otherwise, if the tensor hasboth covariant and contravariant
+indices, it is said to bemixed. In general, the order of the indices is important, and we
+deliberately write the tensor asT
+j
+1
+...j
+p
+l
+1
+...l
+q
+, and notT
+l
+1
+...l
+q
+j
+1
+...j
+p
+. However, there is no reason to
+expect all contravariant indices to follow the covariant indices, nor for all covariant indices
+to be listed contiguously. Thus and for example, one could haveT
+j  m
+i kl
+if, indeed, the first,
+third, and fourth indices were covariant, and the second andfifth indices were contravariant.
+Remark2.2.Rank 2 tensors of dimensionmcan be represented bym×msquare matrices.
+A matrix that is an element of a vector space is a rank 2 tensor.Rank 3 tensors of dimension
+mwould be represented by anm×m×mcube of values,etc.
+Remark2.3.In traditional vector analysis, one is forever moving back and forth between
+considering vectors as a whole (e.g.,~v), or in terms of its components relative to some
+coordinate system (e.g.,v
+x
+). This, then, leads one to worry whether a given relationship is
+true for all coordinate systems (e.g., vector “identities” such as:∇ ·f
+~
+A=f∇ ·
+~
+A+
+~
+A· ∇f),
+or whether it is true only in certain coordinate systems [e.g.,∇·(
+~
+A
+~
+B) = (∇·B
+x
+~
+A,∇·B
+y
+~
+A,∇·
+B
+z
+~
+A) is true in Cartesian coordinates only]. The formalism of tensor analysis eliminates both
+of these concerns by writing everything down in terms of a “typical tensor component” where
+all “geometric factors”, which have yet to be discussed, have been safely accounted for in
+the notation. As such, all equations are written in terms of tensor components, and rarely is
+a tensor written down without its indices. As we shall see, this both simplifies the notation
+and renders unambiguous the invariance of certain relationships under arbitrary coordinate
+transformations.
+In the remainder of this section, we make a few definitions andprove a few theorems
+that will be useful throughout the rest of this primer.
+Theorem 2.1.The sum (or difference) of two like-tensors is a tensor of the same type.
+Proof.This is a simple application of equation (
+12). Consider two like-tensors (i.e., identical
+indices),SandT, each transforming according to equation (12). Adding the LHS and the
+RHS of these transformation equations (and definingR=S+T), one gets:
+ ̃
+R
+i
+1
+...i
+p
+k
+1
+...k
+q
+≡
+ ̃
+S
+i
+1
+...i
+p
+k
+1
+...k
+q
++
+ ̃
+T
+i
+1
+...i
+p
+k
+1
+...k
+q
+=
+∂x
+j
+1
+∂ ̃x
+i
+1
+. . .
+∂x
+j
+p
+∂ ̃x
+i
+p
+∂ ̃x
+k
+1
+∂x
+l
+1
+. . .
+∂ ̃x
+k
+q
+∂x
+l
+q
+S
+j
+1
+...j
+p
+l
+1
+...l
+q
++
+∂x
+j
+1
+∂ ̃x
+i
+1
+. . .
+∂x
+j
+p
+∂ ̃x
+i
+p
+∂ ̃x
+k
+1
+∂x
+l
+1
+. . .
+∂ ̃x
+k
+q
+∂x
+l
+q
+T
+j
+1
+...j
+p
+l
+1
+...l
+q
+=
+∂x
+j
+1
+∂ ̃x
+i
+1
+. . .
+∂x
+j
+p
+∂ ̃x
+i
+p
+∂ ̃x
+k
+1
+∂x
+l
+1
+. . .
+∂ ̃x
+k
+q
+∂x
+l
+q
+(S
+j
+1
+...j
+p
+l
+1
+...l
+q
++T
+j
+1
+...j
+p
+l
+1
+...l
+q
+)
+=
+∂x
+j
+1
+∂ ̃x
+i
+1
+. . .
+∂x
+j
+p
+∂ ̃x
+i
+p
+∂ ̃x
+k
+1
+∂x
+l
+1
+. . .
+∂ ̃x
+k
+q
+∂x
+l
+q
+R
+j
+1
+...j
+p
+l
+1
+...l
+q
+.
+
+Definition of a tensor7
+Definition 2.3.A rank 2dyad,D, results from taking thedyadicproduct of two vectors
+(rank 1 tensors),
+~
+Aand
+~
+B, as follows:
+D
+ij
+=A
+i
+B
+j
+,   D
+j
+i
+=A
+i
+B
+j
+,   D
+i
+j
+=A
+i
+B
+j
+,   D
+ij
+=A
+i
+B
+j
+,(13)
+where theij
+th
+component ofD, namelyA
+i
+B
+j
+, is just the ordinary product of thei
+th
+element
+of
+~
+Awith thej
+th
+element of
+~
+B.
+The dyadic product of two covariant (contravariant) vectors yields a covariant (con-
+travariant) dyad (first and fourth of equations
+13), while the dyadic product of a covariant
+vector and a contravariant vector yields amixeddyad (second and third of equations
+13).
+Indeed, dyadic products of three or more vectors can be takento create a dyad of rank 3 or
+higher (e.g.,D
+j
+i k
+=A
+i
+B
+j
+C
+k
+, etc).
+Theorem 2.2.A rank 2 dyad is a rank 2 tensor.
+Proof.We need only show that a rank 2 dyad transforms as equation (12). Consider a mixed
+dyad,
+ ̃
+D
+l
+k
+=
+ ̃
+A
+k
+ ̃
+B
+l
+, in a coordinate system  ̃x
+l
+. Since we know how the vectors transform to
+a different coordinate system,x
+i
+, we can write:
+ ̃
+D
+l
+k
+=
+ ̃
+A
+k
+ ̃
+B
+l
+=
+
+∂x
+i
+∂ ̃x
+k
+A
+i
+
+∂ ̃x
+l
+∂x
+j
+B
+j
+
+=
+∂x
+i
+∂ ̃x
+k
+∂ ̃x
+l
+∂x
+j
+A
+i
+B
+j
+=
+∂x
+i
+∂ ̃x
+k
+∂ ̃x
+l
+∂x
+j
+D
+j
+i
+.
+Thus, from equation (
+12),Dtransforms as a mixed tensor of rank 2. A similar argument can
+be made for a purely covariant (contravariant) dyad of rank 2and, by extension, of arbitrary
+rank.
+Remark2.4.By dealing with only a typical component of a tensor (and thusa real or complex
+number), all arithmetic is ordinary multiplication and addition, and everything commutes:
+A
+i
+B
+j
+=B
+j
+A
+i
+, for example. Conversely, in vector and matrix algebra whenone is dealing
+with the entire vector or matrix, multiplication does not follow the usual rules of scalar
+multiplication and, in particular, is not commutative. In many ways, this renders tensor
+algebra much simpler than vector and matrix algebra.
+Definition 2.4.IfA
+ij
+is a rank 2 covariant tensor andB
+kl
+is a rank 2 contravariant tensor,
+then they are each other’sinverseif:
+A
+ij
+B
+jk
+=δ
+k
+i
+,
+whereδ
+k
+i
+= 1 ifi=k, 0 otherwise is the usualKronecker delta.
+In a similar vein,A
+j
+i
+B
+k
+j
+=δ
+k
+i
+andA
+i
+j
+B
+j
+k
+=δ
+i
+k
+are examples of inverses for mixed rank
+2 tensors. One can even have “inverses” of rank 1 tensors:e
+i
+e
+j
+=δ
+j
+i
+, though this property
+is usually referred to asorthogonality.
+Note that the concepts of invertibility and orthogonality take the place of “division” in
+tensor algebra. Thus, one would never see a tensor element inthe denominator of a fraction
+and something likeC
+k
+i
+=A
+ij
+/B
+jk
+isneverwritten. Instead, one would writeC
+k
+i
+B
+jk
+=A
+ij
+and, if it were critical thatCbe isolated, one would writeC
+k
+i
+=A
+ij
+(B
+jk
+)
+−1
+=A
+ij
+D
+jk
+if
+
+Definition of a tensor8
+D
+jk
+were, in fact, the inverse ofB
+jk
+. A tensor element could appear in the numerator of a
+fraction where the demonimator is a scalar (e.g.,A
+ij
+/2) or aphysical componentof a vector
+(as introduced in the next section), but never in the denominator.
+I note in haste that while a derivative,∂x
+i
+/∂ ̃x
+j
+, may look like an exception to this rule,
+it is a notational exception only. In taking a derivative, one is not really taking a fraction.
+And whiledx
+i
+is a tensor, ∆x
+i
+is not and thus the actual fraction ∆x
+i
+/∆ ̃x
+j
+is allowed in
+tensor algebra since the denominator is not a tensor element.
+Theorem 2.3.The derivatives∂x
+i
+/∂ ̃x
+k
+and∂ ̃x
+k
+/∂x
+j
+are each other’s inverse. That is,
+∂x
+i
+∂ ̃x
+k
+∂ ̃x
+k
+∂x
+j
+=δ
+i
+j
+.
+Proof.This is a simple application of the chain rule. Thus,
+∂x
+i
+∂ ̃x
+k
+∂ ̃x
+k
+∂x
+j
+=
+∂x
+i
+∂x
+j
+=δ
+i
+j
+,(14)
+where the last equality is true by virtue of the independenceof the coordinatesx
+i
+.
+Remark2.5.If one considers∂x
+i
+/∂ ̃x
+k
+and∂ ̃x
+k
+/∂x
+j
+as, respectively, the (i, k)
+th
+and (k, j)
+th
+elements ofm×mmatrices then, with the implied summation, the LHS of equation (
+14) is
+simply following ordinary matrix multiplication, while the RHS is the (i, j)
+th
+element of the
+identity matrix. It is in this way that∂x
+i
+/∂ ̃x
+k
+and∂ ̃x
+k
+/∂x
+j
+are each other’s inverse.
+Definition 2.5.Atensor contractionoccurs when one of a tensor’s free covarient indices
+is set equal to one of its free contravariant indices. In thiscase, a sum is performed on the
+now repeated indices, and the result is a tensor with two fewer free indices.
+Thus, and for example,T
+j
+ij
+is a contraction on the second and third indices of the rank
+3 tensorT
+k
+ij
+. Once the sum is performed over the repeated indices, the result is a rank 1
+tensor (vector). Thus, if we useTto designate the contracted tensor as well (something we
+are not obliged to do, but certainly may), we would write:
+T
+j
+ij
+=T
+i
+.
+Remark2.6.Contractions are only ever done between one covariant indexand one con-
+travariant index, never between two covariant indices nor two contravariant indices.
+Theorem 2.4.A contraction of a rank 2 tensor (itstrace) is a scalar whose value is inde-
+pendent of the coordinate system chosen. Such a scalar is referred to as arank 0 tensor.
+Proof.LetT=T
+i
+i
+be the trace of the tensor,T. If
+ ̃
+T
+l
+k
+is a tensor in coordinate system  ̃x
+k
+,
+then its trace transforms to coordinate systemx
+i
+according to:
+ ̃
+T
+k
+k
+=
+∂x
+i
+∂ ̃x
+k
+∂ ̃x
+k
+∂x
+j
+T
+j
+i
+=δ
+i
+j
+T
+j
+i
+=T
+i
+i
+=T.
+It is important to note the role played by the fact that
+ ̃
+T
+l
+k
+is a tensor, and how this
+gave rise to the Kronecker delta (Theorem
+2.3) which was needed in proving the invariance
+of the trace (i.e., that the trace has the same value regardless of coordinate system).
+
+3  The metric
+In an arbitrarym-dimensional coordinate system,x
+i
+, the differential displacement vector is:
+d~r= (h
+(1)
+dx
+1
+, h
+(2)
+dx
+2
+, . . . , h
+(m)
+dx
+m
+) =
+m
+X
+i=1
+h
+(i)
+dx
+i
+ˆe
+(i)
+,(15)
+where ˆe
+(i)
+are the physical (not covariant) unit vectors, and whereh
+(i)
+=h
+(i)
+(x
+1
+, . . . , x
+m
+)
+are scale factors (not tensors) that depend, in general, on the coordinates and endow each
+component with the appropriate units of length. The subscript on the unit vector is enclosed
+in parentheses since it is a vector label (to distinguish it from the other unit vectors spanning
+the vector space), and not an indicator of a component of a covariant tensor. Subscripts onh
+are enclosed in parentheses since they, too, do not indicatecomponents of a covariant tensor.
+In both cases, the parentheses prevent them from triggeringan application of the Einstein
+summation convention should they be repeated.  For the threemost common orthogonal
+coordinate systems, the coordinates, unit vectors, and scale factors are:
+system
+x
+i
+ˆe
+(i)
+(h
+(1)
+, h
+(2)
+, h
+(3)
+)
+Cartesian(x, y, z)ˆe
+x
+,ˆe
+y
+,ˆe
+z
+(1,1,1)
+cylindrical
+(z, ̺, φ)ˆe
+z
+,ˆe
+̺
+,ˆe
+φ
+(1,1, ̺)
+spherical polar
+(r, θ, φ)ˆe
+r
+,ˆe
+θ
+,ˆe
+φ
+(1, r, rsinθ)
+Table 1:Nomenclature for the most common coordinate systems.
+In “vector-speak”, the length of the vector d~r, given by equation (
+15), is obtained by
+taking the “dot product” of d~rwith itself. Thus,
+(dr)
+2
+=
+m
+X
+i=1
+m
+X
+j=1
+h
+(i)
+h
+(j)
+ˆe
+(i)
+·ˆe
+(j)
+dx
+i
+dx
+j
+,(16)
+where ˆe
+(i)
+·ˆe
+(j)
+≡cosθ
+(ij)
+are thedirectional cosineswhich are 1 wheni=j. For orthogonal
+coordinate systems, cosθ
+(ij)
+= 0 fori6=j, thus eliminating the “cross terms”. For non-
+orthoginal systems, the off-diagonal directional cosines are not, in general, zero and the
+cross-terms remain.
+Definition 3.1.Themetric,g
+ij
+, is given by:
+g
+ij
+=h
+(i)
+h
+(j)
+ˆe
+(i)
+·ˆe
+(j)
+,(17)
+which, by inspection, is symmetric under the interchange ofits indices;g
+ij
+=g
+ji
+.
+Remark3.1.For an orthogonal coordinate system, the metric is given by:g
+ij
+=h
+(i)
+h
+(j)
+δ
+ij
+,
+which reduces further toδ
+ij
+for Cartesian coordinates.
+Thus equation (
+16) becomes:
+(dr)
+2
+=g
+ij
+dx
+i
+dx
+j
+,(18)
+where the summation oniandjis now implicit, presupposing the following theorem:
+9
+
+The metric10
+Theorem 3.1.The metric is a rank 2 covariant tensor.
+Proof.Because (dr)
+2
+is the square of a distance between two physical points, it must be
+invariant under coordinate transformations. Thus, consider (dr)
+2
+in the coordinate systems
+ ̃x
+k
+andx
+i
+:
+(dr)
+2
+=  ̃g
+kl
+d ̃x
+k
+d ̃x
+l
+=g
+ij
+dx
+i
+dx
+j
+=g
+ij
+∂x
+i
+∂ ̃x
+k
+d ̃x
+k
+∂x
+j
+∂ ̃x
+l
+d ̃x
+l
+=
+∂x
+i
+∂ ̃x
+k
+∂x
+j
+∂ ̃x
+l
+g
+ij
+d ̃x
+k
+d ̃x
+l
+⇒
+
+ ̃g
+kl
+−
+∂x
+i
+∂ ̃x
+k
+∂x
+j
+∂ ̃x
+l
+g
+ij
+
+d ̃x
+k
+d ̃x
+l
+= 0,
+which must be true∀d ̃x
+k
+d ̃x
+l
+. This can be true only if,
+ ̃g
+kl
+=
+∂x
+i
+∂ ̃x
+k
+∂x
+j
+∂ ̃x
+l
+g
+ij
+,(19)
+and, by equation (
+12),g
+ij
+transforms as a rank 2 covariant tensor.
+Definition 3.2.Theconjugate metric,g
+kl
+, is the inverse to the metric tensor, and therefore
+satisfies:
+g
+kp
+g
+ip
+=g
+ip
+g
+kp
+=δ
+k
+i
+.(20)
+It is left as an exercise to show that the conjugate metric is arank 2 contravariant
+tensor. (Hint: use the invariance of the Kronecker delta.)
+Definition 3.3.Aconjugate tensoris the result of multiplying a tensor with the metric,
+then contracting one of the indices of the metric with one of the indices of the tensor.
+Thus, two examples of conjugates for the rankntensorT
+i
+1
+...i
+p
+j
+1
+...j
+q
+,p+q=n, include:
+T
+kj
+1
+...j
+q
+i
+1
+...i
+r−1
+i
+r+1
+...i
+p
+=g
+ki
+r
+T
+j
+1
+...j
+q
+i
+1
+...i
+p
+,1≤r≤p;(21)
+T
+j
+1
+...j
+s−1
+j
+s+1
+...j
+q
+i
+1
+...i
+p
+l
+=g
+lj
+s
+T
+j
+1
+...j
+q
+i
+1
+...i
+p
+,1≤s≤q.(22)
+An operation like equation (
+21) is known asraising an index(covariant indexi
+r
+is replaced
+with contravariant indexk) while equation (22) is known aslowering an index(contravariant
+indexj
+s
+is replaced with covariant indexl). For a tensor withpcovariant andqcontravariant
+indices, one could write downpconjugate tensors with a single index raised andqconjugate
+tensors with a single index lowered. Contracting a tensor with the metric several times will
+raise or lower several indices, each representing a conjugate tensor to the original. Associated
+with every rankntensor are 2
+n−1
+conjugate tensors all with rankn.
+The attempt to write equations (
+21) and (22) for a general rankntensor has made them
+rather opaque, so it is useful to examine the simpler and special case of raising and lowering
+the index of a rank 1 tensor. Thus,
+A
+j
+=g
+ij
+A
+i
+;A
+i
+=g
+ij
+A
+j
+.(23)
+Rank 2 tensors can be similarly examined.  As a first example, we define the covariant
+coordinate differential,dx
+i
+, to be:
+dx
+j
+=g
+ij
+dx
+i
+;dx
+i
+=g
+ij
+dx
+j
+.
+
+The metric11
+We can find convenient expressions for the metric componentsof any coordinate system,
+x
+i
+, if we know howx
+i
+and Cartesian coordinates depend on each other. Thus, ifχ
+k
+represent
+the Cartesian coordinates (x, y, z), and if we knowχ
+k
+=χ
+k
+(x
+i
+), then using Remark
+3.1we
+can write:
+(dr)
+2
+=δ
+kl
+dχ
+k
+dχ
+l
+=δ
+kl
+
+∂χ
+k
+∂x
+i
+dx
+i
+
+∂χ
+l
+∂x
+j
+dx
+j
+
+=
+
+δ
+kl
+∂χ
+k
+∂x
+i
+∂χ
+l
+∂x
+j
+
+dx
+i
+dx
+j
+.
+Therefore, by equations (
+18) and (20), the metric and its inverse are given by:
+g
+ij
+=δ
+kl
+∂χ
+k
+∂x
+i
+∂χ
+l
+∂x
+j
+andg
+ij
+=δ
+kl
+∂x
+i
+∂χ
+k
+∂x
+j
+∂χ
+l
+.(24)
+3.1  Physical components and basis vectors
+Consider anm-dimensional space,R
+m
+, spanned by an arbitrary basis ofunitvectors (not
+necessarily orthogonal), ˆe
+(i)
+,  i= 1,2, . . . , m. A theorem of first-year linear algebra states
+that for every
+~
+A∈R
+m
+, there is a unique set of numbers,A
+(i)
+, such that:
+~
+A=
+X
+i
+A
+(i)
+ˆe
+(i)
+.(25)
+Definition 3.4.The valuesA
+(i)
+in equation (
+25) are thephysical componentsof
+~
+Arelative
+to the basis set ˆe
+(i)
+.
+A physical component of a vector field has the same units as thefield. Thus, a physical
+component of velocity has units m s
+−1
+, electric field V m
+−1
+, force N,etc.As it turns out, a
+physical component is neither covariant nor contravariant, and thus the subscripts of physical
+components are surrounded with parentheses lest they trigger an unwanted application of
+the summation convention which only applies to a covariant-contravariant index pair. As
+will be shown in this subsection, all three types of vector components are distinct yet related.
+It is a straight-forward, if not tedious, task to find the physical components of a given
+vector,
+~
+A, with respect to a given basis set, ˆe
+(i)
+5
+. Suppose
+~
+A
+c
+and ˆe
+i,c
+are “m-tuples” of the
+components of vectors
+~
+Aand ˆe
+(i)
+relative to “Cartesian-like
+6
+” coordinates (or any coordinate
+system, for that matter). To find them-tuple,
+~
+A
+x
+, of the components of
+~
+Arelative to the
+new basis, ˆe
+(i)
+, one does the following calculation:
+
+
+
+
+ˆe
+1,c
+ˆe
+2,c
+. . .ˆe
+m,c
+~
+A
+c
+↓↓. . .↓
+↓
+
+
+
+
+−→
+row reduce
+
+
+
+
+~
+A
+x
+↓
+I
+
+
+
+
+.(26)
+Thei
+th
+element of them-tuple
+~
+A
+x
+will beA
+(i)
+, thei
+th
+component of
+~
+Arelative to ˆe
+(i)
+, and the
+coefficient for equation (
+25). Should ˆe
+(i)
+form an orthogonal basis set, the problem of finding
+5
+See, for example,§2.7 of Bradley’sA primer of Linear Algebra; ISBN 0-13-700328-5
+6
+I use the qualifier “like” since Cartesian coordinates are, strictly speaking, 3-D.
+
+The metric12
+A
+(i)
+is much simpler. Taking the dot product of equation (
+25) with ˆe
+(j)
+, then replacing the
+surviving indexjwithi, one gets:
+A
+(i)
+=
+~
+A·ˆe
+(i)
+,(27)
+where, as a matter of practicality, one may perform the dot product using the Cartesian-like
+components of the vectors,
+~
+A
+c
+and ˆe
+i,c
+. It must be emphasised that what many readers may
+think as the general expression, equation (
+27), worksonlywhen ˆe
+(i)
+form an orthogonal set.
+Otherwise, equation (26) must be used.
+Equation (15) expresses the prototypical vector,d~r, in terms of the unit (physical) basis
+vectors, ˆe
+(i)
+, and its contravariant components,dx
+i
+[the naked differentials of the coordinates,
+such as (dr, dθ, dφ) in spherical polar coordinates]. Thus, by analogy, we write for any vector
+~
+A:
+~
+A=
+m
+X
+i=1
+h
+(i)
+A
+i
+ˆe
+(i)
+.(28)
+On comparing equations (
+25) and (28), and given the uniqueness of the physical compo-
+nents, we can immediately write down a relation between the physical and contravariant
+components:
+A
+(i)
+=h
+(i)
+A
+i
+;A
+i
+=
+1
+h
+(i)
+A
+(i)
+,(29)
+where, as a reminder, there is no sum oni.  By substitutingA
+i
+=g
+ij
+A
+j
+in the first of
+equations (
+29) and multiplying through the second equation byg
+ij
+(and thus triggering a
+sum onion both sides of the equation), we get the relationship between the physical and
+covariant components:
+A
+(i)
+=h
+(i)
+g
+ij
+A
+j
+;A
+j
+=
+X
+i
+g
+ij
+h
+(i)
+A
+(i)
+.(30)
+For orthogonal coordinates,g
+ij
+=δ
+ij
+/h
+(i)
+h
+(j)
+,g
+ij
+=δ
+ij
+h
+(i)
+h
+(j)
+, and equations (
+30) reduce to:
+A
+(i)
+=
+1
+h
+(i)
+A
+i
+;A
+j
+=h
+(j)
+A
+(j)
+.(31)
+By analogy, we can also write down the relationships betweenphysical components of
+higher rank tensors and their contravariant, mixed, and covariant forms. For rank 2 tensors,
+these are:
+T
+(ij)
+=h
+(i)
+h
+(j)
+T
+ij
+=h
+(i)
+h
+(j)
+g
+ik
+T
+j
+k
+=h
+(i)
+h
+(j)
+g
+jl
+T
+i
+l
+=h
+(i)
+h
+(j)
+g
+ik
+g
+jl
+T
+kl
+,(32)
+(sums onkandlonly) which, for orthogonal coordinates, reduce to:
+T
+(ij)
+=h
+(i)
+h
+(j)
+T
+ij
+=
+h
+(j)
+h
+(i)
+T
+j
+i
+=
+h
+(i)
+h
+(j)
+T
+i
+j
+=
+1
+h
+(i)
+h
+(j)
+T
+ij
+.(33)
+Just as there are covariant, physical, and contravariant tensor components, there are
+also covariant, physical (e.g., unit), and contravariant basis vectors.
+
+The metric13
+Definition 3.5.Let~r
+x
+be a displacement vector whose components are expressed in terms
+of the coordinate systemx
+i
+. Then thecovariant basis vector,e
+i
+, is defined to be:
+e
+i
+≡
+d~r
+x
+dx
+i
+.
+Remark3.2.Just like the unit basis vector ˆe
+(i)
+, the index one
+i
+serves to distinguish one
+basis vector from another, and does not represent a single tensor element as, for example,
+the subscript in the covariant vectorA
+i
+does.
+It is easy to see thate
+i
+is a covariant vector, by considering its transformation toa new
+coordinate system,  ̃x
+j
+:
+ ̃
+e
+j
+=
+d~r
+ ̃x
+d ̃x
+j
+=
+∂x
+i
+∂ ̃x
+j
+d~r
+x
+dx
+i
+=
+∂x
+i
+∂ ̃x
+j
+e
+i
+,
+confirming its covariant character.
+From equation (
+15) and the fact that thex
+i
+are linearly independent, it follows from
+definition
+3.5that:
+e
+i
+=h
+(i)
+ˆe
+(i)
+;ˆe
+(i)
+=
+1
+h
+(i)
+e
+i
+.(34)
+The contravariant basis vector,e
+j
+, is obtained by multiplying the first of equations (
+34) by
+g
+ij
+(triggering a sum overion the LHS, and thus on the RHS as well), and replacinge
+i
+in
+the second withg
+ij
+e
+j
+:
+g
+ij
+e
+i
+=e
+j
+=
+X
+i
+g
+ij
+h
+(i)
+ˆe
+(i)
+;ˆe
+(i)
+=
+g
+ij
+h
+(i)
+e
+j
+(35)
+Remark3.3.Only the physical basis vectors are actuallyunitvectors and thus unitless, and
+therefore only they are designated by a “hat” (ˆe). The covariant basis vector,e
+i
+, has units
+h
+(i)
+while the contravariant basis vector,e
+j
+, has units 1/h
+(i)
+and are designated in bold-italic
+(e).
+Theorem 3.2.Regardless of whether the coordinate system is orthogonal,e
+i
+·e
+j
+=δ
+j
+i
+.
+Proof.
+e
+i
+·e
+j
+=h
+(i)
+ˆe
+(i)
+·
+X
+k
+g
+kj
+h
+(k)
+ˆe
+(k)
+=
+X
+k
+g
+kj
+h
+(i)
+h
+(k)
+ˆe
+(i)
+·ˆe
+(k)
+|
+{z}
+g
+ik
+(eq
+n
+17)
+=g
+kj
+g
+ik
+=δ
+j
+i
+.
+Remark3.4.Note that by equation (17),e
+i
+·e
+j
+=g
+ij
+and thuse
+i
+·e
+j
+=g
+ij
+.
+Now, substituting the first of equations (
+29) and the second of equations (34) into
+equation (
+25), we find:
+~
+A=
+X
+i
+A
+(i)
+ˆe
+(i)
+=
+X
+i
+✚
+✚
+h
+(i)
+A
+i
+1
+✚
+✚
+h
+(i)
+e
+i
+=A
+i
+e
+i
+,(36)
+
+The metric14
+where the sum oniis now implied. Similarly, by substituting the first of equations (
+30) and
+the second of equations (35) into equation (25), we find:
+~
+A=
+X
+i
+A
+(i)
+ˆe
+(i)
+=
+X
+i
+✚
+✚
+h
+(i)
+g
+ij
+A
+j
+g
+ik
+✚
+✚
+h
+(i)
+e
+k
+=g
+ij
+g
+ik
+|
+{z}
+δ
+j
+k
+A
+j
+e
+k
+=A
+j
+e
+j
+.(37)
+Thus, we can find thei
+th
+covariant component of a vector by calculating:
+~
+A·e
+i
+=A
+j
+e
+j
+·e
+i
+|
+{z}
+δ
+j
+i
+=A
+i
+.(38)
+using Theorem
+3.2.  Because we have used the covariant and contravariant basisvectors
+instead of the physical unit vectors, equation (
+38) is true regardless of whether the basis is
+orthogonal, and thus appears to give us a simpler prescription for finding vector components
+in a general basis than the algorithm outlined in equation (
+26). Alas, nothing is for free;
+computing the covariant and contravariant basis vectors from the physical unit vectors can
+consist of similar operations as row-reducing a matrix.
+Finally, let us re-establish contact with the introductoryremarks, and remind the reader
+that equation (
+2) is the velocity vector in its contravariant form whereas equation (3) is in
+its physical form, reproduced here for reference:
+~v
+con
+= (  ̇r,
+ ̇
+θ, ̇φ);
+~v
+phys
+= (  ̇r, r
+ ̇
+θ, rsinθ ̇φ).
+Given equation (
+31), the covarient form of the velocity vector in spherical polar coordinates
+is evidently:
+~v
+cov
+= (  ̇r, r
+2
+ ̇
+θ, r
+2
+sin
+2
+θ ̇φ).(39)
+3.2  The scalar and inner products
+Definition 3.6.Thecovariantandcontravariant scalar productsof two rank 1 tensors,A
+andB, are defined asg
+ij
+A
+i
+B
+j
+andg
+ij
+A
+i
+B
+j
+respectively.
+The covariant and contravariant scalar products actually have the same value, as seen
+by:
+g
+ij
+A
+i
+B
+j
+=A
+j
+B
+j
+andg
+ij
+A
+i
+B
+j
+=A
+i
+g
+ij
+B
+j
+=A
+i
+B
+i
+,
+using equation (
+23). Similarly, one could show that the common value isA
+i
+B
+i
+. Therefore,
+the covariant and contravariant scalar product are referred to as simply thescalar product.
+To find the scalar product in physical components, we start with equations (
+29) and
+(
+30) to write:
+A
+i
+B
+i
+=
+X
+i
+A
+(i)
+h
+(i)
+X
+j
+g
+ij
+B
+(j)
+h
+(j)
+=
+X
+i j
+A
+(i)
+B
+(j)
+g
+ij
+h
+(i)
+h
+(j)
+|
+{z}
+ˆe
+(i)
+·ˆe
+(j)
+=
+
+X
+i
+A
+(i)
+ˆe
+(i)
+
+·
+
+X
+j
+B
+(j)
+ˆe
+(j)
+
+
+The metric15
+=
+~
+A·
+~
+B=
+X
+i
+A
+i
+B
+i
+(last equality for orthogonal coordinates only),(40)
+using equations (
+17) and (25). Thus, the scalar product of two rank 1 tensors is just the
+ordinary dot product between two physical vectors in vectoralgebra.
+Remark3.5.The scalar product of two rank 1 tensors is really the contraction of the dyadic
+A
+i
+B
+j
+and thus, from Theorem
+2.4, the scalar product is invariant under coordinate trans-
+formations.
+Note that while bothA
+i
+B
+j
+andA
+i
+B
+j
+are rank 2 tensors (the first mixed, the second
+covariant), onlyA
+i
+B
+i
+is invariant. To see that
+P
+i
+A
+i
+B
+i
+isnotinvariant, write:
+X
+k
+ ̃
+A
+k
+ ̃
+B
+k
+=
+X
+k
+∂x
+i
+∂ ̃x
+k
+A
+i
+∂x
+j
+∂ ̃x
+k
+B
+j
+=
+X
+k
+∂x
+i
+∂ ̃x
+k
+∂x
+j
+∂ ̃x
+k
+A
+i
+B
+j
+6=
+X
+i
+A
+i
+B
+i
+.
+Unlike the proof to Theorem
+2.4,∂x
+i
+/∂ ̃x
+k
+and∂x
+j
+/∂ ̃x
+k
+are not each other’s inverse and there
+is no Kronecker deltaδ
+ij
+to be extracted, whence the inequality. Note that the middletwo
+terms are actually triple sums, including the implicit sumson each ofiandj.
+Definition 3.7.Thecovariant and contravariant scalar productsof two rank 2 tensors,S
+andT, are defined asg
+ik
+g
+jl
+S
+kl
+T
+ij
+andg
+ik
+g
+jl
+S
+ij
+T
+kl
+respectively.
+Similar to the scalar product of two rank 1 tensors, these operations result in a scalar:
+g
+ik
+g
+jl
+S
+kl
+T
+ij
+=S
+ij
+T
+ij
+=S
+kl
+g
+ik
+g
+jl
+T
+ij
+=S
+kl
+T
+kl
+=g
+ik
+g
+jl
+S
+ij
+T
+kl
+.
+Thus, the covariant and contravariant scalar products of two rank 2 tensors give the same
+value and are collectively referred to simply as thescalar product.
+In terms of the physical components, use equation
+32to write:
+S
+ij
+T
+ij
+=
+X
+i j
+S
+(ij)
+h
+(i)
+h
+(j)
+X
+k l
+g
+ik
+g
+jl
+T
+(kl)
+h
+(k)
+h
+(l)
+=
+X
+i j k l
+S
+(ij)
+T
+(kl)
+g
+ik
+h
+(i)
+h
+(k)
+|
+{z}
+ˆe
+(i)
+·ˆe
+(k)
+g
+jl
+h
+(j)
+h
+(l)
+|
+{z}
+ˆe
+(j)
+·ˆe
+(l)
+(41)
+≡S:T=
+X
+i j
+S
+(ij)
+T
+(ij)
+(last equality for orthogonal coordinates only),
+Here, I use the “colon product” notation frequently used in vector algebra. IfSandTare
+matrices relative to an orthogonal basis, the colon productis simply the sum of the products
+of the (i, j)
+th
+element ofSwith the (i, j)
+th
+element ofT, all “cross-terms” being zero. Note
+that ifS(T) is the dyadic product of rank 1 tensorsAandB(CandD), and thusS
+ij
+=A
+i
+B
+j
+(T
+ij
+=C
+i
+D
+j
+), then we can rewrite equation (
+41) as:
+S
+ij
+T
+ij
+=A
+i
+B
+j
+C
+i
+D
+j
+= (A
+i
+C
+i
+)(B
+j
+D
+j
+) = (
+~
+A·
+~
+C)(
+~
+B·
+~
+D) =S:T,
+and, in “vector-speak”, thecolon productis sometimes referred to as thedouble dot product.
+Now, scalar products are operations on two tensors of the same rank that yield a scalar.
+Similar operations on tensors of unequal rank yield a tensorof non-zero rank, the simplest
+
+The metric16
+example being the contraction of a rank 2 tensor,T, with a rank 1 tensor,A(or vice versa).
+In tensor notation, there aresixteenways such a contraction can be represented:T
+ij
+A
+j
+,
+T
+i
+j
+A
+j
+,T
+j
+i
+A
+j
+,T
+ij
+A
+j
+,A
+i
+T
+ij
+,A
+i
+T
+j
+i
+,A
+i
+T
+i
+j
+,A
+i
+T
+ij
+plus eight more with the factors reversed
+(e.g.,T
+ij
+A
+j
+=A
+j
+T
+ij
+). Fortunately, these can be arranged naturally in two groups:
+T
+ij
+A
+j
+=T
+i
+j
+A
+j
+=g
+ik
+T
+j
+k
+A
+j
+=g
+ik
+T
+kj
+A
+j
+≡(T·
+~
+A)
+i
+;(42)
+A
+i
+T
+ij
+=A
+i
+T
+j
+i
+=g
+jk
+A
+i
+T
+i
+k
+=g
+jk
+A
+i
+T
+ik
+≡(
+~
+A·T)
+j
+.(43)
+where, by example, we have defined the contravariantinner productbetween tensors of rank
+1 and 2.
+Definition 3.8.Theinner productbetween two tensors of any rank is the contraction of
+theinnerindices, namely the last index of the first tensor and the firstindex of the last
+tensor.
+Thus, to know how to writeA
+j
+T
+i
+j
+as an inner product, one first notices that, as written,
+it is the last index of the last tensor (T) that is involved in the contraction, not the first index.
+By commuting the tensors to getT
+i
+j
+A
+j
+(which doesn’t change its value), the last index of the
+first tensor is now contracted with the first index of the last tensor and, with the tensors now
+in their “proper” order, we write downT
+i
+j
+A
+j
+= (T·
+~
+A)
+i
+. Note that (
+~
+A·T)
+i
+=A
+j
+T
+ji
+6=A
+j
+T
+ij
+unlessTis symmetric. Thus, the inner product does not generally commute:
+~
+A·T6=T·
+~
+A.
+In vector/matrix notation,T·
+~
+Ais theright dot productof the matrixTwith the vector
+~
+A, and is equivalent to the matrix multiplication of them×mmatrixTon the left with
+the 1×mcolumnvector
+~
+Aon the right, yielding another 1×mcolumn vector, call it
+~
+B. In
+“bra-ket” notation, this is represented asT|Ai=|Bi. Conversely, theleft dot product,
+~
+A·T,
+is the matrix multiplication of them×1rowvector on the left with them×mmatrix on
+the right, yielding anotherm×1 row vector. In “bra-ket” notation, this is represented as
+hA|T=hB|.
+The inner products defined in equations (
+42) and (43) are rank 1 contravariant tensors.
+In terms of the physical components, we have from equations (
+29) and (32):
+T
+ij
+A
+j
+=T
+i
+j
+A
+j
+= (T·
+~
+A)
+i
+=
+1
+h
+(i)
+(T·
+~
+A)
+(i)
+=g
+jk
+T
+ik
+A
+j
+(44)
+=
+X
+jk
+g
+jk
+T
+(ik)
+h
+(i)
+h
+(k)
+A
+(j)
+h
+(j)
+=
+1
+h
+(i)
+X
+jk
+T
+(ik)
+A
+(j)
+g
+jk
+h
+(j)
+h
+(k)
+=
+1
+h
+(i)
+X
+jk
+T
+(ik)
+A
+(j)
+ˆe
+(j)
+·ˆe
+(k)
+⇒(T·
+~
+A)
+(i)
+=
+X
+jk
+T
+(ik)
+A
+(j)
+ˆe
+(j)
+·ˆe
+(k)
+
+=
+X
+j
+T
+(ij)
+A
+(j)
+
+,(45)
+A
+j
+T
+ji
+=A
+j
+T
+i
+j
+= (
+~
+A·T)
+i
+=
+1
+h
+(i)
+(
+~
+A·T)
+(i)
+=A
+j
+g
+jk
+T
+ki
+(46)
+=
+X
+jk
+g
+jk
+A
+(j)
+h
+(j)
+T
+(ki)
+h
+(k)
+h
+(i)
+=
+1
+h
+(i)
+X
+jk
+A
+(j)
+T
+(ki)
+g
+jk
+h
+(j)
+h
+(k)
+=
+1
+h
+(i)
+X
+jk
+A
+(j)
+T
+(ki)
+ˆe
+(j)
+·ˆe
+(k)
+
+The metric17
+⇒(
+~
+A·T)
+(i)
+=
+X
+jk
+T
+(ki)
+A
+(j)
+ˆe
+(j)
+·ˆe
+(k)
+
+=
+X
+j
+T
+(ji)
+A
+(j)
+
+,(47)
+where the equalities in parentheses are true for orthogonalcoordinates only. Note that the
+only difference between equations (
+45) and (47) is the order of the indices onT.
+3.3  Invariance of tensor expressions
+The most important property of tensors is their ability to render an equation invariant
+under coordinate transformations. As indicated after equation (
+12), each term in a valid
+tensor expression must have the same free indices in the samepositions. Thus, for example,
+U
+k
+ij
+=V
+i
+is invalid since each term does not have the same number of indices, though this
+equation could be rendered valid by contracting on two of theindices inU:U
+j
+ij
+=V
+i
+. As a
+further example,
+T
+j
+i kl
+=A
+j
+i
+B
+kl
++C
+mj
+m
+D
+ikl
+,(48)
+is a valid tensor expression, whereas,
+S
+jk
+i   l
+=A
+j
+i
+B
+kl
++C
+mj
+m
+D
+ikl
+,(49)
+is not valid becausekis contravariant inSbut covariant in the two terms on the RHS.
+Given the role of metrics in raising and lowering indices, wecould “rescue” equation (
+49) by
+renaming the indexkinSton, say, and then multiplying the LHS byg
+kn
+. Thus,
+g
+kn
+S
+jn
+i   l
+=A
+j
+i
+B
+kl
++C
+mj
+m
+D
+ikl
+,(50)
+is now a valid tensor expression. And so it goes.
+An immediate consequence of the rules for assembling a validtensor expression is that it
+must have the same form in every coordinate system. Thus and for example, in transforming
+equation (
+48) from coordinate systemx
+i
+to coordinate system  ̃x
+i
+′
+, we would write:
+∂ ̃x
+i
+′
+∂x
+i
+∂x
+j
+∂ ̃x
+j
+′
+∂ ̃x
+k
+′
+∂x
+k
+∂ ̃x
+l
+′
+∂x
+l
+ ̃
+T
+j
+′
+i
+′
+k
+′
+l
+′
+=
+∂ ̃x
+i
+′
+∂x
+i
+∂x
+j
+∂ ̃x
+j
+′
+A
+j
+′
+i
+′
+∂ ̃x
+k
+′
+∂x
+k
+∂ ̃x
+l
+′
+∂x
+l
+B
+k
+′
+l
+′
++
+∂ ̃x
+m
+′
+∂x
+m
+∂x
+m
+∂ ̃x
+m
+′
+|
+{z}
+1
+∂x
+j
+∂ ̃x
+j
+′
+C
+m
+′
+j
+′
+m
+′
+∂ ̃x
+i
+′
+∂x
+i
+∂ ̃x
+k
+′
+∂x
+k
+∂ ̃x
+l
+′
+∂x
+l
+D
+i
+′
+k
+′
+l
+′
+⇒
+∂ ̃x
+i
+′
+∂x
+i
+∂x
+j
+∂ ̃x
+j
+′
+∂ ̃x
+k
+′
+∂x
+k
+∂ ̃x
+l
+′
+∂x
+l
+
+ ̃
+T
+j
+′
+i
+′
+k
+′
+l
+′
+−A
+j
+′
+i
+′
+B
+k
+′
+l
+′
+−C
+m
+′
+j
+′
+m
+′
+D
+i
+′
+k
+′
+l
+′
+
+= 0.
+Since no assumptions were made of the coordinate transformation factors (the derivatives)
+in front, this equation must be true for all possible factors, and thus can be true only if the
+quantity in parentheses is zero. Thus,
+ ̃
+T
+j
+′
+i
+′
+k
+′
+l
+′
+=A
+j
+′
+i
+′
+B
+k
+′
+l
+′
++C
+m
+′
+j
+′
+m
+′
+D
+i
+′
+k
+′
+l
+′
+.(51)
+The fact that equation (
+51) has the identical form as equation (48) is what is meant by a
+tensor expression being invariant under coordinate transformations. Note that equation (
+49)
+would not transform in an invariant fashion, since the LHS would have different coordinate
+
+The metric18
+transformation factors than the RHS. Note further that the invariance of a tensor expression
+like equation (
+48) doesn’t mean that each term remains unchanged under the coordinate
+transformation. Indeed, the components of most tensors will change under coordinate trans-
+formations. What doesn’t change in a valid tensor expression is how the tensors are related
+to each other, with the changes to each tensor “cancelling out” from each term.
+Finally, courses in tensor analysis often include some mention of thequotient rule, which
+has nothing to do with the quotient rule of single-variable calculus. Instead, it is an inverted
+restatement, of sorts, of what it means to be an invariant tensor expression for particularly
+simple expressions.
+Theorem 3.3.(Quotient Rule)IfAandBare tensors, and if the expressionA=BTis
+invariant under coordinate transformation, thenTis a tensor.
+Proof.Here we look at the special case:
+A
+i
+=B
+j
+T
+j
+i
+.(52)
+The proof for tensors of general rank is more cumbersome and no more enlightening. Since
+equation (
+52) is invariant under coordinate transformations, we can write:
+ ̃
+B
+l
+ ̃
+T
+l
+k
+=
+ ̃
+A
+k
+=
+∂x
+i
+∂ ̃x
+k
+A
+i
+=
+∂x
+i
+∂ ̃x
+k
+B
+j
+T
+j
+i
+=
+∂x
+i
+∂ ̃x
+k
+∂ ̃x
+l
+∂x
+j
+ ̃
+B
+l
+T
+j
+i
+⇒
+ ̃
+B
+l
+
+ ̃
+T
+l
+k
+−
+∂x
+i
+∂ ̃x
+k
+∂ ̃x
+l
+∂x
+j
+T
+j
+i
+
+= 0,
+which must be true∀
+ ̃
+B
+l
+. This is possible only if the contents of the parentheses is zero,
+whence:
+ ̃
+T
+l
+k
+=
+∂x
+i
+∂ ̃x
+k
+∂ ̃x
+l
+∂x
+j
+T
+j
+i
+,
+andT
+j
+i
+transforms as a rank 2 mixed tensor.
+3.4  The permutation tensors
+Definition 3.9.TheLevi-Civita symbol,ε
+ijk
+, also known as thethree-dimensional permu-
+tation parameter, is given by:
+ε
+ijk
+=ε
+ijk
+=
+
+
+
+
+
+1    fori, j, kan even permutation of 1,2,3;
+−1  fori, j, kan odd permutation of 1,2,3;
+0    if any ofi, j, kare the same.
+(53)
+As it turns out,ε
+ijk
+isnota tensor
+7
+, though its indices will still participate in Einstein
+summation conventions where applicable and unless otherwise noted. As written in equation
+(53), there are two “flavours” of the Levi-Civita symbol—one with covariant-like indices,
+one with contravariant-like indices—which are used as convenient. Numerically, the two are
+equal.
+7
+Technically,ε
+ijk
+is apseudotensor, a distinction we will not need to make in this primer.
+
+The metric19
+There are two very common uses forε
+ijk
+. First, it is used to represent vector cross-
+products:
+C
+k
+= (
+~
+A×
+~
+B)
+k
+=ε
+ijk
+A
+i
+B
+j
+.(54)
+In a similar vein, we shall see in§
+5.5how it, or at least the closely relatedpermutation tensor
+defined below, is used in the definition of the tensor curl.
+Second, and most importantly,ε
+ijk
+is used to represent determinants. IfAis a 3×3
+matrix, then its determinant,A, is given by:
+A=ε
+ijk
+A
+1i
+A
+2j
+A
+3k
+,(55)
+which can be verified by direct application of equation (
+53). Indeed, determinants of higher
+dimensioned matrices may be represented by permutation parameters of higher rank and
+dimension. Thus, the determinant of anm×mmatrix,B, is given by:
+B=ε
+i
+1
+i
+2
+...i
+m
+B
+1i
+1
+B
+2i
+2
+. . . B
+mi
+m
+,
+where both the rank and dimension ofε
+i
+1
+i
+2
+...i
+m
+ism(though the rank of matrixBis still 2).
+Theorem 3.4.Consider two 3-dimensional coordinate systems
+8
+,x
+i
+and ̃x
+i
+′
+, and letJ
+x, ̃x
+be
+theJacobian determinant, namely:
+J
+x, ̃x
+=
+
+
+
+
+∂x
+i
+∂ ̃x
+i
+′
+
+
+
+
+=
+
+
+
+
+
+
+
+
+∂x
+1
+∂ ̃x
+1
+∂x
+1
+∂ ̃x
+2
+∂x
+1
+∂ ̃x
+3
+∂x
+2
+∂ ̃x
+1
+∂x
+2
+∂ ̃x
+2
+∂x
+2
+∂ ̃x
+3
+∂x
+3
+∂ ̃x
+1
+∂x
+3
+∂ ̃x
+2
+∂x
+3
+∂ ̃x
+3
+
+
+
+
+
+
+
+
+IfAand
+ ̃
+Aare the same rank 2, 3-dimensional tensor in each of the two coordinate systems,
+and ifAand
+ ̃
+Aare their respective determinants, then
+J
+x, ̃x
+=
+q
+ ̃
+A/A.(56)
+Proof.We start with the observation that:
+ε
+pqr
+A=ε
+ijk
+A
+pi
+A
+qj
+A
+rk
+,(57)
+is logically equivalent to equation (
+55). This can be verified by direct substitution of all
+possible cases.  Thus, if (p, q, r) is an even permutation of (1,2,3),ε
+pqr
+= 1 on the LHS
+while the matrixAon the RHS effectively undergoes an even number of row swaps, leaving
+the determinant unchanged. If (p, q, r) is an odd permutation of (1,2,3),ε
+pqr
+=−1 whileA
+undergoes an odd number of row swaps, negating the determinant. In both cases, equation
+(
+57) is equivalent to equation (55). Finally, if any two of (p, q, r) are equal,ε
+pqr
+= 0 and the
+determinant, now of a matrix with two identical rows, would also be zero.
+Rewriting equation (
+57) in the  ̃xcoordinate system, we get:
+ε
+p
+′
+q
+′
+r
+′
+ ̃
+A=ε
+i
+′
+j
+′
+k
+′
+ ̃
+A
+p
+′
+i
+′
+ ̃
+A
+q
+′
+j
+′
+ ̃
+A
+r
+′
+k
+′
+8
+The extension tomdimensions is straight-forward.
+
+The metric20
+=ε
+i
+′
+j
+′
+k
+′
+∂x
+p
+∂ ̃x
+p
+′
+∂x
+i
+∂ ̃x
+i
+′
+A
+pi
+∂x
+q
+∂ ̃x
+q
+′
+∂x
+j
+∂ ̃x
+j
+′
+A
+qj
+∂x
+r
+∂ ̃x
+r
+′
+∂x
+k
+∂ ̃x
+k
+′
+A
+rk
+=ε
+i
+′
+j
+′
+k
+′
+∂x
+i
+∂ ̃x
+i
+′
+∂x
+j
+∂ ̃x
+j
+′
+∂x
+k
+∂ ̃x
+k
+′
+|
+{z}
+ε
+ijk
+J
+x, ̃x
+A
+pi
+A
+qj
+A
+rk
+∂x
+p
+∂ ̃x
+p
+′
+∂x
+q
+∂ ̃x
+q
+′
+∂x
+r
+∂ ̃x
+r
+′
+where the underbrace is a direct application of equation (
+57). Continuing. . .
+⇒ε
+p
+′
+q
+′
+r
+′
+ ̃
+A=ε
+ijk
+A
+pi
+A
+qj
+A
+rk
+|
+{z}
+ε
+pqr
+A
+∂x
+p
+∂ ̃x
+p
+′
+∂x
+q
+∂ ̃x
+q
+′
+∂x
+r
+∂ ̃x
+r
+′
+J
+x, ̃x
+=ε
+pqr
+∂x
+p
+∂ ̃x
+p
+′
+∂x
+q
+∂ ̃x
+q
+′
+∂x
+r
+∂ ̃x
+r
+′
+|
+{z}
+ε
+p
+′
+q
+′
+r
+′
+J
+x, ̃x
+J
+x, ̃x
+A
+=ε
+p
+′
+q
+′
+r
+′
+(J
+x, ̃x
+)
+2
+A
+⇒ε
+p
+′
+q
+′
+r
+′
+ 
+ ̃
+A−(J
+x, ̃x
+)
+2
+A
+
+= 0⇒   J
+x, ̃x
+=
+q
+ ̃
+A/A.
+Theorem 3.5.Ifg= detg
+ij
+is the determinant of the metric tensor, then the entities:
+ǫ
+ijk
+=
+1
+√
+g
+ε
+ijk
+;ǫ
+ijk
+=
+√
+g ε
+ijk
+,(58)
+are rank 3 tensors.ǫ
+ijk
+andǫ
+ijk
+are known, respectively, as the contravariant and covariant
+permutation tensors.
+Proof.Consider  ̃ǫ
+i
+′
+j
+′
+k
+′
+in the  ̃x
+i
+′
+coordinate system. In transforming it to thex
+i
+coordinate
+system, we would write:
+ ̃ǫ
+i
+′
+j
+′
+k
+′
+∂x
+i
+∂ ̃x
+i
+′
+∂x
+j
+∂ ̃x
+j
+′
+∂x
+k
+∂ ̃x
+k
+′
+=
+1
+√
+ ̃g
+ε
+i
+′
+j
+′
+k
+′
+∂x
+i
+∂ ̃x
+i
+′
+∂x
+j
+∂ ̃x
+j
+′
+∂x
+k
+∂ ̃x
+k
+′
+|
+{z}
+ε
+ijk
+J
+x, ̃x
+=
+1
+√
+ ̃g
+ε
+ijk
+s
+ ̃g
+g
+=
+1
+√
+g
+ε
+ijk
+=ǫ
+ijk
+,
+using first equation (
+57), then equation (56) withA
+ij
+=g
+ij
+. Thus,ǫ
+ijk
+transforms like a rank
+3 contravariant tensor. Further, its covariant conjugate is given by:
+ǫ
+pqr
+=g
+pi
+g
+qj
+g
+rk
+ǫ
+ijk
+=
+1
+√
+g
+ε
+ijk
+g
+pi
+g
+qj
+g
+rk
+|
+{z}
+ε
+pqr
+g
+=
+√
+gε
+pqr
+,
+and
+√
+gε
+pqr
+is a rank 3 covariant tensor.
+
+4  Tensor derivatives
+While the partial derivative of a scalar,∂f /∂x
+i
+, is the prototypical covariant rank 1 tensor
+(equation
+8), we get into trouble as soon as we try taking the derivative of a tensor of any
+higher rank. Consider the transformation of∂A
+i
+/∂x
+j
+from thex
+i
+coordinate system to  ̃x
+p
+:
+∂
+ ̃
+A
+p
+∂ ̃x
+q
+=
+∂x
+j
+∂ ̃x
+q
+∂
+∂x
+j
+
+∂ ̃x
+p
+∂x
+i
+A
+i
+
+=
+∂x
+j
+∂ ̃x
+q
+∂ ̃x
+p
+∂x
+i
+∂A
+i
+∂x
+j
++
+∂x
+j
+∂ ̃x
+q
+∂
+2
+ ̃x
+p
+∂x
+j
+∂x
+i
+A
+i
+.(59)
+Now, if∂A
+i
+/∂x
+j
+transformed as a tensor, we would have expected only the firstterm on the
+RHS. The presence of the second term means that∂A
+i
+/∂x
+j
+is not a tensor, and we therefore
+need to generalise our definition of tensor differentiation if we want equations involving tensor
+derivatives to maintain their tensor invariance.
+Before proceeding, however, let us consider an alternate and, as it turns out, incorrect
+approach. One might be tempted to write, as was I in preparingthis primer:
+∂
+ ̃
+A
+p
+∂ ̃x
+q
+=
+∂
+∂ ̃x
+q
+
+∂ ̃x
+p
+∂x
+i
+A
+i
+
+=
+∂ ̃x
+p
+∂x
+i
+∂A
+i
+∂ ̃x
+q
++A
+i
+∂
+∂ ̃x
+q
+∂ ̃x
+p
+∂x
+i
+=
+∂ ̃x
+p
+∂x
+i
+∂x
+j
+∂ ̃x
+q
+∂A
+i
+∂x
+j
++A
+i
+∂
+∂x
+i
+∂ ̃x
+p
+∂ ̃x
+q
+.
+As written, the last term would be zero since∂ ̃x
+p
+/∂ ̃x
+q
+=δ
+p
+q
+, and∂δ
+p
+q
+/∂x
+i
+= 0. This clearly
+disagrees with the last term in equation (
+59), so what gives? Since  ̃x
+q
+andx
+i
+arenotlinearly
+independent of each other, their order of differentiation maynotbe swapped, and the second
+term on the RHS is bogus.
+Returning to equation (59), rather than taking the derivative of a single vector compo-
+nent, take instead the derivative of the full vector
+~
+A=A
+i
+e
+i
+(equation36):
+∂
+~
+A
+∂x
+j
+=
+∂(A
+i
+e
+i
+)
+∂x
+j
+=
+∂A
+i
+∂x
+j
+e
+i
++
+∂e
+i
+∂x
+j
+A
+i
+.(60)
+The first term accounts for the rate of change of the vector component,A
+i
+, from point to
+point, while the second term accounts for the rate of change of the basis vector,e
+i
+. Both
+terms are of equal importance and thus, to make progress in differentiating a general vector,
+we need to understand how to differentiate a basis vector.
+4.1 “Christ-awful symbols”
+9
+Ife
+i
+is one ofmcovariant basis vectors spanning anm-dimensional space, then∂e
+i
+/∂x
+j
+is
+a vector within that samem-dimensional space and therefore can be expressed as a linear
+combination of thembasis vectors:
+Definition 4.1.TheChristoffel symbols of the second kind, Γ
+k
+ij
+, are the components of the
+vector∂e
+i
+/∂x
+j
+relative to the basise
+k
+. Thus,
+∂e
+i
+∂x
+j
+= Γ
+k
+ij
+e
+k
+(61)
+9
+A tip of the hat to Professor Daniel Finley, the University ofNew Mexico.
+21
+
+Tensor derivatives22
+To get an expression for Γ
+l
+ij
+by itself, we take the dot product of equation (
+61) withe
+l
+(cf., equation
+38) to get:
+∂e
+i
+∂x
+j
+·e
+l
+= Γ
+k
+ij
+e
+k
+·e
+l
+|
+{z}
+δ
+l
+k
+= Γ
+l
+ij
+.(62)
+Theorem 4.1.The Christoffel symbol of the second kind is symmetric in its lower indices.
+Proof.Recalling definition
+3.5, we write:
+Γ
+l
+ij
+=
+∂e
+i
+∂x
+j
+·e
+l
+=
+∂
+∂x
+j
+∂~r
+x
+∂x
+i
+·e
+l
+=
+∂
+∂x
+i
+∂~r
+x
+∂x
+j
+·e
+l
+=
+∂e
+j
+∂x
+i
+·e
+l
+= Γ
+l
+ji
+.
+Definition 4.2.TheChristoffel symbols of the first kind, Γ
+ij k
+, are given by:
+Γ
+ij k
+=g
+lk
+Γ
+l
+ij
+;Γ
+l
+ij
+=g
+lk
+Γ
+ij k
+.(63)
+Remark4.1.It is easy to show that Γ
+ij k
+is symmetric in its first two indices.
+A note on notation. For Christoffel symbols of the first kind, most authors use [ij, k]
+instead of Γ
+ij k
+, and for the second kind many use
+
+l
+ij
+	
+instead of Γ
+l
+ij
+. While the Christoffel
+symbols are not tensors (as will be shown later) and thus up/down indices do not indicate
+contravariance/covariance, I prefer the Γ notation because, by definition, the two kinds of
+Christoffel symbols are related through the metric just likeconjugate tensors. While it is
+only the non-symmetric index that can be raised or lowered ona Christoffel symbol, this still
+makes this notation useful. Further, we shall find it practical to allow Christoffel symbols to
+participate in the Einstein summation convention (as in equations
+61,62, and63), and thus
+we do not enclose their indices in parentheses.
+For the cognoscenti, it is acknowledged that the Γ notation is normally reserved for
+a quantity called theaffine connexion, a concept from differential geometry and manifold
+theory.  It plays an important role in General Relativity, where one can show that the
+affine connexion, Γ
+l
+ij
+, is equal to the Christoffel symbol of the second kind,
+
+l
+ij
+	
+(Weinberg,
+Gravitation and Cosmology, ISBN 0-471-92567-5, pp. 100–101), whence my inclination to
+borrow the Γ notation for Christoffel symbols.
+Using equations (
+62) and (63), we can write:
+Γ
+ij k
+=g
+lk
+Γ
+l
+ij
+=g
+lk
+e
+l
+·
+∂e
+i
+∂x
+j
+=e
+k
+·
+∂e
+i
+∂x
+j
+.(64)
+Now from remark
+3.4, we haveg
+ij
+=e
+i
+·e
+j
+, and thus,
+∂g
+ij
+∂x
+k
+=e
+i
+·
+∂e
+j
+∂x
+k
++e
+j
+·
+∂e
+i
+∂x
+k
+= Γ
+jk i
++ Γ
+ik j
+,(65)
+using equation (
+64). Permuting the indices on equation (65) twice, we get:
+∂g
+ki
+∂x
+j
+= Γ
+ij k
++ Γ
+kj i
+;and
+∂g
+jk
+∂x
+i
+= Γ
+ki j
++ Γ
+ji k
+.(66)
+
+Tensor derivatives23
+(x
+1
+, x
+2
+, x
+3
+)Γ
+22 1
+Γ
+33 1
+Γ
+12 2
+Γ
+21 2
+Γ
+33 2
+Γ
+13 3
+Γ
+23 3
+Γ
+31 3
+Γ
+32 3
+(z, ̺, φ)0000−̺0̺0̺
+(r, θ, φ)
+−r−rsin
+2
+θ   rr−
+r
+2
+2
+sin 2θ   rsin
+2
+θ
+r
+2
+2
+sin 2θ   rsin
+2
+θ
+r
+2
+2
+sin 2θ
+Γ
+1
+22
+Γ
+1
+33
+Γ
+2
+12
+Γ
+2
+21
+Γ
+2
+33
+Γ
+3
+13
+Γ
+3
+23
+Γ
+3
+31
+Γ
+3
+32
+(z, ̺, φ)0000−̺0
+1
+̺
+0
+1
+̺
+(r, θ, φ)
+−r−rsin
+2
+θ
+1
+r
+1
+r
+−
+1
+2
+sin 2θ
+1
+r
+cotθ
+1
+r
+cotθ
+Table 2:Christoffel symbols for cylindrical and spherical polar coordinates, as given
+by equation (
+68). All Christoffel symbols not listed are zero.
+By combining equations (
+65) and (66), and exploiting the symmetry of the first two indices
+on the Christoffel symbols, one can easily show that:
+Γ
+ij k
+=
+1
+2
+
+∂g
+jk
+∂x
+i
++
+∂g
+ki
+∂x
+j
+−
+∂g
+ij
+∂x
+k
+
+⇒Γ
+l
+ij
+=
+g
+lk
+2
+
+∂g
+jk
+∂x
+i
++
+∂g
+ki
+∂x
+j
+−
+∂g
+ij
+∂x
+k
+
+.(67)
+For a general 3-D coordinate system, there are 27 Christoffelsymbols of each kind
+(15 of which are independent), each with as many as nine terms, whence the title of this
+subsection. However, for orthogonal coordinates whereg
+ij
+∝δ
+ij
+andg
+ii
+=h
+2
+(i)
+= 1/g
+ii
+, things
+get much simpler. In this case, Christoffel symbols fall intothree categories as follows (no
+sum convention):
+Γ
+ij i
+=g
+ii
+Γ
+i
+ij
+=
+1
+2
+∂g
+ii
+∂x
+j
+fori, j= 1,2,3    (15 components)
+Γ
+ii j
+=g
+jj
+Γ
+j
+ii
+=−
+1
+2
+∂g
+ii
+∂x
+j
+fori6=j(6 components)
+Γ
+ij k
+=g
+kk
+Γ
+k
+ij
+= 0fori6=j6=k(6 components)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(68)
+In this primer, our examples are restricted to the most common orthogonal coordinate
+systems in 3-space, namely Cartesian, cylindrical, and spherical polar where the Christoffel
+symbols aren’t so bad to deal with. For Cartesian coordinates, all Christoffel symbols are
+zero, while those for cylindrical and spherical polar coordinates are given in Table
+2.
+To determine how Christoffel symbols transform under coordinate transformations, we
+first consider how the metric derivative transforms from coordinate systemx
+i
+to  ̃x
+p
+. Thus,
+∂ ̃g
+pq
+∂ ̃x
+r
+=
+∂
+∂ ̃x
+r
+
+g
+ij
+∂x
+i
+∂ ̃x
+p
+∂x
+j
+∂ ̃x
+q
+
+=
+∂g
+ij
+∂x
+k
+∂x
+k
+∂ ̃x
+r
+∂x
+i
+∂ ̃x
+p
+∂x
+j
+∂ ̃x
+q
++g
+ij
+∂
+2
+x
+i
+∂ ̃x
+r
+∂ ̃x
+p
+∂x
+j
+∂ ̃x
+q
++g
+ij
+∂x
+i
+∂ ̃x
+p
+∂
+2
+x
+j
+∂ ̃x
+r
+∂ ̃x
+q
+.(69)
+Permute indices (p, q, r)→(q, r, p)→(r, p, q) and (i, j, k)→(j, k, i)→(k, i, j) to get:
+
+Tensor derivatives24
+∂ ̃g
+qr
+∂ ̃x
+p
+=
+∂g
+jk
+∂x
+i
+∂x
+i
+∂ ̃x
+p
+∂x
+j
+∂ ̃x
+q
+∂x
+k
+∂ ̃x
+r
++g
+jk
+∂
+2
+x
+j
+∂ ̃x
+p
+∂ ̃x
+q
+∂x
+k
+∂ ̃x
+r
++g
+jk
+∂x
+j
+∂ ̃x
+q
+∂
+2
+x
+k
+∂ ̃x
+p
+∂ ̃x
+r
+;(70)
+∂ ̃g
+rp
+∂ ̃x
+q
+=
+∂g
+ki
+∂x
+j
+∂x
+j
+∂ ̃x
+q
+∂x
+k
+∂ ̃x
+r
+∂x
+i
+∂ ̃x
+p
++g
+ki
+∂
+2
+x
+k
+∂ ̃x
+q
+∂ ̃x
+r
+∂x
+i
+∂ ̃x
+p
++g
+ki
+∂x
+k
+∂ ̃x
+r
+∂
+2
+x
+i
+∂ ̃x
+q
+∂ ̃x
+p
+,(71)
+Using equations (
+69)–(71), we construct Γ
+pq r
+according to the first of equations (67) to get:
+ ̃
+Γ
+pq r
+=
+1
+2
+
+∂g
+jk
+∂x
+i
+∂x
+i
+∂ ̃x
+p
+∂x
+j
+∂ ̃x
+q
+∂x
+k
+∂ ̃x
+r
++g
+ij
+∂
+2
+x
+i
+∂ ̃x
+p
+∂ ̃x
+q
+∂x
+j
+∂ ̃x
+r
++g
+ij
+∂x
+i
+∂ ̃x
+q
+∂
+2
+x
+j
+∂ ̃x
+p
+∂ ̃x
+r
++
+∂g
+ki
+∂x
+j
+∂x
+j
+∂ ̃x
+q
+∂x
+k
+∂ ̃x
+r
+∂x
+i
+∂ ̃x
+p
++g
+ij
+∂
+2
+x
+i
+∂ ̃x
+q
+∂ ̃x
+r
+∂x
+j
+∂ ̃x
+p
++g
+ij
+∂x
+i
+∂ ̃x
+r
+∂
+2
+x
+j
+∂ ̃x
+q
+∂ ̃x
+p
+−
+∂g
+ij
+∂x
+k
+∂x
+k
+∂ ̃x
+r
+∂x
+i
+∂ ̃x
+p
+∂x
+j
+∂ ̃x
+q
+−g
+ij
+∂
+2
+x
+i
+∂ ̃x
+r
+∂ ̃x
+p
+∂x
+j
+∂ ̃x
+q
+−g
+ij
+∂x
+i
+∂ ̃x
+p
+∂
+2
+x
+j
+∂ ̃x
+r
+∂ ̃x
+q
+
+,
+(72)
+where the indices in the terms proportional to metric derivatives have been left unaltered,
+and where the dummy indices in the terms proportional to the metric have been renamed
+iandj. Now, since the metric is symmetric,g
+ij
+=g
+ji
+, we can write the third term on the
+RHS of equation (
+72) as:
+g
+ij
+∂x
+i
+∂ ̃x
+q
+∂
+2
+x
+j
+∂ ̃x
+p
+∂ ̃x
+r
+=g
+ji
+∂x
+i
+∂ ̃x
+q
+∂
+2
+x
+j
+∂ ̃x
+p
+∂ ̃x
+r
+=g
+ij
+∂x
+j
+∂ ̃x
+q
+∂
+2
+x
+i
+∂ ̃x
+p
+∂ ̃x
+r
+,
+where the dummy indices were once again renamed after the second equal sign. Performing
+the same manipulations to the sixth and ninth terms on the RHSof equation (
+72), one finds
+that the third and eighth terms cancel, the fifth and ninth terms cancel, and the second and
+sixth terms are the same. Thus, equation (
+72) simplifies mercifully to:
+ ̃
+Γ
+pq r
+=
+1
+2
+
+∂g
+jk
+∂x
+i
++
+∂g
+ki
+∂x
+j
+−
+∂g
+ij
+∂x
+k
+
+∂x
+i
+∂ ̃x
+p
+∂x
+j
+∂ ̃x
+q
+∂x
+k
+∂ ̃x
+r
++g
+ij
+∂x
+j
+∂ ̃x
+r
+∂
+2
+x
+i
+∂ ̃x
+p
+∂ ̃x
+q
+= Γ
+ij k
+∂x
+i
+∂ ̃x
+p
+∂x
+j
+∂ ̃x
+q
+∂x
+k
+∂ ̃x
+r
++g
+ij
+∂x
+j
+∂ ̃x
+r
+∂
+2
+x
+i
+∂ ̃x
+p
+∂ ̃x
+q
+,(73)
+and the Christoffel symbol of the first kind does not transformlike a tensor because of
+the second term on the right hand side. Like the ordinary derivative of a first rank tensor
+(equation
+59), what prevents Γ
+ij k
+from transforming like a tensor is a term proportional to
+the second derivative of the coordinates. This important coincidence will be exploited when
+we define thecovariant derivativein the next subsection.
+Finally, to determine how the Christoffel symbol of the second kind transforms, we need
+only multiply equation (
+73) by:
+ ̃g
+rs
+=g
+kl
+∂ ̃x
+r
+∂x
+k
+∂ ̃x
+s
+∂x
+l
+,
+to get:
+ ̃
+Γ
+s
+pq
+= Γ
+l
+ij
+∂x
+i
+∂ ̃x
+p
+∂x
+j
+∂ ̃x
+q
+∂x
+k
+∂ ̃x
+r
+∂ ̃x
+r
+∂x
+k
+|
+{z}
+1
+∂ ̃x
+s
+∂x
+l
++g
+kl
+g
+ij
+∂x
+j
+∂ ̃x
+r
+∂ ̃x
+r
+∂x
+k
+|
+{z}
+δ
+j
+k
+|
+{z}
+g
+ik
+|
+{z}
+δ
+l
+i
+∂ ̃x
+s
+∂x
+l
+∂
+2
+x
+i
+∂ ̃x
+p
+∂ ̃x
+q
+
+Tensor derivatives25
+⇒
+ ̃
+Γ
+s
+pq
+= Γ
+l
+ij
+∂x
+i
+∂ ̃x
+p
+∂x
+j
+∂ ̃x
+q
+∂ ̃x
+s
+∂x
+l
++
+∂ ̃x
+s
+∂x
+l
+∂
+2
+x
+l
+∂ ̃x
+p
+∂ ̃x
+q
+.(74)
+Once again, all that stops Γ
+l
+ij
+from transforming like a tensor is the second term proportional
+to the second derivative.
+4.2  Covariant derivative
+Substituting equation (
+61) into equation (60), we get:
+∂
+~
+A
+∂x
+j
+=
+∂A
+i
+∂x
+j
+e
+i
++ Γ
+k
+ij
+e
+k
+A
+i
+=
+
+∂A
+i
+∂x
+j
++ Γ
+i
+jk
+A
+k
+
+e
+i
+,(75)
+where the names of the dummy indicesiandkare swapped after the second equality.
+Definition 4.3.Thecovarient derivativeof a contravariant vector,A
+i
+, is given by:
+∇
+j
+A
+i
+≡
+∂A
+i
+∂x
+j
++ Γ
+i
+jk
+A
+k
+,(76)
+where the adjectivecovariantrefers to the fact that the index on the differentiation operator
+(j) is in the covariant (lower) position.
+Thus, equation (
+75) becomes:
+∂
+~
+A
+∂x
+j
+=∇
+j
+A
+i
+e
+i
+.(77)
+Thus, thei
+th
+contravariant component of the vector∂
+~
+A/∂x
+j
+relative to the covariant basis
+e
+i
+is the covariant derivative of thei
+th
+contravariant component of the vector,A
+i
+, with
+respect to the coordinatex
+j
+. In general, covariant derivatives are much more cumbersome
+than partial derivatives as the covariant derivative of anyone tensor component involves
+alltensor components for non-zero Christoffel symbols. Only for Cartesian coordinates—
+where all Christoffel symbols are zero—do covariant derivatives reduce to ordinary partial
+derivatives.
+Consider now the transformation of the covariant derivative of a contravariant vector
+from the coordinate systemx
+i
+to  ̃x
+p
+. Thus, using equations (
+59) and (74), we have:
+ ̃
+∇
+q
+ ̃
+A
+p
+=
+∂
+ ̃
+A
+p
+∂ ̃x
+q
++
+ ̃
+Γ
+p
+qr
+ ̃
+A
+r
+=
+∂x
+j
+∂ ̃x
+q
+∂ ̃x
+p
+∂x
+i
+∂A
+i
+∂x
+j
++
+∂x
+j
+∂ ̃x
+q
+∂
+2
+ ̃x
+p
+∂x
+j
+∂x
+i
+A
+i
++
+
+Γ
+i
+jk
+∂x
+j
+∂ ̃x
+q
+∂x
+k
+∂ ̃x
+r
+∂ ̃x
+p
+∂x
+i
++
+∂ ̃x
+p
+∂x
+i
+∂
+2
+x
+i
+∂ ̃x
+q
+∂ ̃x
+r
+
+∂ ̃x
+r
+∂x
+l
+A
+l
+=
+∂x
+j
+∂ ̃x
+q
+∂ ̃x
+p
+∂x
+i
+∂A
+i
+∂x
+j
++ Γ
+i
+jk
+∂x
+j
+∂ ̃x
+q
+∂ ̃x
+p
+∂x
+i
+∂x
+k
+∂ ̃x
+r
+∂ ̃x
+r
+∂x
+l
+|
+{z}
+δ
+k
+l
+A
+l
++
+∂x
+j
+∂ ̃x
+q
+∂
+2
+ ̃x
+p
+∂x
+j
+∂x
+i
+A
+i
++
+∂ ̃x
+p
+∂x
+i
+∂
+2
+x
+i
+∂ ̃x
+q
+∂ ̃x
+r
+∂ ̃x
+r
+∂x
+l
+A
+l
+.(78)
+
+Tensor derivatives26
+Now for some fun. Remembering we can swap the order of differentiation between linearly
+independent quantities, and exploiting our freedom to rename dummy indices at whim, we
+rewrite the last term of equation (
+78) as:
+∂ ̃x
+p
+∂x
+i
+∂ ̃x
+r
+∂x
+l
+∂
+∂ ̃x
+r
+∂x
+i
+∂ ̃x
+q
+A
+l
+=
+∂ ̃x
+p
+∂x
+i
+∂
+∂x
+l
+∂x
+i
+∂ ̃x
+q
+A
+l
+=
+
+∂
+∂x
+l
+
+∂ ̃x
+p
+∂x
+i
+∂x
+i
+∂ ̃x
+q
+
+−
+∂x
+i
+∂ ̃x
+q
+∂
+∂x
+l
+∂ ̃x
+p
+∂x
+i
+
+A
+l
+=
+
+✚
+✚
+✚
+✚
+✚❃
+0
+∂
+∂x
+l
+∂ ̃x
+p
+∂ ̃x
+q
+−
+∂x
+i
+∂ ̃x
+q
+∂
+2
+ ̃x
+p
+∂x
+l
+∂x
+i
+
+A
+l
+=−
+∂x
+j
+∂ ̃x
+q
+∂
+2
+ ̃x
+p
+∂x
+j
+∂x
+i
+A
+i
+,
+where the term set to zero is zero because∂ ̃x
+p
+/∂ ̃x
+q
+=δ
+p
+q
+whose derivative is zero. Thus, the
+last two terms in equation (
+78) cancel, which then becomes:
+ ̃
+∇
+q
+ ̃
+A
+p
+=
+∂x
+j
+∂ ̃x
+q
+∂ ̃x
+p
+∂x
+i
+
+∂A
+i
+∂x
+j
++ Γ
+i
+jk
+A
+k
+
+=
+∂x
+j
+∂ ̃x
+q
+∂ ̃x
+p
+∂x
+i
+∇
+j
+A
+i
+,
+and the covariant derivative of a contravariant vector is a mixed rank 2 tensor.
+Our results are for a contravariant vector because we chose to represent the vector
+~
+A=A
+i
+e
+i
+in equation (
+60). If, instead, we chose
+~
+A=A
+i
+e
+i
+, we would have found that:
+∂e
+i
+∂x
+j
+=−Γ
+i
+jk
+e
+k
+(79)
+instead of equation (
+61), and this would have lead to:
+Definition 4.4.Thecovarient derivativeof a covariant vector,A
+i
+, is given by:
+∇
+j
+A
+i
+≡
+∂A
+i
+∂x
+j
+−Γ
+k
+ij
+A
+k
+.(80)
+In the same way we proved∇
+j
+A
+i
+is a rank 2 mixed tensor, one can show that∇
+j
+A
+i
+is a rank 2 covariant tensor. Notice the minus sign in equation (
+80), which distinguishes
+covariant derivatives of covariant vectors from covariantderivatives of contravariant vec-
+tors. In principle, contravariant derivatives (∇
+j
+) can also be defined for both covariant and
+contravariant vectors, though these are rarely used in practise.
+A note on notation. While most branches of mathematics have managed to converge to
+a prevailing nomenclature for its primary constructs, tensor calculus is not one of them. To
+wit,
+∇
+k
+A
+i
+=A
+i;k
+=A
+i/k
+=A
+j
+|
+k
+,
+are all frequently-used notations for covariant derivatives of covariant vectors. Some authors
+even useA
+i,k
+(comma, not a semi-colon), which can be very confusing sinceother authors
+use the comma notation for partial derivatives:
+∂
+k
+A
+i
+=A
+i,k
+=
+∂A
+i
+∂x
+k
+.
+In this primer, I shall use exclusively the nabla notation (∇
+k
+A
+i
+) for covariant derivatives,
+and either the full Leibniz notation for partial derivatives (∂A
+i
+/∂x
+k
+) as I have been doing so
+far, or the abbreviated Leibniz notation (∂
+k
+A
+i
+) when convenient. In particular, I avoid like
+the plague the semi-colon (A
+i;k
+) and comma (A
+i,k
+) conventions.
+
+Tensor derivatives27
+Theorem 4.2.The covariant derivatives of the contravariant and covariant basis vectors
+are zero.
+Proof.Starting with equation (
+76),
+∇
+j
+e
+i
+=∂
+j
+e
+i
++ Γ
+i
+jk
+e
+k
+= 0,
+from equation (79). Similarly, starting with equation (80),
+∇
+j
+e
+i
+=∂
+j
+e
+i
+−Γ
+k
+ij
+e
+k
+= 0,
+from equation (
+61).
+Covariant derivatives of higher rank tensors are often required, and are listed below
+without proof. Covariant derivatives of all three types of rank 2 tensors are:
+∇
+k
+T
+ij
+=∂
+k
+T
+ij
++ Γ
+i
+kα
+T
+αj
++ Γ
+j
+kα
+T
+iα
+(Tcontravariant);(81)
+∇
+k
+T
+i
+j
+=∂
+k
+T
+i
+j
++ Γ
+i
+kα
+T
+α
+j
+−Γ
+α
+kj
+T
+i
+α
+(Tmixed);(82)
+∇
+k
+T
+j
+i
+=∂
+k
+T
+j
+i
+−Γ
+α
+ki
+T
+j
+α
++ Γ
+j
+kα
+T
+α
+i
+(Tmixed);(83)
+∇
+k
+T
+ij
+=∂
+k
+T
+ij
+−Γ
+α
+ki
+T
+αj
+−Γ
+α
+kj
+T
+iα
+(Tcovariant).(84)
+More generally, the covariant derivative of a mixed tensor of rankp+q=nis given by:
+∇
+k
+T
+j
+1
+...j
+q
+i
+1
+...i
+p
+=∂
+k
+T
+j
+1
+...j
+q
+i
+1
+...i
+p
+−Γ
+α
+ki
+1
+T
+j
+1
+...j
+q
+α,i
+2
+...i
+p
+−. . .−Γ
+α
+ki
+p
+T
+j
+1
+...j
+q
+i
+1
+...i
+p−1
+α
++ Γ
+j
+1
+kα
+T
+α,j
+2
+...j
+q
+i
+1
+...i
+p
++. . .+ Γ
+j
+q
+kα
+T
+j
+1
+...j
+q−1
+α
+i
+1
+...i
+p
+.
+(85)
+In general, a covariant derivative of a rankntensor withpcovariant indices andqcontravari-
+ant indices will itself be a rankn+ 1 tensor withp+ 1 covariant indices andqcontravariant
+indices.
+Theorem 4.3.Summation rule:IfAandBare two tensors of the same rank, dimension-
+ality, and type, then∇
+i
+(A+B) =∇
+i
+A+∇
+i
+B, where the indices have been omitted for
+generality.
+Proof.The proof for a general tensor is awkward, and no more illuminating than for the
+special case of two rank 1 contravariant tensors:
+∇
+i
+(A
+j
++B
+j
+) =∂
+i
+(A
+j
++B
+j
+) + Γ
+j
+ik
+(A
+k
++B
+k
+) = (∂
+i
+A
+j
++ Γ
+j
+ik
+A
+k
+) + (∂
+i
+B
+j
++ Γ
+j
+ik
+B
+k
+)
+=∇
+i
+A
+j
++∇
+i
+B
+j
+.
+Theorem 4.4.Product rule:IfAandBare two tensors of possibly different rank, dimen-
+sionality, and type, then∇
+i
+(AB) =A∇
+i
+B+B∇
+i
+A.
+
+Tensor derivatives28
+Proof.Consider a rank 2 contravariant tensor,A
+jk
+and a rank 1 covariant tensor,B
+l
+. The
+productA
+jk
+B
+l
+is a mixed rank 3 tensor and its covariant derivative is givenby an application
+of equation (
+85):
+∇
+i
+(A
+jk
+B
+l
+) =∂
+i
+(A
+jk
+B
+l
+) + Γ
+j
+iα
+A
+αk
+B
+l
++ Γ
+k
+iα
+A
+jα
+B
+l
+−Γ
+α
+il
+A
+jk
+B
+α
+=A
+jk
+∂
+i
+B
+l
++B
+l
+∂
+i
+A
+jk
++B
+l
+Γ
+j
+iα
+A
+αk
++B
+l
+Γ
+k
+iα
+A
+jα
+−A
+jk
+Γ
+α
+il
+B
+α
+=A
+jk
+(∂
+i
+B
+l
+−Γ
+α
+il
+B
+α
+) +B
+l
+(∂
+i
+A
+jk
++ Γ
+j
+iα
+A
+αk
++ Γ
+k
+iα
+A
+jα
+)
+=A
+jk
+∇
+i
+B
+l
++B
+l
+∇
+i
+A
+jk
+.
+The proof for tensors of general rank follows the same lines,though is much more cumbersome
+to write down.
+Theorem 4.5.Ricci’s Theorem: The covariant derivative of the metric and its inverse
+vanish.
+Proof.From equation (
+84), we have:
+∇
+k
+g
+ij
+=∂
+k
+g
+ij
+−Γ
+α
+ki
+g
+αj
+−Γ
+α
+kj
+g
+iα
+=∂
+k
+g
+ij
+−Γ
+ki j
+−Γ
+kj i
+=∂
+k
+g
+ij
+−
+1
+2
+(∂
+k
+g
+ij
++∂
+i
+g
+jk
+−∂
+j
+g
+ki
+)−
+1
+2
+(∂
+k
+g
+ji
++∂
+j
+g
+ik
+−∂
+i
+g
+kj
+) = 0,
+owing to the symmetry of the metric tensor. As for its inverse,g
+ij
+, we first note from equation
+(
+83) that:
+∇
+k
+δ
+j
+i
+=∂
+k
+δ
+j
+i
+−Γ
+α
+ki
+δ
+j
+α
++ Γ
+j
+kα
+δ
+α
+i
+= 0−Γ
+j
+ki
++ Γ
+j
+ki
+= 0,
+⇒   ∇
+k
+(g
+iα
+g
+αj
+) =∇
+k
+δ
+j
+i
+= 0
+=g
+iα
+∇
+k
+g
+αj
++g
+αj
+✟
+✟
+✟
+✟✯
+0
+∇
+k
+g
+iα
+=g
+iα
+∇
+k
+g
+αj
+,
+using the product rule (Theorem
+4.4). We can’t conclude directly from this that∇
+k
+g
+αj
+=
+0 since we are not allowed to “divide through” by a tensor component, particularly one
+implicated in a summation. We can, however, multiply through by the tensor’s inverse to
+get:
+⇒g
+βi
+g
+iα
+|
+{z}
+δ
+β
+α
+∇
+k
+g
+αj
+=g
+βi
+(0) = 0⇒   ∇
+k
+g
+βj
+= 0.
+This is not to say that the metric is a constant function of thecoordinates. Indeed,
+except for Cartesian coordinates,∂
+k
+g
+ij
+will, in general, not be zero. The covariant derivative
+not only measures how functions change from point to point, it also takes into account
+how the basis vectors themselves change (in magnitude, direction, or both) as a function of
+position, and it is the sum of these two changes that is zero for the metric tensor.
+Corollary 4.1.The metric “passes through” a covariant derivative operator. That is:
+∇
+k
+T
+i
+j
+=∇
+k
+g
+αj
+T
+iα
+=g
+αj
+∇
+k
+T
+iα
+.
+
+Tensor derivatives29
+Proof.From the product rule for covariant derivatives (Theorem
+4.4),
+∇
+k
+g
+αj
+T
+iα
+=g
+jα
+∇
+k
+T
+iα
++T
+iα
+✟
+✟
+✟
+✟✯
+0
+∇
+k
+g
+αj
+=g
+αj
+∇
+k
+T
+iα
+,
+as desired. The same can be shown for the metric inverse,g
+ij
+.
+Now if one can take a covariant derivative once, second orderand higher covariant
+derivatives must also be possible. Thus and for example, taking the covariant derivative of
+equation (
+76), we get:
+∇
+k
+∇
+j
+A
+i
+≡∇
+jk
+A
+i
+=∇
+k
+(∂
+j
+A
+i
++ Γ
+i
+jα
+A
+α
+)≡  ∇
+k
+B
+i
+j
+=∂
+k
+B
+i
+j
+−Γ
+β
+kj
+B
+i
+β
++ Γ
+i
+kβ
+B
+β
+j
+=∂
+k
+∂
+j
+A
+i
++∂
+k
+(Γ
+i
+jα
+A
+α
+)−Γ
+β
+kj
+(∂
+β
+A
+i
++ Γ
+i
+βα
+A
+α
+) + Γ
+i
+kβ
+(∂
+j
+A
+β
++ Γ
+β
+jα
+A
+α
+)
+=∂
+jk
+A
+i
++ Γ
+i
+jα
+∂
+k
+A
+α
+−Γ
+α
+kj
+∂
+α
+A
+i
++ Γ
+i
+kα
+∂
+j
+A
+α
++A
+α
+(∂
+k
+Γ
+i
+jα
+−Γ
+β
+kj
+Γ
+i
+βα
++ Γ
+i
+kβ
+Γ
+β
+jα
+),(86)
+not a pretty sight. Again, for Cartesian coordinates, all but the first term disappears. For
+other coordinate systems, it can get ugly fast.  Four of the seven terms are single sums,
+two are double sums and there can be as many as 31 terms to calculate for every one of
+27 components in 3-space! Aggravating the situation is the fact that the order of covariant
+differentiation cannot, in general, be swapped. Thus, while∂
+jk
+A
+i
+=∂
+kj
+A
+i
+so long asx
+j
+and
+x
+k
+are independent,∇
+jk
+A
+i
+6=∇
+kj
+A
+i
+because the last term on the RHS of equation (
+86) is
+not, in general, symmetric in the interchange ofjandk
+10
+.
+10
+Note, however, that all other terms are symmetric (second and fourth together), including the fifth term
+which can be shown to be symmetric injandkwith the aid of equation62.
+
+5  Connexion to vector calculus
+For many applications, it is useful to apply the ideas of tensor analysis to three-dimensional
+vector analysis. For starters, this gives us another way to see how the metric factors arise in
+the definitions of the gradient of a scalar, and the divergence and curl of a vector. More im-
+portantly, it allows us to write down covariant expressionsfor more complicated derivatives,
+such as the gradient of a vector, and to prove certain tensor identities.
+5.1  Gradient of a scalar
+The prototypical covariant tensor of rank 1,∂
+i
+fwhose transformation properties are given
+by equation (
+8), was referred to as the “gradient”, though it is not the physical gradient
+we would measure. The physical gradient,∇f, is related to the covariant gradient,∂
+i
+f, by
+equation (
+31), namely (∇f)
+(i)
+= (∂
+i
+f)/h
+(i)
+for orthogonal coordinates. Thus,
+∇f=
+
+1
+h
+(1)
+∂
+1
+f,
+1
+h
+(2)
+∂
+2
+f,
+1
+h
+(3)
+∂
+3
+f
+
+.(87)
+For non-orthogonal coordinates, one would use equation (
+30) which would yield a somewhat
+more complicated expression for the gradient where each component becomes a sum.
+5.2  Divergence of a vector
+Consider the contraction of the covariant derivative of a contravariant vector,
+∇
+i
+A
+i
+=∂
+i
+A
+i
++ Γ
+i
+ij
+A
+j
+.(88)
+Now, from the second of equations (
+67),
+Γ
+i
+ij
+=
+1
+2
+g
+ki
+(∂
+i
+g
+jk
++∂
+j
+g
+ki
+−∂
+k
+g
+ij
+) =
+1
+2
+(g
+ki
+∂
+i
+g
+jk
++g
+ki
+∂
+j
+g
+ki
+−g
+ki
+∂
+k
+g
+ij
+)
+=
+1
+2
+(g
+ki
+∂
+i
+g
+jk
++g
+ki
+∂
+j
+g
+ki
+−g
+ik
+∂
+i
+g
+kj
+)    (swap dummy indices in 3
+rd
+term)
+=
+1
+2
+(g
+ki
+∂
+i
+g
+jk
++g
+ki
+∂
+j
+g
+ki
+−g
+ki
+∂
+i
+g
+jk
+)    (symmetry of metric in 3
+rd
+term)
+=
+1
+2
+g
+ki
+∂
+j
+g
+ki
+.
+Thus, equation (
+88) becomes:
+∇
+i
+A
+i
+=∂
+i
+A
+i
++
+A
+i
+2
+g
+jk
+∂
+i
+g
+jk
+,(89)
+where the dummy indices have been renamed in the last term, which is atriplesum. We
+will simplify this triple sum considerably by what may seem to be a rather circuitous route.
+Theorem 5.1.(Jacobi’s Formula)LetQ
+ij
+be a rank 2 covariant tensor of dimensionm(and
+thus can be represented by anm×mmatrix), and letQ= det(Q
+ij
+)be its determinant. Let
+30
+
+Connexion to vector calculus31
+Q
+ji
+be the cofactor ofQ
+ij
+11
+, and thus as a matrix,Q
+ji
+is the transpose of the cofactors of
+Q
+ij
+12
+. Then,
+∂
+k
+Q=Q
+ji
+∂
+k
+Q
+ij
+Jacobi’s formula,(90)
+where the double sum yields the trace of the product of the matricesQ
+ji
+and∂
+k
+Q
+ij
+.
+Proof.Qcan be thought of as a function of the matrix elements,Q
+ij
+, and thus we have by
+the chain rule:
+∂
+k
+Q=
+∂Q
+∂Q
+ij
+∂
+k
+Q
+ij
+,(91)
+a double sum. Now, Laplace’s formula for computing the determinant is:
+Q=
+m
+X
+k=1
+Q
+ik
+Q
+ki
+for anyi= 1, . . . , m(no sum oni)
+⇒
+∂Q
+∂Q
+ij
+=
+∂
+∂Q
+ij
+m
+X
+k=1
+Q
+ik
+Q
+ki
+=
+m
+X
+k=1
+
+∂Q
+ik
+∂Q
+ij
+Q
+ki
++Q
+ik
+∂Q
+ki
+∂Q
+ij
+
+.(92)
+Now,∂Q
+ik
+/∂Q
+ij
+=δ
+j
+k
+since the matrix elements are independent of each other. Further,
+∂Q
+ki
+/∂Q
+ij
+= 0 since the cofactorQ
+ki
+includes all matrix elements other than those in column
+iand rowkand must therefore be independent ofQ
+ij
+which is an element in thei
+th
+column.
+Thus, equation (
+92) simplifies to:
+∂Q
+∂Q
+ij
+=
+m
+X
+k=1
+δ
+j
+k
+Q
+ki
+=Q
+ji
+.
+Substituting this result into equation (
+91) gives us our desired result.
+Now, ifQ
+ij
+=g
+ij
+, the metric, equation (90) becomes:
+∂
+k
+g=G
+ji
+∂
+k
+g
+ij
+,(93)
+whereg= det(g
+ij
+) andG
+ji
+is the cofactor ofg
+ij
+. By a variation of Cramer’s rule, the inverse
+ofg
+ij
+, let us write it asg
+ji
+(equation
+20), is given by:
+g
+ji
+=
+1
+g
+G
+ji
+⇒   G
+ji
+=g g
+ij
+sinceg
+ij
+is symmetric. Substituting this into equation (
+93) gives us:
+∂
+k
+g=g g
+ij
+∂
+k
+g
+ij
+⇒g
+jk
+∂
+i
+g
+jk
+=
+1
+g
+∂
+i
+g,
+11
+In matrix algebra, the cofactor of theij
+th
+matrix element is what one gets when thei
+th
+column andj
+th
+row are struck out, and the resultingm−1×m−1 matrix is multiplied by−1
+i+j
+.
+12
+Q
+ji
+is known as theadjugateofQ
+ij
+.
+
+Connexion to vector calculus32
+taking the liberty once again to rename the indices. We substitute this result into equation
+(
+89) to get:
+∇
+i
+A
+i
+=∂
+i
+A
+i
++A
+i
+1
+2g
+∂
+i
+g=∂
+i
+A
+i
++A
+i
+1
+√
+g
+∂
+i
+√
+g=
+1
+√
+g
+∂
+i
+(
+√
+gA
+i
+).(94)
+The final equality is known as theVoss-Weyl formula, and finally brings us to the purpose
+of this subsection. For orthogonal coordinates only,g
+ij
+is diagonal and
+√
+g=h
+(1)
+h
+(2)
+h
+(3)
+.
+Thus, with the aid of equation (
+29), equation (94) becomes:
+∇
+i
+A
+i
+=
+1
+h
+(1)
+h
+(2)
+h
+(3)
+∂
+i
+(h
+(1)
+h
+(2)
+h
+(3)
+A
+i
+)
+=
+1
+h
+(1)
+h
+(2)
+h
+(3)
+3
+X
+i=1
+∂
+i
+
+h
+(1)
+h
+(2)
+h
+(3)
+h
+(i)
+A
+(i)
+
+=∇ ·
+~
+A,
+(95)
+recovering the vector calculus definition of the vector divergence in orthogonal coordinates.
+5.3  Divergence of a tensor
+Definition 5.1.Thedivergence of a contravariant tensor,T, is the contraction of the co-
+variant derivative with thefirstindex of the tensor, and is itself a contravariant tensor of
+rank one less thanT. Specifically, for a rank 2 tensor, we have:
+(∇ ·T)
+j
+≡  ∇
+i
+T
+ij
+,(96)
+with similar expressions applying for tensors of higher rank.
+13
+Thus, the physical component of the tensor divergence is, byequation (29),
+(∇ ·T)
+(j)
+=h
+(j)
+(∇ ·T)
+j
+=h
+(j)
+∇
+i
+T
+ij
+.(97)
+Now, by equation (
+81), we have:
+∇
+i
+T
+ij
+=∂
+i
+T
+ij
++ Γ
+i
+ik
+T
+kj
++ Γ
+j
+ik
+T
+ik
+=
+1
+√
+g
+∂
+i
+(
+√
+gT
+ij
+) + Γ
+j
+ik
+T
+ik
+,(98)
+using the Voss-Weyl formula (equation
+94) on the first two terms of the middle expression.
+For the last term, we start by examining thej= 1 component:
+Γ
+1
+ik
+T
+ik
+= Γ
+1
+11
+T
+11
++ Γ
+1
+12
+T
+12
++ Γ
+1
+13
+T
+13
++ Γ
+1
+21
+|{z}
+Γ
+1
+12
+T
+21
++ Γ
+1
+22
+T
+22
++ Γ
+1
+23
+T
+23
++ Γ
+1
+31
+|{z}
+Γ
+1
+13
+T
+31
++ Γ
+1
+32
+T
+32
++ Γ
+1
+33
+T
+33
+13
+The definition in equation (96) agrees with Weinberg (Gravitation and Cosmology, ISBN 0-471-92567-5,
+page 107, equation 4.7.9) and disagrees with Stone & Norman,1992, ApJS, vol. 80, page 788, where they
+define (∇ ·T)
+i
+=∇
+j
+T
+ij
+. Thus, Weinberg contracts on the first index ofT(in keeping with the ordinary rules
+of matrix multiplication) while SN contract on the second, and these are the sameonlyifTis symmetric.
+Further, SN seem to have a sign error on the leading term of thesecond line of their equation (130), and
+similarly the second/third leading term of the second line of their equation (131)/(132).
+
+Connexion to vector calculus33
+given the symmetry of the first two indices on the Christoffel symbols. Now from equation
+(
+32), we haveT
+(ik)
+=h
+(i)
+h
+(k)
+T
+ik
+. Further, if we assume orthogonal coordinates (as we do for
+the remainder of this section), we can use equation (68) and remark3.1to write:
+Γ
+j
+jk
+=
+1
+h
+(j)
+∂
+k
+h
+(j)
+, j, k= 1,2,3;  Γ
+j
+kk
+=−
+h
+(k)
+h
+2
+(j)
+∂
+j
+h
+(k)
+, j6=k;  Γ
+j
+ik
+= 0, i6=j6=k.
+Whence,
+Γ
+1
+ik
+T
+ik
+=
+∂
+1
+h
+(1)
+h
+(1)
+T
+(11)
+h
+2
+(1)
++
+∂
+2
+h
+(1)
+h
+(1)
+T
+(12)
+h
+(1)
+h
+(2)
++
+∂
+3
+h
+(1)
+h
+(1)
+T
+(13)
+h
+(1)
+h
+(3)
++
+∂
+2
+h
+(1)
+h
+(1)
+T
+(21)
+h
+(2)
+h
+(1)
+−
+h
+(2)
+h
+2
+(1)
+∂
+1
+h
+(2)
+T
+(22)
+h
+2
+(2)
++
+∂
+3
+h
+(1)
+h
+(1)
+T
+(31)
+h
+(3)
+h
+(1)
+−
+h
+(3)
+h
+2
+(1)
+∂
+1
+h
+(3)
+T
+(33)
+h
+2
+(3)
+=
+1
+h
+2
+(1)
+
+T
+(11)
+h
+(1)
+∂
+1
+h
+(1)
+−
+T
+(22)
+h
+(2)
+∂
+1
+h
+(2)
+−
+T
+(33)
+h
+(3)
+∂
+1
+h
+(3)
++
+T
+(12)
++T
+(21)
+h
+(2)
+∂
+2
+h
+(1)
++
+T
+(13)
++T
+(31)
+h
+(3)
+∂
+3
+h
+(1)
+
+,
+which, for anyj, may be written:
+Γ
+j
+ik
+T
+ik
+=
+X
+i
+1
+h
+2
+(j)
+h
+(i)
+
+ 
+T
+(ji)
++T
+(ij)
+
+∂
+i
+h
+(j)
+−T
+(ii)
+∂
+j
+h
+(i)
+
+.(99)
+This is identically zero ifTis antisymmetric, as expected since Γ
+j
+ik
+is symmetric iniandk.
+Note that the dummy indicesion each side of equation (
+99) are unrelated.
+Next, in analogy to equation (95), we write:
+1
+√
+g
+∂
+i
+(
+√
+gT
+ij
+) =
+1
+h
+(1)
+h
+(2)
+h
+(3)
+X
+i
+∂
+i
+
+h
+(1)
+h
+(2)
+h
+(3)
+h
+(i)
+h
+(j)
+T
+(ij)
+
+,(100)
+again using equation (
+32). Substituting equations (99) and (100) into equation (98), and
+then substituting that result into equation (97), we get our final expression for the physical
+component of the divergence of a rank 2 contravariant tensor:
+(∇ ·T)
+(j)
+=
+h
+(j)
+h
+(1)
+h
+(2)
+h
+(3)
+X
+i
+∂
+i
+
+h
+(1)
+h
+(2)
+h
+(3)
+h
+(i)
+h
+(j)
+T
+(ij)
+
++
+X
+i
+1
+h
+(j)
+h
+(i)
+
+ 
+T
+(ji)
++T
+(ij)
+
+∂
+i
+h
+(j)
+−T
+(ii)
+∂
+j
+h
+(i)
+
+.
+(101)
+5.4  The Laplacian of a scalar
+In vector notation, the Laplacian of a scalar,f, is given by:
+∇
+2
+f=∇ · ∇f,
+
+Connexion to vector calculus34
+and thus the Laplacian is the divergence of the vector∇f. Now,§
+5.2defines the tensor
+divergence as an operator acting on acontravariantvector,V
+i
+, whereas§5.1defines the
+gradiant as acovariantvector,∂
+i
+f. Thus, to turn the tensor gradient into a contavariant
+vector, we need to multiply it byg
+ij
+, whence:
+∇
+2
+f=∇
+i
+(g
+ij
+∂
+j
+f) =
+1
+√
+g
+∂
+i
+(
+√
+gg
+ij
+∂
+j
+f).(102)
+Once again, for orthogonal coordinates,g
+ij
+=h
+−1
+(i)
+h
+−1
+(j)
+δ
+ij
+and
+√
+g=h
+(1)
+h
+(2)
+h
+(3)
+.  Thus,
+equation (
+102) becomes:
+∇
+2
+f=
+1
+h
+(1)
+h
+(2)
+h
+(3)
+3
+X
+i=1
+∂
+i
+
+h
+(1)
+h
+(2)
+h
+(3)
+h
+2
+(i)
+∂
+i
+f
+
+.(103)
+5.5  Curl of a vector
+Consider the following difference of covariant derivativesof a covariant vector:
+∇
+j
+A
+i
+− ∇
+i
+A
+j
+=∂
+j
+A
+i
+−Γ
+k
+ij
+A
+k
+−∂
+i
+A
+j
++ Γ
+k
+ji
+A
+k
+=∂
+j
+A
+i
+−∂
+i
+A
+j
+,
+because of the symmetry of the lower indices on the Christoffel symbol. Thus,∂
+j
+A
+i
+−∂
+i
+A
+j
+forms a tensor. By contrast, note that in
+∇
+j
+A
+i
+− ∇
+i
+A
+j
+=∂
+j
+A
+i
++ Γ
+i
+jk
+A
+k
+−∂
+i
+A
+j
+−Γ
+j
+ik
+A
+k
+,
+the Christoffel symbols do not cancel, and thus∂
+j
+A
+i
+−∂
+i
+A
+j
+does not form a tensor.
+Now, while the construct∂
+j
+A
+i
+−∂
+i
+A
+j
+is highly reminiscent of a curl, it cannot be what
+we seek since the curl is a vector (rank 1 tensor) with just oneindex, while∂
+j
+A
+i
+−∂
+i
+A
+j
+is
+a rank 2 tensor with two indices. To form the tensor curl, we use the permutation tensor
+(equation
+58) in a similar manner to how cross products are constructed from the Levi-Civita
+symbol (equation54).
+Definition 5.2.Given a rank 1 covariant tensor,A
+j
+,
+C
+k
+≡ǫ
+ijk
+∂
+i
+A
+j
+=
+1
+√
+g
+ε
+ijk
+∂
+i
+A
+j
+,(104)
+is the contravariant rank 1tensor curl.
+By inspection, one can easily verify that in the implied double sum, all partial derivatives
+ofA
+j
+appear in differences, each being the component of a tensor bythe opening argument.
+Sinceǫ
+ijk
+is a component of a rank 3 contravariant tensor, thenC
+k
+must be a tensor too.
+Thus, tensor curls are rank 1 contravariant vectors createdfrom rank 1 covariant vectors.
+To get the physical curl, we use equation (
+29) to getC
+k
+=C
+(k)
+/h
+(k)
+(valid for all
+coordinate systems) and equation (31) to getA
+j
+=A
+(j)
+h
+(j)
+(valid for orthogonal coordinates
+only), and substitute these into equation (104) to get:
+C
+(k)
+=
+h
+(k)
+√
+g
+X
+ij
+ε
+ijk
+∂
+i
+(h
+(j)
+A
+(j)
+)
+
+Connexion to vector calculus35
+⇒
+~
+C=
+
+1
+h
+(2)
+h
+(3)
+
+∂
+2
+(h
+(3)
+A
+(3)
+)−∂
+3
+(h
+(2)
+A
+(2)
+)
+
+,
+1
+h
+(3)
+h
+(1)
+
+∂
+3
+(h
+(1)
+A
+(1)
+)−∂
+1
+(h
+(3)
+A
+(3)
+)
+
+,
+1
+h
+(1)
+h
+(2)
+
+∂
+1
+(h
+(2)
+A
+(2)
+)−∂
+2
+(h
+(1)
+A
+(1)
+)
+
+
+=∇ ×
+~
+A,
+(105)
+the vector calculus definition of the curl for orthogonal coordinates.
+5.6  The Laplacian of a vector
+The Laplacian of a vector,∇
+2
+~
+A, can be most easily written down in invariant form by using
+the identity:
+∇
+2
+~
+A=∇(∇ ·
+~
+A)− ∇ ×(∇ ×
+~
+A),(106)
+and using the invariant expansions for each of the gradient of a scalar (equation
+87), diver-
+gence of a vector (equation
+95), and the curl (equation105).
+5.7  Gradient of a vector
+The covariant derivative of a covariant vector, known in vector calculus as thevector gradient,
+is given by equation (
+80), reproduced below for convenience:
+∇
+i
+A
+j
+=∂
+i
+A
+j
+−Γ
+k
+ij
+A
+k
+≡G
+ij
+,
+whereG
+ij
+is a rank 2 covariant tensor. To express this in terms of physical components, we
+restrict ourselves once again to orthogonal coordinates, where equation (
+31)⇒A
+j
+=h
+(j)
+A
+(j)
+and equation (
+33)⇒G
+ij
+=h
+(i)
+h
+(j)
+G
+(ij)
+. Substituting these into equation (80), we have:
+G
+(ij)
+=
+1
+h
+(i)
+h
+(j)
+
+∂
+i
+(h
+(j)
+A
+(j)
+)−
+X
+k
+Γ
+k
+ij
+h
+(k)
+A
+(k)
+
+≡(∇
+~
+A)
+(ij)
+.(107)
+Now, for orthogonal coordinates, the Christoffel symbols simplify considerably. Substituting
+the results of equation (
+68) into equation (107), we get for the (11) component:
+(∇
+~
+A)
+(11)
+=
+1
+h
+2
+(1)
+ 
+∂
+1
+(h
+(1)
+A
+(1)
+)−Γ
+1
+11
+h
+(1)
+A
+(1)
+−Γ
+2
+11
+h
+(2)
+A
+(2)
+−Γ
+3
+11
+h
+(3)
+A
+(3)
+
+=
+1
+h
+2
+(1)
+
+h
+(1)
+∂
+1
+A
+(1)
++A
+(1)
+∂
+1
+h
+(1)
+−A
+(1)
+h
+(1)
+1
+2g
+11
+∂
+1
+g
+11
++A
+(2)
+h
+(2)
+1
+2g
+22
+∂
+2
+g
+11
++A
+(3)
+h
+(3)
+1
+2g
+33
+∂
+3
+g
+11
+
+=
+1
+h
+2
+(1)
+
+h
+(1)
+∂
+1
+A
+(1)
++A
+(1)
+∂
+1
+h
+(1)
+−A
+(1)
+∂
+1
+h
+(1)
++A
+(2)
+h
+(1)
+h
+(2)
+∂
+2
+h
+(1)
++A
+(3)
+h
+(1)
+h
+(3)
+∂
+3
+h
+(1)
+
+=
+h
+(1)
+∂
+1
+A
+(1)
+−A
+(1)
+∂
+1
+h
+(1)
+h
+2
+(1)
++
+1
+h
+(1)
+
+A
+(1)
+h
+(1)
+∂
+1
+h
+(1)
++
+A
+(2)
+h
+(2)
+∂
+2
+h
+(1)
++
+A
+(3)
+h
+(3)
+∂
+3
+h
+(1)
+
+
+Connexion to vector calculus36
+=∂
+1
+
+A
+(1)
+h
+(1)
+
++
+1
+h
+(1)
+~
+A· ∇h
+(1)
+.
+For the (12) component, we get:
+(∇
+~
+A)
+(12)
+=
+1
+h
+(1)
+h
+(2)
+ 
+∂
+1
+(h
+(2)
+A
+(2)
+)−Γ
+1
+12
+h
+(1)
+A
+(1)
+−Γ
+2
+12
+h
+(2)
+A
+(2)
+−Γ
+3
+12
+h
+(3)
+A
+(3)
+
+=
+1
+h
+(1)
+h
+(2)
+
+h
+(2)
+∂
+1
+A
+(2)
++A
+(2)
+∂
+1
+h
+(2)
+−A
+(1)
+h
+(1)
+1
+2g
+11
+∂
+2
+g
+11
+−A
+(2)
+h
+(2)
+1
+2g
+22
+∂
+1
+g
+22
+
+=
+1
+h
+(1)
+h
+(2)
+ 
+h
+(2)
+∂
+1
+A
+(2)
++
+✘
+✘
+✘
+✘
+✘
+✘
+A
+(2)
+∂
+1
+h
+(2)
+−A
+(1)
+∂
+2
+h
+(1)
+−
+✘
+✘
+✘
+✘
+✘
+✘
+A
+(2)
+∂
+1
+h
+(2)
+
+=
+1
+h
+(1)
+
+∂
+1
+A
+(2)
+−
+A
+(1)
+h
+(2)
+∂
+2
+h
+(1)
+
+,
+Evidently, all components of∇
+~
+Amay be written as:
+(∇
+~
+A)
+(ij)
+=
+
+
+
+
+
+
+
+
+
+∂
+i
+
+A
+(i)
+h
+(i)
+
++
+1
+h
+(i)
+~
+A· ∇h
+(i)
+,   i=j;
+1
+h
+(i)
+
+∂
+i
+A
+(j)
+−
+A
+(i)
+h
+(j)
+∂
+j
+h
+(i)
+
+,  i6=j.
+(108)
+5.8  Summary
+For ease of reference, the main results of this section are gathered with their equation num-
+bers. Iff,
+~
+A, andTare arbitrary scalar, vector, and contravariant rank 2 tensor functions
+of theorthogonalcoordinates, we have found:
+∇f=
+
+1
+h
+(1)
+∂
+1
+f,
+1
+h
+(2)
+∂
+2
+f,
+1
+h
+(3)
+∂
+3
+f
+
+;(
+87)
+∇
+2
+f=
+1
+h
+(1)
+h
+(2)
+h
+(3)
+X
+i
+∂
+i
+
+h
+(1)
+h
+(2)
+h
+(3)
+h
+2
+(i)
+∂
+i
+f
+
+;(
+103)
+∇ ·
+~
+A=
+1
+h
+(1)
+h
+(2)
+h
+(3)
+X
+i
+∂
+i
+
+h
+(1)
+h
+(2)
+h
+(3)
+h
+(i)
+A
+(i)
+
+;(
+95)
+∇ ×
+~
+A=
+
+1
+h
+(2)
+h
+(3)
+
+∂
+2
+(h
+(3)
+A
+(3)
+)−∂
+3
+(h
+(2)
+A
+(2)
+)
+
+,
+1
+h
+(3)
+h
+(1)
+
+∂
+3
+(h
+(1)
+A
+(1)
+)−∂
+1
+(h
+(3)
+A
+(3)
+)
+
+,
+1
+h
+(1)
+h
+(2)
+
+∂
+1
+(h
+(2)
+A
+(2)
+)−∂
+2
+(h
+(1)
+A
+(1)
+)
+
+
+;(
+105)
+(∇
+~
+A)
+(ij)
+=
+
+
+
+
+
+
+
+
+
+∂
+i
+
+A
+(i)
+h
+(i)
+
++
+1
+h
+(i)
+~
+A· ∇h
+(i)
+,   i=j,
+1
+h
+(i)
+
+∂
+i
+A
+(j)
+−
+A
+(i)
+h
+(j)
+∂
+j
+h
+(i)
+
+,  i6=j;
+(
+108)
+
+Connexion to vector calculus37
+(∇ ·T)
+(j)
+=
+h
+(j)
+h
+(1)
+h
+(2)
+h
+(3)
+X
+i
+∂
+i
+
+h
+(1)
+h
+(2)
+h
+(3)
+h
+(i)
+h
+(j)
+T
+(ij)
+
++
+X
+i
+1
+h
+(j)
+h
+(i)
+
+ 
+T
+(ji)
++T
+(ij)
+
+∂
+i
+h
+(j)
+−T
+(ii)
+∂
+j
+h
+(i)
+
+.
+(
+101)
+For non-orthogonal coordinates, these expressions becomerather more cumbersome.
+5.9  A tensor-vector identity
+A useful relation in vector calculus, particularly for extending the ideal fluid equations to
+include viscous stresses, is the following:
+Theorem 5.2.IfTis a rank 2 tensor and
+~
+Ais a vector (rank 1 tensor), then, in terms of
+their physical components:
+∇ ·(T·
+~
+A) =T:∇
+~
+A+ (∇ ·T)·
+~
+A.(109)
+Implicit in this identity are the definitions of the “dot” product between two vectors, the
+“dot” product between a vector and a rank 2 tensor, and the “colon” product between two
+rank 2 tensors (§
+3.2). With these in hand, the proof of the theorem is a simple matter of
+bringing together the relevant bits from this primer.
+Proof.Start with Theorem
+4.4, the product rule for covariant differentiation. Thus, ifB
+i
+=
+T
+ij
+A
+j
+, then,
+∇
+i
+B
+i
+=∇
+i
+(T
+ij
+A
+j
+) =T
+ij
+∇
+i
+A
+j
++A
+j
+∇
+i
+T
+ij
+.(110)
+Now, from equation (95),∇
+i
+B
+i
+=∇·
+~
+B, where
+~
+Bis the ordered triple ofphysicalcomponents.
+From equation (
+42), we haveB
+i
+=T
+ij
+A
+j
+= (T·
+~
+A)
+i
+(the right dot product), and thus:
+∇
+i
+B
+i
+=∇ ·(T·
+~
+A).(111)
+Next,T
+ij
+is a rank 2 contravariant tensor,∇
+i
+A
+j
+is a rank 2 covariant tensor and, according
+to equation (
+41),
+T
+ij
+(∇
+i
+A
+j
+) =T:∇
+~
+A.(112)
+Finally, according to equation (
+96),∇
+i
+T
+ij
+= (∇ ·T)
+j
+and, by equation (40),A
+j
+(∇ ·T)
+j
+=
+~
+A·(∇ ·T). Thus,
+A
+j
+∇
+i
+T
+ij
+=
+~
+A·(∇ ·T).(113)
+Note the right hand sides of equations (
+111), (112), and (113) are all in terms of physical
+components. Substituting these equations into equation (
+110) proves the theorem.
+For orthogonal coordinates, we can confirm this identity directly using the results from
+§
+5.8. Start with the LHS of equation (109) by substituting equation (45) into equation (95):
+∇ ·(T·
+~
+A) =
+1
+h
+1
+h
+2
+h
+3
+X
+i
+∂
+i
+
+h
+1
+h
+2
+h
+3
+h
+i
+X
+j
+T
+ij
+A
+j
+
+=
+1
+h
+1
+h
+2
+h
+3
+X
+ij
+∂
+i
+
+h
+1
+h
+2
+h
+3
+h
+i
+T
+ij
+A
+j
+
+.(114)
+
+Connexion to vector calculus38
+With the understanding that all components are physical components, we drop the paren-
+theses on the subscripts for convenience.
+Now, using equation (
+41) we write:
+T:∇
+~
+A=
+X
+ij
+T
+ij
+(∇
+~
+A)
+ij
+=
+X
+i
+T
+ii
+(∇
+~
+A)
+ii
++
+X
+i6=j
+T
+ij
+(∇
+~
+A)
+ij
+=
+X
+i
+ 
+T
+ii
+∂
+i
+
+A
+i
+h
+i
+
++
+T
+ii
+h
+i
+X
+j
+A
+j
+h
+j
+∂
+j
+h
+i
+!
++
+X
+i6=j
+
+T
+ij
+h
+i
+∂
+i
+A
+j
+−
+T
+ij
+A
+i
+h
+i
+h
+j
+∂
+j
+h
+i
+
+,
+using equation (
+108). Then, from equation (101) we have:
+(∇ ·T)·
+~
+A=
+X
+j
+A
+j
+h
+j
+h
+1
+h
+2
+h
+3
+X
+i
+∂
+i
+
+h
+1
+h
+2
+h
+3
+h
+i
+h
+j
+T
+ij
+
++
+X
+ij
+A
+j
+h
+j
+h
+i
+
+ 
+T
+ji
++T
+ij
+
+∂
+i
+h
+j
+−T
+ii
+∂
+j
+h
+i
+
+.
+Thus, the RHS of equation (
+109) becomes:
+T:∇
+~
+A+ (∇ ·T)·
+~
+A=
+X
+i
+T
+ii
+h
+i
+∂
+i
+A
+i
+−
+X
+i
+T
+ii
+A
+i
+h
+2
+i
+∂
+i
+h
+i
++
+✟
+✟
+✟
+✟
+✟
+✟
+✟
+✟
+X
+ij
+T
+ii
+A
+j
+h
+i
+h
+j
+∂
+j
+h
+i
++
+X
+i6=j
+T
+ij
+h
+i
+∂
+i
+A
+j
+−
+X
+i6=j
+T
+ij
+A
+i
+h
+i
+h
+j
+∂
+j
+h
+i
++
+X
+ij
+A
+j
+h
+j
+h
+1
+h
+2
+h
+3
+∂
+i
+
+h
+1
+h
+2
+h
+3
+h
+i
+h
+j
+T
+ij
+
++
+X
+ij
+A
+j
+T
+ji
+h
+j
+h
+i
+∂
+i
+h
+j
+|
+{z}
+swapiandj
++
+X
+ij
+A
+j
+T
+ij
+h
+j
+h
+i
+∂
+i
+h
+j
+−
+✟
+✟
+✟
+✟
+✟
+✟
+✟
+✟
+X
+ij
+A
+j
+T
+ii
+h
+j
+h
+i
+∂
+j
+h
+i
+=
+X
+i
+T
+ii
+h
+i
+∂
+i
+A
+i
++
+X
+i6=j
+T
+ij
+h
+i
+∂
+i
+A
+j
+|
+{z}
+X
+ij
+T
+ij
+h
+i
+∂
+i
+A
+j
+−
+X
+i
+T
+ii
+A
+i
+h
+2
+i
+∂
+i
+h
+i
+−
+X
+i6=j
+T
+ij
+A
+i
+h
+i
+h
+j
+∂
+j
+h
+i
+|
+{z}
+−
+✟
+✟
+✟
+✟
+✟
+✟
+✟
+✟
+X
+ij
+T
+ij
+A
+i
+h
+i
+h
+j
+∂
+j
+h
+i
++
+X
+ij
+A
+j
+h
+j
+h
+1
+h
+2
+h
+3
+∂
+i
+
+h
+1
+h
+2
+h
+3
+h
+i
+h
+j
+T
+ij
+
++
+✟
+✟
+✟
+✟
+✟
+✟
+✟
+✟
+X
+ij
+A
+i
+T
+ij
+h
+i
+h
+j
+∂
+j
+h
+i
++
+X
+ij
+A
+j
+T
+ij
+h
+j
+h
+i
+∂
+i
+h
+j
+=
+X
+ij
+
+A
+j
+h
+j
+h
+1
+h
+2
+h
+3
+∂
+i
+
+h
+1
+h
+2
+h
+3
+h
+i
+h
+j
+T
+ij
+
++
+T
+ij
+h
+i
+∂
+i
+A
+j
++
+A
+j
+T
+ij
+h
+j
+h
+i
+∂
+i
+h
+j
+|
+{z}
+T
+ij
+h
+i
+h
+j
+∂
+i
+(A
+j
+h
+j
+)
+
+=
+1
+h
+1
+h
+2
+h
+3
+X
+ij
+
+A
+j
+h
+j
+∂
+i
+
+h
+1
+h
+2
+h
+3
+h
+i
+h
+j
+T
+ij
+
++
+h
+1
+h
+2
+h
+3
+h
+i
+h
+j
+T
+ij
+∂
+i
+(A
+j
+h
+j
+)
+
+=
+1
+h
+1
+h
+2
+h
+3
+X
+ij
+∂
+i
+
+h
+1
+h
+2
+h
+3
+h
+i
+ 
+ 
+h
+j
+T
+ij
+A
+j
+ 
+ 
+h
+j
+
+= LHS (equation
+114).
+
+6  Cartesian, cylindrical, spherical polar coordinates
+Table
+1in the beginning of§3gives the scale factors,h
+(i)
+, for each of Cartesian, (x, y, z),
+cylindrical, (z, ̺, φ), and spherical polar, (r, θ, φ), coordinates. Restricted to these coordi-
+nate systems,h
+3
+is a separable function of its arguments, and we can writeh
+3
+(x
+1
+, x
+2
+)≡
+h
+31
+(x
+1
+)h
+32
+(x
+2
+), dropping the parentheses from all subscripts now that everything is being
+expressed in terms of thephysicalcomponents. The scaling factors then become:
+h
+1
+=   1,all;
+h
+2
+(x
+1
+) =h
+31
+(x
+1
+) =
+(
+1,Cartesian and cylindrical,
+x
+1
+=r,spherical polar;
+h
+32
+(x
+2
+) =
+
+
+
+
+
+1,Cartesian,
+x
+2
+=̺,cylindrical,
+sinx
+2
+= sinθ,spherical polar.
+With this, the six tensor constructs in§
+5.8can then be written in their full gory detail as:
+∇f=
+
+∂
+1
+f,
+1
+h
+2
+∂
+2
+f,
+1
+h
+3
+∂
+3
+f
+
+;(115)
+∇
+2
+f=
+1
+h
+2
+h
+31
+∂
+1
+(h
+2
+h
+31
+∂
+1
+f) +
+1
+h
+2
+2
+h
+32
+∂
+2
+(h
+32
+∂
+2
+f) +
+1
+h
+2
+3
+∂
+2
+3
+f;(116)
+∇ ·
+~
+A=
+1
+h
+2
+h
+31
+∂
+1
+(h
+2
+h
+31
+A
+1
+) +
+1
+h
+2
+h
+32
+∂
+2
+(h
+32
+A
+2
+) +
+1
+h
+3
+∂
+3
+A
+3
+;(117)
+∇ ×
+~
+A=
+
+1
+h
+2
+h
+32
+∂
+2
+(h
+32
+A
+3
+)−
+1
+h
+3
+∂
+3
+A
+2
+,
+1
+h
+3
+∂
+3
+A
+1
+−
+1
+h
+31
+∂
+1
+(h
+31
+A
+3
+),
+1
+h
+2
+ 
+∂
+1
+(h
+2
+A
+2
+)−∂
+2
+A
+1
+
+
+; (118)
+∇
+~
+A=
+
+
+
+
+
+
+
+∂
+1
+A
+1
+∂
+1
+A
+2
+∂
+1
+A
+3
+1
+h
+2
+ 
+∂
+2
+A
+1
+−A
+2
+∂
+1
+h
+2
+
+1
+h
+2
+ 
+∂
+2
+A
+2
++A
+1
+∂
+1
+h
+2
+
+1
+h
+2
+∂
+2
+A
+3
+1
+h
+3
+∂
+3
+A
+1
+−
+A
+3
+h
+31
+∂
+1
+h
+31
+1
+h
+3
+∂
+3
+A
+2
+−
+A
+3
+h
+2
+h
+32
+∂
+2
+h
+32
+1
+h
+3
+∂
+3
+A
+3
++
+A
+1
+h
+31
+∂
+1
+h
+31
++
+A
+2
+h
+2
+h
+32
+∂
+2
+h
+32
+
+
+
+
+
+
+
+; (119)
+∇ ·T=
+
+1
+h
+2
+h
+31
+∂
+1
+(h
+2
+h
+31
+T
+11
+) +
+1
+h
+2
+h
+32
+∂
+2
+(h
+32
+T
+21
+) +
+1
+h
+3
+∂
+3
+T
+31
+−
+T
+22
+h
+2
+∂
+1
+h
+2
+−
+T
+33
+h
+31
+∂
+1
+h
+31
+,
+1
+h
+31
+∂
+1
+(h
+31
+T
+12
+) +
+1
+h
+2
+h
+32
+∂
+2
+(h
+32
+T
+22
+) +
+1
+h
+3
+∂
+3
+T
+32
++
+T
+21
++T
+12
+h
+2
+∂
+1
+h
+2
+−
+T
+33
+h
+2
+h
+32
+∂
+2
+h
+32
+,
+1
+h
+2
+∂
+1
+(h
+2
+T
+13
+) +
+1
+h
+2
+∂
+2
+T
+23
++
+1
+h
+3
+∂
+3
+T
+33
++
+T
+31
++T
+13
+h
+31
+∂
+1
+h
+31
++
+T
+32
++T
+23
+h
+2
+h
+32
+∂
+2
+h
+32
+
+.
+(120)
+39
+
+Cartesian, cylindrical, spherical polar coordinates40
+6.1  Cartesian coordinates
+In Cartesian coordinates, equations (
+115) – (120) become:
+∇f=
+ 
+∂
+x
+f, ∂
+y
+f, ∂
+z
+f
+
+;
+∇
+2
+f=∂
+2
+x
+f+∂
+2
+y
+f+∂
+2
+z
+f;
+∇ ·
+~
+A=∂
+x
+A
+x
++∂
+y
+A
+y
++∂
+z
+A
+z
+;
+∇ ×
+~
+A=
+ 
+∂
+y
+A
+z
+−∂
+z
+A
+y
+, ∂
+z
+A
+x
+−∂
+x
+A
+z
+, ∂
+x
+A
+y
+−∂
+y
+A
+x
+
+;
+∇
+~
+A=
+
+
+
+∂
+x
+A
+x
+∂
+x
+A
+y
+∂
+x
+A
+z
+∂
+y
+A
+x
+∂
+y
+A
+y
+∂
+y
+A
+z
+∂
+z
+A
+x
+∂
+z
+A
+y
+∂
+z
+A
+z
+
+
+
+;
+∇ ·T=
+ 
+∂
+x
+T
+xx
++∂
+y
+T
+yx
++∂
+z
+T
+zx
+, ∂
+x
+T
+xy
++∂
+y
+T
+yy
++∂
+z
+T
+zy
+, ∂
+x
+T
+xz
++∂
+y
+T
+yz
++∂
+z
+T
+zz
+
+.
+6.2  Cylindrical coordinates
+In cylindrical coordinates, equations (
+115) – (120) become:
+∇f=
+
+∂
+z
+f, ∂
+̺
+f,
+1
+̺
+∂
+φ
+f
+
+;
+∇
+2
+f=∂
+2
+z
+f+
+1
+̺
+∂
+̺
+(̺∂
+̺
+f) +
+1
+̺
+2
+∂
+2
+φ
+f;
+∇ ·
+~
+A=∂
+z
+A
+z
++
+1
+̺
+∂
+̺
+(̺A
+̺
+) +
+1
+̺
+∂
+φ
+A
+φ
+;
+∇ ×
+~
+A=
+
+1
+̺
+ 
+∂
+̺
+(̺A
+φ
+)−∂
+φ
+A
+̺
+
+,
+1
+̺
+∂
+φ
+A
+z
+−∂
+z
+A
+φ
+, ∂
+z
+A
+̺
+−∂
+̺
+A
+z
+
+;
+∇
+~
+A=
+
+
+
+
+∂
+z
+A
+z
+∂
+z
+A
+̺
+∂
+z
+A
+φ
+∂
+̺
+A
+z
+∂
+̺
+A
+̺
+∂
+̺
+A
+φ
+1
+̺
+∂
+φ
+A
+z
+1
+̺
+ 
+∂
+φ
+A
+̺
+−A
+φ
+
+1
+̺
+ 
+∂
+φ
+A
+φ
++A
+̺
+
+
+
+
+
+;
+∇ ·T=
+
+∂
+z
+T
+zz
++
+1
+̺
+∂
+̺
+(̺T
+̺z
+) +
+1
+̺
+∂
+φ
+T
+φz
+, ∂
+z
+T
+z̺
++
+1
+̺
+∂
+̺
+(̺T
+̺̺
+) +
+1
+̺
+∂
+φ
+T
+φ̺
+−
+T
+φφ
+̺
+,
+∂
+z
+T
+zφ
++∂
+̺
+T
+̺φ
++
+1
+̺
+∂
+φ
+T
+φφ
++
+T
+φ̺
++T
+̺φ
+̺
+
+.
+
+Cartesian, cylindrical, spherical polar coordinates41
+6.3  Spherical polar coordinates
+In spherical polar coordinates, equations (
+115) – (120) become:
+∇f=
+
+∂
+r
+f,
+1
+r
+∂
+θ
+f,
+1
+rsinθ
+∂
+φ
+f
+
+;
+∇
+2
+f=
+1
+r
+2
+∂
+r
+(r
+2
+∂
+r
+f) +
+1
+r
+2
+sinθ
+∂
+θ
+(sinθ ∂
+θ
+f) +
+1
+r
+2
+sin
+2
+θ
+∂
+2
+φ
+f;
+∇ ·
+~
+A=
+1
+r
+2
+∂
+r
+(r
+2
+A
+r
+) +
+1
+rsinθ
+∂
+θ
+(sinθA
+θ
+) +
+1
+rsinθ
+∂
+φ
+A
+φ
+;
+∇ ×
+~
+A=
+
+1
+rsinθ
+ 
+∂
+θ
+(sinθA
+φ
+)−∂
+φ
+A
+θ
+
+,
+1
+rsinθ
+∂
+φ
+A
+r
+−
+1
+r
+∂
+r
+(rA
+φ
+),
+1
+r
+ 
+∂
+r
+(rA
+θ
+)−∂
+θ
+A
+r
+
+;
+∇
+~
+A=
+
+
+
+
+
+
+∂
+r
+A
+r
+∂
+r
+A
+θ
+∂
+r
+A
+φ
+1
+r
+ 
+∂
+θ
+A
+r
+−A
+θ
+
+1
+r
+ 
+∂
+θ
+A
+θ
++A
+r
+
+1
+r
+∂
+θ
+A
+φ
+1
+rsinθ
+∂
+φ
+A
+r
+−
+A
+φ
+r
+1
+rsinθ
+∂
+φ
+A
+θ
+−
+A
+φ
+rtanθ
+1
+rsinθ
+∂
+φ
+A
+φ
++
+A
+r
+r
++
+A
+θ
+rtanθ
+
+
+
+
+
+
+;
+∇ ·T=
+
+1
+r
+2
+∂
+r
+(r
+2
+T
+rr
+) +
+1
+rsinθ
+∂
+θ
+(sinθ T
+θr
+) +
+1
+rsinθ
+∂
+φ
+T
+φr
+−
+T
+θθ
++T
+φφ
+r
+,
+1
+r
+∂
+r
+(rT
+rθ
+) +
+1
+rsinθ
+∂
+θ
+(sinθ T
+θθ
+) +
+1
+rsinθ
+∂
+φ
+T
+φθ
++
+T
+θr
++T
+rθ
+r
+−
+T
+φφ
+rtanθ
+,
+1
+r
+∂
+r
+(rT
+rφ
+) +
+1
+r
+∂
+θ
+T
+θφ
++
+1
+rsinθ
+∂
+φ
+T
+φφ
++
+T
+φr
++T
+rφ
+r
++
+T
+φθ
++T
+θφ
+rtanθ
+
+=
+
+∂
+r
+T
+rr
++
+1
+r
+∂
+θ
+T
+θr
++
+1
+rsinθ
+∂
+φ
+T
+φr
++
+2T
+rr
+−T
+θθ
+−T
+φφ
+r
++
+T
+θr
+rtanθ
+,
+∂
+r
+T
+rθ
++
+1
+r
+∂
+θ
+T
+θθ
++
+1
+rsinθ
+∂
+φ
+T
+φθ
++
+2T
+rθ
++T
+θr
+r
++
+T
+θθ
+−T
+φφ
+rtanθ
+,
+∂
+r
+T
+rφ
++
+1
+r
+∂
+θ
+T
+θφ
++
+1
+rsinθ
+∂
+φ
+T
+φφ
++
+2T
+rφ
++T
+φr
+r
++
+T
+θφ
++T
+φθ
+rtanθ
+
+.
+
+7  An application to viscosity
+The equations of viscid hydrodynamics may be written as:
+∂ρ
+∂t
++∇ ·(ρ ~v) = 0;continuity
+∂~s
+∂t
++∇ ·(~s ~v) =−∇p+∇ ·T;momentum equation
+∂~v
+∂t
++ (~v· ∇)~v=
+1
+ρ
+ 
+−∇p+∇ ·T
+
+;Euler equation
+∂e
+T
+∂t
++∇ ·
+ 
+(e
+T
++p)~v
+
+=∇ ·(T·~v);total energy equation
+∂e
+∂t
++∇ ·(e ~v) =−p∇ ·~v+T:∇~v,internal energy equation
+
+
+
+
+
+
+
+
+
+
+(121)
+where one usesoneof the momentum and Euler equations, andoneof the total and internal
+energy equations. Here,ρis the density,~vis the velocity,~s=ρ~vis the momentum density
+(and~s ~vis the dyadic product of~sand~v; definition
+2.3, equation13),eis the internal energy
+density,p= (γ−1)e(ideal equation of state) is the thermal pressure, ande
+T
+=
+1
+2
+ρv
+2
++e
+is the total energy density. See equation (
+41) for a reminder of the “double dot” or “colon”
+product convention (e.g., last term in the internal energy equation).
+As for the viscid variables,Tis theviscous stress tensor(units N m
+−2
+), given by:
+T= (μ+μ
+l
++μ
+q
+)S;S=∇~v+ (∇~v)
+T
+−
+2
+3
+∇ ·~vI,(122)
+whereSis theshear tensor(units s
+−1
+),Iis the identity tensor, the superscript
+T
+indicates
+the transpose, andμis thecoefficient of shear viscosity(units N m
+−2
+s), a physical property
+of the fluid. As defined,Sand thereforeTare symmetric.
+For numerical applications in which the fluid variables are resolved on a discretegridof
+small but not infinitesimalzones, most (M)HD codes are designed with anartificial viscosity,
+which helps stabilise the flow in stagnant regions and at discontinuities (shocks). These are
+respectively mediated by thelinearandquadraticcoefficientsμ
+l
+andμ
+q
+given by:
+μ
+l
+=q
+1
+lρc
+s
+;μ
+q
+=−q
+2
+l
+2
+ρmin
+ 
+0,∇ ·~v
+
+,(123)
+whereq
+1
+andq
+2
+(corresponding to
+1
+2
+qlinand
+1
+2
+qconinZEUS
+14
+) are unitless parameters
+(typically 0.1 and 1 respectively),lis the zone size (maximum of the three dimensions), and
+c
+s
+=
+p
+γp/ρis the adiabatic sound speed. Note that the “min” function meansμ
+q
+is positive
+and that the quadratic viscosity is applied only in regions of compression (e.g., shocks).
+This form of the artificial viscosity (identical to the physical viscosity other than the
+coefficients) is called thetensor artificial viscosityand is due to W.-M. Tscharnuter & K.-H.
+Winkler (1979, Comput. Phys. Comm., 18, 171; TW). It differs from the more often-followed
+14
+ZEUSand, in particular,ZEUS-3Dis an astrophysical computational fluid dynamics code that Iand
+others developed in the late 80s and early 90s, and which I have continued to develop since. The latest
+version and full documentation is freely available for download and use athttp://www.ica.smu.ca/zeus3d.
+42
+
+An application to viscosity43
+approach by J. von Neumann & R. D. Richtmyer (1950, J. Appl. Phys., 21, 232; vNR) who
+setS=∇~v, ignore all off-diagonal terms, and replace∇ ·~vwith∂
+i
+v
+i
+in thei-direction for
+μ
+q
+(equation
+123).
+Beginning with equation (
+119), the diagonal elements for∇~vin Cartesian, cylindrical,
+or spherical polar coordinates, are:
+(∇~v)
+11
+=∂
+1
+v
+1
+;
+(∇~v)
+22
+=
+1
+h
+2
+∂
+2
+v
+2
++
+v
+1
+h
+2
+∂
+1
+h
+2
+;
+(∇~v)
+33
+=
+1
+h
+3
+∂
+3
+v
+3
++
+v
+1
+h
+31
+∂
+1
+h
+31
++
+v
+2
+h
+2
+h
+32
+∂
+2
+h
+32
+.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(124)
+Note that:
+3
+X
+i=1
+(∇~v)
+ii
+=∂
+1
+v
+1
++
+v
+1
+h
+2
+∂
+1
+h
+2
++
+v
+1
+h
+31
+∂
+1
+h
+31
+|
+{z}
+1
+h
+2
+h
+31
+∂
+1
+(h
+2
+h
+31
+v
+1
+)
++
+1
+h
+2
+∂
+2
+v
+2
++
+v
+2
+h
+2
+h
+32
+∂
+2
+h
+32
+|
+{z}
+1
+h
+2
+h
+32
+∂
+2
+(h
+32
+v
+2
+)
++
+1
+h
+3
+∂
+3
+v
+3
+=∇ ·~v,(125)
+where this is a general result, true for any orthogonal coordinate system. Then, from equation
+(
+122), the diagonal elements ofSare given by:
+S
+ii
+= 2
+
+(∇~v)
+ii
+−
+1
+3
+∇ ·~v
+
+,  i= 1,2,3.(126)
+Thus,
+Tr(S) =
+3
+X
+i=1
+S
+ii
+= 2
+3
+X
+i=1
+
+(∇~v)
+ii
+−
+1
+3
+∇ ·~v
+
+= 2
+3
+X
+i=1
+(∇~v)
+ii
+−2
+3
+X
+i=1
+1
+3
+∇ ·~v= 0,(127)
+because of equation (
+125), and bothSandTare traceless.
+Aside: Numerical considerations
+In a numerical scheme, Tr(S) is identically zero so long as equation (
+125) is valid toma-
+chine round-off error, which does not necessarily follow from the fact that equation (125)
+is an algebraic identity.  For those not used to the vagaries of numerical arithmetic, this
+inconvenient fact can come as a rude surprise.
+For equation (
+125) to be valid numerically, expressions like:
+1
+h
+2
+h
+31
+∂
+1
+(h
+2
+h
+31
+v
+1
+) =∂
+1
+v
+1
++
+v
+1
+h
+2
+∂
+1
+h
+2
++
+v
+1
+h
+31
+∂
+1
+h
+31
+,
+as indicated by the first underbrace must be accurate to machine round-off error. In polar
+coordinates wherex
+1
+=randh
+2
+(r) =h
+31
+(r) =r, this means that:
+1
+r
+2
+∂
+r
+(r
+2
+v
+r
+) =∂
+r
+v
+r
++ 2
+v
+r
+r
+.(128)
+Now, on the numerical grid in Fig.
+2, derivatives like∂
+r
+v
+r
+are evaluated withfinite differences:
+
+An application to viscosity44
+δθ
+i
+,
+j)
+ρ
+v
+(i+1
+,
+j)
+1.8=
+r
+(i
+,
+j)
+=1.1
+v
+θ
+v
+r
+(i
+,
+j)
+= 1.2
+(i
+,
+j+1)
+1.5=
+θ
+v
+θ
+r
+20
+o
+22
+o
+r
+δ
+1.1
+1.0
+(
+Figure 2:A single 2-D zone
+on a polar computational grid.
+∂
+r
+v
+r
+=
+v
+r
+(i+ 1, j)−v
+r
+(i, j)
+δr
+,
+which is zone-centred ifv
+r
+is face-centred. Quan-
+tities such asv
+r
+inv
+r
+/rthat aren’t differentiated
+are zone-centred by taking atwo-point average:
+hv
+r
+i=
+v
+r
+(i+ 1, j) +v
+r
+(i, j)
+2
+.
+Thus, with the exemplary values in Fig.
+2, the LHS
+and RHS of equation (
+128) are evaluated as follows:
+LHS =
+1
+hri
+2
+∂
+r
+(r
+2
+v
+r
+)
+=
+1
+(1.05)
+2
+(1.1)
+2
+(1.8)−(1.0)
+2
+(1.2)
+0.1
+= 8.8707
+RHS =∂
+r
+v
+r
++ 2
+hv
+r
+i
+hri
+=
+1.8−1.2
+0.1
++ 2
+1.5
+1.05
+= 8.85716= LHS!
+Close, but no cigar! Similarly, equation (
+125) requires:
+1
+h
+2
+h
+32
+∂
+2
+(h
+32
+v
+2
+) =
+1
+h
+2
+∂
+2
+v
+2
++
+v
+2
+h
+2
+h
+32
+∂
+2
+h
+32
+⇒
+1
+sinhθi
+∂
+θ
+(v
+θ
+sinθ) =∂
+θ
+v
+θ
++
+hv
+θ
+i
+sinhθi
+coshθi,(129)
+sincex
+2
+=θandh
+32
+(θ) = sinθ. Evaluating the LHS and RHS of equation (
+129), we get:
+LHS =
+1
+sin 21
+1.5 sin 22−1.1 sin 20
+2π/180
+= 14.8439
+RHS =
+1.5−1.1
+2π/180
++
+1.5 + 1.1
+2
+cot 21 = 14.84586= LHS.
+So how do we achieve a traceless shear tensor to machine round-off error?
+Start by noting the following algebraic identities:
+v
+1
+h
+2
+∂
+1
+h
+2
+=
+1
+h
+2
+∂
+1
+(h
+2
+v
+1
+)−∂
+1
+v
+1
+;
+v
+1
+h
+31
+∂
+1
+h
+31
+=
+1
+h
+2
+h
+31
+∂
+1
+(h
+2
+h
+31
+v
+1
+)−
+1
+h
+2
+∂
+1
+(h
+2
+v
+1
+);
+v
+2
+h
+32
+∂
+2
+h
+32
+=
+1
+h
+32
+∂
+2
+(h
+32
+v
+2
+)−∂
+2
+v
+2
+.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(130)
+
+An application to viscosity45
+Substitute equations (
+130) into equations (124) as appropriate, to get:
+(∇~v)
+11
+=∂
+1
+v
+1
+;
+(∇~v)
+22
+=
+1
+h
+2
+∂
+2
+v
+2
++
+1
+h
+2
+∂
+1
+(h
+2
+v
+1
+)−∂
+1
+v
+1
+;
+(∇~v)
+33
+=
+1
+h
+3
+∂
+3
+v
+3
++
+1
+h
+2
+h
+31
+∂
+1
+(h
+2
+h
+31
+v
+1
+)−
+1
+h
+2
+∂
+1
+(h
+2
+v
+1
+) +
+1
+h
+2
+h
+32
+∂
+2
+(h
+32
+v
+2
+)−
+1
+h
+2
+∂
+2
+v
+2
+,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(131)
+giving us algebraically identical, but numerically only similar expressions to equations (
+124).
+However, this time using equations (
+131), we get:
+3
+X
+i=1
+(∇~v)
+ii
+=
+✟
+✟
+✟
+∂
+1
+v
+1
++
+✚
+✚
+✚
+✚
+1
+h
+2
+∂
+2
+v
+2
++
+✟
+✟
+✟
+✟
+✟
+✟
+1
+h
+2
+∂
+1
+(h
+2
+v
+1
+)−
+✟
+✟
+✟
+∂
+1
+v
+1
++
+1
+h
+3
+∂
+3
+v
+3
++
+1
+h
+2
+h
+31
+∂
+1
+(h
+2
+h
+31
+v
+1
+)
+−
+✟
+✟
+✟
+✟
+✟
+✟
+1
+h
+2
+∂
+1
+(h
+2
+v
+1
+) +
+1
+h
+2
+h
+32
+∂
+2
+(h
+32
+v
+2
+)−
+✚
+✚
+✚
+✚
+1
+h
+2
+∂
+2
+v
+2
+=∇ ·~v,
+to machine round off error, without having to rely on expressions (
+128) and (129). Note fur-
+ther that given face-centred velocities (as they are in astaggered meshscheme likeZEUS),
+every term in equations (
+131) is naturally zone-centred without the need for two-point aver-
+ages that are required if equations (124) are used. Two-point averages can be diffusive and,
+as we’ve seen, can lead to truncation errors much larger thanthe machine round-off limit.
+This is a common strategy taken in numerics. Equations (
+131), which give slightly differ-
+ent estimates of (∇~v)
+ii
+than equations (124), are used so that identities such as
+P
+i
+(∇~v)
+ii
+=
+∇ ·~vare honoured to machine roundoff error. After all, who is to say whether the estimates
+of (∇~v)
+ii
+afforded by equations (
+124) are any better or worse than those of equations (131)?
+Both are differenced estimates of differential quantities and both converge at the same rate to
+the differential quantity asδrandδθ→0. The fact that equations (
+131) give a numerically
+tracelessSwhereas equations (
+124) do not is the discriminating factor, and makes equations
+(131) the more desirable of the two to be used in equation (126).
+In terms of the numerical grid discussed in theaside,S
+ii
+are zone-centred quantities.
+Meanwhile, the off-diagonal components, given by:
+S
+12
+=S
+21
+= (∇~v)
+12
++ (∇~v)
+21
+=∂
+1
+v
+2
+−
+v
+2
+h
+2
+∂
+1
+h
+2
++
+1
+h
+2
+∂
+2
+v
+1
+=h
+2
+∂
+1
+
+v
+2
+h
+2
+
++
+1
+h
+2
+∂
+2
+v
+1
+;(132)
+S
+13
+=S
+31
+= (∇~v)
+13
++ (∇~v)
+31
+=h
+31
+∂
+1
+
+v
+3
+h
+31
+
++
+1
+h
+3
+∂
+3
+v
+1
+;(133)
+S
+23
+=S
+32
+= (∇~v)
+23
++ (∇~v)
+32
+=
+h
+32
+h
+2
+∂
+2
+
+v
+3
+h
+32
+
++
+1
+h
+3
+∂
+3
+v
+2
+,(134)
+are naturallyedge-centred, withS
+ij
+located on thek-edge (i6=j6=k).
+
+An application to viscosity46
+We now write down covariant expressions for the physical components of the vector
+constructs in equations (
+121) involvingT. First, evaluate (∇ ·T)
+1
+using equation (101) and
+the fact thatTis symmetric (e.g.,T
+21
+=T
+12
+). Thus,
+(∇ ·T)
+1
+=
+1
+h
+2
+h
+3
+
+∂
+1
+
+h
+2
+h
+3
+h
+1
+T
+11
+
++∂
+2
+(h
+3
+T
+12
+) +∂
+3
+(h
+2
+T
+13
+)
+
++
+1
+h
+2
+1
+ 
+✁
+2T
+11
+∂
+1
+h
+1
+−
+✘
+✘
+✘
+✘
+✘
+T
+11
+∂
+1
+h
+1
+
++
+1
+h
+1
+h
+2
+ 
+2T
+12
+∂
+2
+h
+1
+−T
+22
+∂
+1
+h
+2
+
++
+1
+h
+1
+h
+3
+ 
+2T
+13
+∂
+3
+h
+1
+−T
+33
+∂
+1
+h
+3
+
+(135)
+Now, a little algebra will show that:
+1
+h
+2
+h
+3
+∂
+1
+
+h
+2
+h
+3
+h
+1
+T
+11
+
++
+T
+11
+h
+2
+1
+∂
+1
+h
+1
+=
+1
+h
+1
+h
+2
+h
+3
+∂
+1
+(h
+2
+h
+3
+T
+11
+);
+1
+h
+2
+h
+3
+∂
+2
+(h
+3
+T
+12
+) +
+2T
+12
+h
+1
+h
+2
+∂
+2
+h
+1
+=
+1
+h
+2
+1
+h
+2
+h
+3
+∂
+2
+(h
+2
+1
+h
+3
+T
+12
+);  and
+1
+h
+2
+h
+3
+∂
+3
+(h
+2
+T
+13
+) +
+2T
+13
+h
+1
+h
+3
+∂
+3
+h
+1
+=
+1
+h
+2
+1
+h
+2
+h
+3
+∂
+3
+(h
+2
+1
+h
+2
+T
+13
+),
+and equation (
+135) simplifies to:
+(∇ ·T)
+1
+=
+1
+h
+1
+h
+2
+h
+3
+
+∂
+1
+(h
+2
+h
+3
+T
+11
+) +
+1
+h
+1
+∂
+2
+(h
+2
+1
+h
+3
+T
+12
+) +
+1
+h
+1
+∂
+3
+(h
+2
+1
+h
+2
+T
+13
+)
+−h
+3
+T
+22
+∂
+1
+h
+2
+−h
+2
+T
+33
+∂
+1
+h
+3
+
+.
+(136)
+Next, sinceTis traceless (T
+11
+=−T
+22
+−T
+33
+), we can write:
+∂
+1
+(h
+2
+h
+3
+T
+11
+)−h
+3
+T
+22
+∂
+1
+h
+2
+−h
+2
+T
+33
+∂
+1
+h
+3
+=−∂
+1
+(h
+2
+h
+3
+T
+22
+)−h
+3
+T
+22
+∂
+1
+h
+2
+−∂
+1
+(h
+2
+h
+3
+T
+33
+)−h
+2
+T
+33
+∂
+1
+h
+3
+=−h
+2
+∂
+1
+(h
+3
+T
+22
+)−2h
+3
+T
+22
+∂
+1
+h
+2
+−h
+3
+∂
+1
+(h
+2
+T
+33
+)−2h
+2
+T
+33
+∂
+1
+h
+3
+=−
+1
+h
+2
+∂
+1
+(h
+2
+2
+h
+3
+T
+22
+)−
+1
+h
+3
+∂
+1
+(h
+2
+h
+2
+3
+T
+33
+),
+and equation (
+136) further reduces to:
+(∇·T)
+1
+=
+1
+h
+1
+h
+2
+h
+3
+
+−
+1
+h
+2
+∂
+1
+(h
+2
+2
+h
+3
+T
+22
+)−
+1
+h
+3
+∂
+1
+(h
+2
+h
+2
+3
+T
+33
+)+
+1
+h
+1
+∂
+2
+(h
+2
+1
+h
+3
+T
+12
+)+
+1
+h
+1
+∂
+3
+(h
+2
+1
+h
+2
+T
+13
+)
+
+.(137)
+Permuting the indices, we get for the 2- and 3-components:
+(∇·T)
+2
+=
+1
+h
+1
+h
+2
+h
+3
+
+−
+1
+h
+3
+∂
+2
+(h
+2
+3
+h
+1
+T
+33
+)−
+1
+h
+1
+∂
+2
+(h
+3
+h
+2
+1
+T
+11
+)+
+1
+h
+2
+∂
+3
+(h
+2
+2
+h
+1
+T
+23
+)+
+1
+h
+2
+∂
+1
+(h
+2
+2
+h
+3
+T
+12
+)
+
+; (138)
+(∇·T)
+3
+=
+1
+h
+1
+h
+2
+h
+3
+
+−
+1
+h
+1
+∂
+3
+(h
+2
+1
+h
+2
+T
+11
+)−
+1
+h
+2
+∂
+3
+(h
+1
+h
+2
+2
+T
+22
+)+
+1
+h
+3
+∂
+1
+(h
+2
+3
+h
+2
+T
+13
+)+
+1
+h
+3
+∂
+2
+(h
+2
+3
+h
+1
+T
+23
+)
+
+.(139)
+
+An application to viscosity47
+For Cartesian, cylindrical, or spherical polar coordinates,h
+1
+= 1,h
+2
+=h
+2
+(x
+1
+), andh
+3
+=
+h
+31
+(x
+1
+)h
+32
+(x
+2
+), so that equations (
+137), (138), and (139) become:
+(∇ ·T)
+1
+=−
+1
+h
+2
+2
+h
+31
+∂
+1
+(h
+2
+2
+h
+31
+T
+22
+)−
+1
+h
+2
+h
+2
+31
+∂
+1
+(h
+2
+h
+2
+31
+T
+33
+) +
+1
+h
+2
+h
+32
+∂
+2
+(h
+32
+T
+12
+) +
+1
+h
+3
+∂
+3
+T
+13
+;  (140)
+(∇ ·T)
+2
+=−
+1
+h
+2
+h
+2
+32
+∂
+2
+(h
+2
+32
+T
+33
+)−
+1
+h
+2
+h
+32
+∂
+2
+(h
+32
+T
+11
+) +
+1
+h
+3
+∂
+3
+T
+23
++
+1
+h
+2
+h
+31
+∂
+1
+(h
+2
+2
+h
+31
+T
+12
+);    (141)
+(∇ ·T)
+3
+=−
+1
+h
+3
+∂
+3
+(T
+11
+)−
+1
+h
+3
+∂
+3
+(T
+22
+)
+|
+{z}
+h
+−1
+3
+∂
+3
+T
+33
++
+1
+h
+2
+h
+2
+31
+∂
+1
+(h
+2
+h
+2
+31
+T
+13
+) +
+1
+h
+2
+h
+2
+32
+∂
+2
+(h
+2
+32
+T
+23
+).(142)
+Thinking in terms of a staggered numerical grid once again, sinceT
+ij
+∝S
+ij
+,T
+ii
+are zone-
+centred andT
+ij
+arek-edge centred (i6=j6=k). Thus, with a little examination, one can see
+that every term in (∇ ·T)
+i
+is naturally centred at thei-face without the need for two-point
+averaging, exactly where they are needed to accelerate thei-face centredv
+i
+. This is the
+principle strength of a properly staggered mesh: vector components often naturally land
+where the equations need them to be, without the need of averaging.
+Next, from equation (
+41), we have:
+T:∇~v=
+X
+i j
+T
+ij
+(∇~v)
+ij
+=T
+11
+∇
+1
+v
+1
++T
+22
+∇
+2
+v
+2
++T
+33
+∇
+3
+v
+3
++T
+12
+(∇
+1
+v
+2
++∇
+2
+v
+1
+) +T
+13
+(∇
+1
+v
+3
++∇
+3
+v
+1
+) +T
+23
+(∇
+2
+v
+3
++∇
+3
+v
+2
+)
+=T
+11
+1
+2
+S
+11
++T
+22
+1
+2
+S
+22
++T
+33
+1
+2
+S
+33
++
+1
+3
+ 
+T
+11
++T
+22
++T
+33
+|
+{z}
+= Tr(T) = 0
+
+∇ ·~v
++T
+12
+S
+12
++T
+13
+S
+13
++T
+23
+S
+23
+,
+exploiting the symmetry ofTand using equations (126), (132), (133) and (134). Thus,
+T:∇~v=
+1
+2
+X
+ij
+T
+ij
+S
+ij
+=
+μ
+∗
+2
+X
+ij
+S
+2
+ij
+,(143)
+whereμ
+∗
+≡μ+μ
+l
++μ
+q
+. Alternately, we can write:
+T:∇~v=
+X
+i j
+T
+ij
+(∇~v)
+ij
+=μ
+∗
+X
+i
+S
+ii
+∇
+i
+v
+i
++μ
+∗
+X
+i6=j
+S
+ij
+∇
+i
+v
+j
+=μ
+∗
+X
+i
+ 
+2∇
+i
+v
+i
+−
+2
+3
+∇ ·~v
+
+∇
+i
+v
+i
++μ
+∗
+X
+i6=j
+ 
+∇
+i
+v
+j
++∇
+j
+v
+i
+
+∇
+i
+v
+j
+= 2μ
+∗
+X
+i
+(∇
+i
+v
+i
+)
+2
+−
+2μ
+∗
+3
+∇ ·~v
+|
+{z}
+P
+j
+∇
+j
+v
+j
+X
+i
+∇
+i
+v
+i
++
+μ
+∗
+2
+X
+i6=j
+ 
+∇
+i
+v
+j
++∇
+j
+v
+i
+
+2
+=
+2μ
+∗
+3
+
+3(∇
+1
+v
+1
+)
+2
++ 3(∇
+2
+v
+2
+)
+2
++ 3(∇
+3
+v
+3
+)
+2
+−(∇
+1
+v
+1
+)
+2
+−(∇
+2
+v
+2
+)
+2
+−(∇
+3
+v
+3
+)
+2
+
+An application to viscosity48
+−2∇
+1
+v
+1
+∇
+2
+v
+2
+−2∇
+2
+v
+2
+∇
+3
+v
+3
+−2∇
+3
+v
+3
+∇
+1
+v
+1
+
++
+μ
+∗
+2
+X
+i6=j
+ 
+∇
+i
+v
+j
++∇
+j
+v
+i
+
+2
+=
+2μ
+∗
+3
+
+(∇
+1
+v
+1
+)
+2
+−2∇
+1
+v
+1
+∇
+2
+v
+2
++ (∇
+2
+v
+2
+)
+2
++ (∇
+2
+v
+2
+)
+2
+−2∇
+2
+v
+2
+∇
+3
+v
+3
++ (∇
+3
+v
+3
+)
+2
++ (∇
+3
+v
+3
+)
+2
+−2∇
+3
+v
+3
+∇
+1
+v
+1
++ (∇
+1
+v
+1
+)
+2
+
++
+μ
+∗
+2
+X
+i6=j
+ 
+∇
+i
+v
+j
++∇
+j
+v
+i
+
+2
+⇒T:∇~v=
+2μ
+∗
+3
+
+ 
+∇
+1
+v
+1
+− ∇
+2
+v
+2
+
+2
++
+ 
+∇
+2
+v
+2
+− ∇
+3
+v
+3
+
+2
++
+ 
+∇
+3
+v
+3
+− ∇
+1
+v
+1
+
+2
+
++μ
+∗
+
+ 
+∇
+1
+v
+2
++∇
+2
+v
+1
+
+2
++
+ 
+∇
+2
+v
+3
++∇
+3
+v
+2
+
+2
++
+ 
+∇
+3
+v
+1
++∇
+1
+v
+3
+
+2
+
+(144)
+Stone and Norman (1992, ApJS, 80, p. 789) state that TW claim that in the context of
+a numerical algorithm,representing the viscous energy generation term as a sum of squares
+as in equation (
+144) is an absolute necessity, because all other formulations eventually lead
+to instabilities. Since equations (
+143) and (144) differ only in the order in which terms are
+added, they must yield results identical to machine round-off error, and I cannot understand
+why such a claim would be made. Indeed, equation (
+143) should have the same stability
+properties as equation (
+144).
+Finally, from equation (114), we have:
+∇ ·(T·~v) =
+1
+h
+2
+h
+31
+∂
+1
+
+h
+2
+h
+31
+ 
+T
+11
+v
+1
++T
+12
+v
+2
++T
+13
+v
+3
+
+
++
+1
+h
+2
+h
+32
+∂
+2
+
+h
+32
+ 
+T
+12
+v
+1
++T
+22
+v
+2
++T
+23
+v
+3
+
+
++
+1
+h
+3
+∂
+3
+ 
+T
+13
+v
+1
++T
+23
+v
+2
++T
+33
+v
+3
+
+.
+(145)
+Centring equation (
+145) is awkward sinceT
+ij
+is zone centred fori=jand edge-centred
+fori6=j, whilev
+j
+are face-centred. This is an example where the staggered mesh does not
+seem to help, and numerous and seemingly unnatural 2- and 4-point averages are necessary
+to evaluate all products in∇ ·(T·~v) using equation (
+145). Still, it is this form that the term
+is a perfect divergence and thus most useful in representingthe total energy equation in a
+conservative fashion.
+Alternately, using the identity:
+∇ ·(T·~v) =T:∇~v+ (∇ ·T)·~v,(146)
+(Theorem
+5.2,§5.9) factors in each product are now co-spatial, though 2- and 4-point av-
+erages are still needed to bring some—not all—of the terms tothe zone centres. While the
+centring of the RHS of equation (
+146) may seem more natural than the LHS, the RHS is
+not in conservative form, and this deficit may trump the centring advantage. This can be
+determined only by direct experimentation.
+Last point. Note that in Cartesian coordinates, ignoring all diagonal components, drop-
+ping the∇ ·~vterms in equation (
+126), and letting∇ ·~vin equation (123)→∂
+i
+v
+i
+in thei
+direction, equations (
+137)–(139) reduce to:
+∇ ·T= 2
+ 
+∂
+x
+(μ
+∗
+∂
+x
+v
+x
+), ∂
+y
+(μ
+∗
+∂
+y
+v
+y
+), ∂
+z
+(μ
+∗
+∂
+z
+v
+z
+)
+
+,(147)
+
+An application to viscosity49
+equation (
+145) reduces to:
+∇ ·(T·~v) = 2
+ 
+∂
+x
+(v
+x
+μ
+∗
+∂
+x
+v
+x
+) +∂
+y
+(v
+y
+μ
+∗
+∂
+y
+v
+y
+) +∂
+z
+(v
+z
+μ
+∗
+∂
+z
+v
+z
+)
+
+,(148)
+while equation (143) reduces to:
+T:∇~v= 2μ
+∗
+ 
+(∂
+x
+v
+x
+)
+2
++ (∂
+y
+v
+y
+)
+2
++ (∂
+z
+v
+z
+)
+2
+
+.(149)
+Equations (
+147)–(149) are the vNR expressions for the artificial viscosity in the subroutine
+viscousinZEUS, whenμ= 0 andμ
+∗
+is taken to be (equation123):
+μ
+l
++μ
+q
+= 2q
+1
+|{z}
+qlin
+lρc
+s
+−2q
+2
+|{z}
+qcon
+l
+2
+ρmin
+ 
+0, ∂
+i
+v
+i
+
+.
+∼

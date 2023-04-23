@@ -35,7 +35,7 @@ export default function Layout({
                 height={50}
                 style={{
                   padding: '6px',
-                  borderRadius: '0.5rem',
+                  borderRadius: '1rem',
                 }}
               />
               &nbsp;&nbsp;

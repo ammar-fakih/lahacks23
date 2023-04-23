@@ -1,0 +1,2991 @@
+TENSOR CALCULUS
+Part 1: tensor algebra
+Marko Vojinovi ́c
+March 2010
+
+Contents
+1  Tensor algebra2
+1.1  Vectors  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .. . . . .   2
+1.2  1-forms  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .. . . . .   3
+1.3  The×,⊗and⊕. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   4
+1.4  Tensor algebra  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .. . . . . . .   5
+1.5  Elementary operations on tensors . . . . . . . . . . . . . . . . . . .. . . . . . . . . . . . .   7
+1.6  Differential forms, exterior calculus . . . . . . . . . . . . . . .. . . . . . . . . . . . . . . .   9
+1.7  Transformations of basis, principle of relativity  . . . .. . . . . . . . . . . . . . . . . . . .  11
+1
+
+Chapter 1
+Tensor algebra
+1.1  Vectors
+Pick aD-dimensional manifoldM(we shall be mainly interested with the most relevant case for physics,
+D= 4), and some pointP∈Mon it.
+Draw an arbitrary curveCinMpassing throughP, and parametrize it using some parameterλ. Now
+focus on thedirectional derivative operatorofCwith respect toλ, evaluated atP:
+d
+dλ
+
+
+
+λ(P)
+Though it may sound a little strange at this point, call this quantity thetangent vectorof the curveC
+at pointP, and denote it with a boldface letterA
+A
+A:
+A
+A
+A≡
+d
+dλ
+
+
+
+λ(P)
+.
+Now construct a local coordinate system in the neighborhoodofP. It is consisted ofDcurves, which
+are parametrized by parameters calledcoordinates, and denotedx
+μ
+. Assign a directional derivative at
+Pto all these curves, thus obtaining a set ofcoordinate tangent vectorsfor coordinate lines. Denote
+these as:
+e
+e
+e
+μ
+≡
+∂
+∂x
+μ
+
+
+
+x
+μ
+(P)
+,
+ie. explicitly
+1
+:
+e
+e
+e
+0
+≡
+∂
+∂x
+0
+
+
+
+x
+0
+(P)
+,e
+e
+e
+1
+≡
+∂
+∂x
+1
+
+
+
+x
+1
+(P)
+,. . .e
+e
+e
+D−1
+≡
+∂
+∂x
+D−1
+
+
+
+x
+D−1
+(P)
+.
+On one hand, any curveC(passing throughPand parametrized withλ) can be written as a map from
+a real line to a manifold,
+C:R→M,λ7→P.
+On the other hand, it can be written in a coordinate frame as a set of functionsx
+μ
+(λ),
+ ̄
+C:R→R
+D
+,λ7→x
+μ
+(λ),
+while these functions are mapped to the manifold via coordinate curves,
+φ:R
+D
+→M,x
+μ
+7→P,
+1
+In general relativity physics one typically counts coordinates from 0 toD−1, rather than from 1 toD.  Thex
+0
+coordinate is usually interpreted ascoordinate time, although it need not have any relation to the “real” physical time.
+2
+
+such thatC=
+ ̄
+C◦φ. Knowing this, we can always write (according to the usual rules of calculus inR
+D
+):
+d
+dλ
+
+
+
+λ(P)
+=
+dx
+μ
+dλ
+∂
+∂x
+μ
+
+
+
+λ(P)
+,
+which can be rewritten in our new notation as
+A
+A
+A=A
+μ
+e
+e
+e
+μ
+≡A
+0
+e
+e
+e
+0
++A
+1
+e
+e
+e
+1
+++A
+D−1
+e
+e
+e
+D−1
+.
+Here we have introduced the notationA
+μ
+≡
+dx
+μ
+dλ
+for the coefficients.
+Now use this to define the concept oftangent space:
+Consider all possible curvesCparametrized in all possible ways and passing through a single
+pointP∈M. Theset of all their directional derivatives evaluated atPsatisfies the
+axioms of avector space, isomorphic toR
+D
+. Call this spacetangent space ofMatP,
+and denote it asTM
+P
+(or justTM, when the choice of the point is unambiguous).
+The elements of this space are calledtangent vectors atP. The tangent vectors ofDcoordinate
+lines provide a naturalbasisin this vector space, and is usually denotede
+e
+e
+μ
+. As we have seen above, any
+vectorA
+A
+A∈TMcan be represented as a linear combination of basis vectors,
+A
+A
+A=A
+μ
+e
+e
+e
+μ
+,∀A
+A
+A∈TM.
+The coefficients in the expansion are calledcomponents of vectorA
+A
+Ain basis e
+e
+e
+μ
+.
+Note that the choice of basis is quite arbitrary, so the componentsA
+μ
+arenot  uniquefor a single
+unique vectorA
+A
+A. Of course, once the basis vectors are fixed, the components also become unique. It
+is important to emphasize that each vectorA
+A
+Ais ageometric object, and exists regardless of any
+coordinates, basis vectors and components one may or may notassign to it. It is defined as a directional
+derivative of some curve passing throughP, and need no coordinates for its definition.
+1.21-forms
+Considerlinear functionalsof the tangent spaceTM
+P
+, ie. functions that map vectors into numbers,
+f
+f
+f:TM→R,A
+A
+A7→f
+f
+f[A
+A
+A]∈R,
+and are linear:
+f
+f
+f[aA
+A
+A+bB
+B
+B] =af
+f
+f[A
+A
+A] +bf
+f
+f[B
+B
+B],∀a, b∈R,∀A
+A
+A,B
+B
+B∈TM
+P
+.
+A set of all these linear functionals overTM
+P
+also has an algebraic structure of avector space, and is
+called adual tangent spaceofTM
+P
+, and denotedTM
+∗
+P
+(or justTM
+∗
+when the choice of the point
+P∈Mis unambiguous). Linear functionalsf
+f
+f, elements of this space, are called 1-forms.
+It can be shown that the spaceTM
+∗
+is alsoD-dimensional, and that its dual space (the dual of a
+dual) is isomorphic to the original tangent spaceTM.
+Given a set of basis vectorse
+e
+e
+μ
+inTM, one can naturally construct a set of basis functionals inTM
+∗
+,
+denotede
+e
+e
+μ
+, via thebiorthogonality relation:
+e
+e
+e
+μ
+[e
+e
+e
+ν
+] =δ
+μ
+ν
+≡
+
+1   forμ=ν,
+0   forμ6=ν.
+This set of basis 1-formse
+e
+e
+μ
+is said to bebiorthogonalto the basis vectorse
+e
+e
+μ
+.
+Once the basis 1-forms have been chosen, one can expand any 1-formf
+f
+fusing this basis as:
+f
+f
+f=f
+μ
+e
+e
+e
+μ
+≡f
+1
+e
+e
+e
+1
++f
+2
+e
+e
+e
+2
+++f
+D−1
+e
+e
+e
+D−1
+,
+3
+
+where the coefficientsf
+μ
+are calledcomponents of the1-formf
+f
+f. Also, given an expansion of some
+vectorA
+A
+A∈TMwith respect to basise
+e
+e
+μ
+,A
+A
+A=A
+μ
+e
+e
+e
+μ
+, one can calculate the action off
+f
+fonA
+A
+Ausing the
+biorthogonality relation and linearity off
+f
+fas:
+f
+f
+f[A
+A
+A] =f
+μ
+e
+e
+e
+μ
+[A
+A
+A] =f
+μ
+e
+e
+e
+μ
+[A
+ν
+e
+e
+e
+ν
+] =f
+μ
+A
+ν
+e
+e
+e
+μ
+[e
+e
+e
+ν
+] =f
+μ
+A
+ν
+δ
+μ
+ν
+=f
+μ
+A
+μ
+∈R.
+This process is calledcontraction.
+If the tangent space basise
+e
+e
+μ
+was chosen to be a set of tangent vectors to coordinate curvesinM(it
+need not be chosen this way!!!), ie. if
+e
+e
+e
+μ
+=
+∂
+∂x
+μ
+
+
+
+x
+μ
+(P)
+,
+it is calledcoordinate basis of tangent vectors, and the corresponding biorthogonal basis of 1-forms
+is also calledcoordinate basis of1-forms. It also deserves special notation:
+e
+μ
+=d
+d
+dx
+μ
+.
+We shall explain later the distinction between coordinate and noncoordinate bases, and the meaning of
+the symbold
+d
+d.
+1.3  The×,⊗and⊕
+Consider two arbitrary nonempty sets,AandB. One can construct theirCartesian productas a set
+of all ordered pairs of all their elements:
+A×B={(a, b)|a∈A, b∈B}.
+If the two sets are not just any sets, but have some algebraic structure, one may wish to supplement the
+×with additional axioms which will make the product “behave well”.
+For example, ifUandVare vector spaces, they already carry two operations,addition of vectors
+andmultiplication of a vector with a scalar. So construct a Cartesian product of two vector spaces, and
+provide appropriate axioms such that it is linear with respect to addition and multiplication with a scalar
+(denote it as⊗in order to distinguish it from general×):
+(u
+u
+u
+1
++u
+u
+u
+2
+)⊗v
+v
+v=u
+u
+u
+1
+⊗v
+v
+v+u
+u
+u
+2
+⊗v
+v
+v,u
+u
+u⊗(v
+v
+v
+1
++v
+v
+v
+2
+) =u
+u
+u⊗v
+v
+v
+1
++u
+u
+u⊗v
+v
+v
+2
+,
+(cu
+u
+u)⊗v
+v
+v=c(u
+u
+u⊗v
+v
+v),u
+u
+u⊗(cv
+v
+v) =c(u
+u
+u⊗v
+v
+v),
+∀u
+u
+u
+1
+,u
+u
+u
+2
+,u
+u
+u∈U,∀v
+v
+v
+1
+,v
+v
+v
+2
+,v
+v
+v∈V,∀c∈R.
+Call it thetensor productof vector spacesUandV. The tensor product is constructed in such a way
+that it represents the most general bilinear operation. Theresulting setU⊗Vis also vector space, which
+dimension is the product of dimensions ofUandV. It is thelargest possible spacethat containsU
+andVas subspaces (once). Note:
+•The two vector spaces need not be the same, so the tensor product isnot commutative:
+u
+u
+u⊗v
+v
+v6=v
+v
+v⊗u
+u
+u.
+It is not commutative even if the two spacesUandVare the same.
+•The two vector spaces need to be constructed over the same field of scalars (in this caseR).
+•An arbitrary vector fromU⊗Vin generalcannot be written as a productu
+u
+u⊗v
+v
+v, but only as
+a linear combination of such products.
+4
+
+Given two arbitrary matrices, one can construct their tensor product by multiplying all their elements
+in all possible combinations. For example,
+
+a   b   c
+d   e   f
+
+⊗
+
+
+x
+y
+z
+
+
+=
+
+
+
+
+
+
+
+
+ax   bx   cx
+ay   by    cy
+az   bz    cz
+dx   ex   f x
+dy   ey   f y
+dz   ez   f z
+
+
+
+
+
+
+
+
+.
+In general, if one matrix is of typem×nand the other of typep×q, then their tensor product is a
+matrix of typemp×nq.
+The tensor product is also calledKronecker productandouter multiplication.
+As another example, assume again thatUandVare vector spaces. Construct again their Cartesian
+product, but this time provide somewhat different axioms with respect to addition and multiplication
+with a scalar (denote it as⊕in order to distinguish it from⊗and×):
+(u
+u
+u
+1
++u
+u
+u
+2
+)⊕(v
+v
+v
+1
++v
+v
+v
+2
+) =u
+u
+u
+1
+⊕v
+v
+v
+1
++u
+u
+u
+2
+⊕v
+v
+v
+2
+,
+c(u
+u
+u⊕v
+v
+v) = (cu
+u
+u)⊕(cv
+v
+v),
+∀u
+u
+u
+1
+,u
+u
+u
+2
+,u
+u
+u∈U,∀v
+v
+v
+1
+,v
+v
+v
+2
+,v
+v
+v∈V,∀c∈R.
+Call it thedirect sumof vector spacesUandV. The direct sum is constructed such that the resulting
+setU⊕Vis also a vector space, which dimension is the sum of dimensions ofUandV. It is thesmallest
+possible spacethat containsUandVas subspaces (independently). Note:
+•The two vector spaces need not be the same, so the direct sum isnot commutative:
+u
+u
+u⊕v
+v
+v6=v
+v
+v⊕u
+u
+u.
+It is not commutative even ifUandVare the same.
+•The two vector spaces need to be constructed over the same field of scalars (in this caseR).
+•An arbitrary vector fromU⊕Vcan always be written as a sumu
+u
+u⊕v
+v
+v, whereu
+u
+uandv
+v
+vare
+some vectors fromUandV.
+Given two arbitrary matrices, one can construct their direct sum by combining them in a bigger
+block-diagonal matrix. For example,
+
+a   b   c
+d   e   f
+
+⊕
+
+
+x
+y
+z
+
+
+=
+
+
+
+
+
+
+a   b   c
+0
+d   e   f0
+0  0  0x
+0  0  0
+y
+0  0  0z
+
+
+
+
+
+
+.
+In general, if one matrix is of typem×nand the other of typep×q, then their direct sum is a matrix
+of type (m+p)×(n+q).
+1.4  Tensor algebra
+Return again to the tangent spaceTM
+P
+and its dual,TM
+∗
+P
+. Use the tensor product and direct sum to
+construct a vector space oftensors of type(p, q):
+T
+p,q
+≡TM⊗⊗TM
+|
+{z}
+ptimes
+⊗TM
+∗
+⊗⊗TM
+∗
+|{z}
+qtimes
+⊕all possible permutations.
+5
+
+Tensors of type (p, q) are said to beptimes contravariant andqtimes covariant. The reason for
+this terminology will be explained later.
+Take an example for an illustration. A space of tensors of type (2,1) is
+T
+2,1
+=TM⊗TM⊗TM
+∗
+⊕TM⊗TM
+∗
+⊗TM⊕TM
+∗
+⊗TM⊗TM.
+Given basese
+e
+e
+μ
+ande
+e
+e
+μ
+inTMandTM
+∗
+, we can represent any tensor fromT
+2,1
+as a linear combination
+in appropriate basis. For example, any tensorA
+A
+Afrom the spaceTM⊗TM⊗TM
+∗
+can be written as
+A
+A
+A=A
+μν
+λ
+e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+,
+and we can write a corresponding tensor fromT
+2,1
+as:
+ ̃
+A
+A
+A=A
+A
+A⊕0
+0
+0⊕0
+0
+0= (A
+μν
+λ
+e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+)⊕0
+0
+0⊕0
+0
+0.
+Here0
+0
+0is the zero vector from spacesTM⊗TM
+∗
+⊗TMandTM
+∗
+⊗TM⊗TM. Since there is a natural
+correspondence between
+ ̃
+A
+A
+AandA
+A
+A, one usually omits these extra zeroes, and writesA
+A
+A≡
+ ̃
+A
+A
+A∈T
+2,1
+.
+Using this convention, there are two more types of tensors which belong toT
+2,1
+:
+B
+B
+B=B
+μ
+ν
+λ
+e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+,C
+C
+C=C
+μ
+νλ
+e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+.
+Note that there is naturalmorphismbetween vector spacesTM⊗TM⊗TM
+∗
+,TM⊗TM
+∗
+⊗TM
+andTM
+∗
+⊗TM⊗TM. Namely, for every tensorB
+B
+B∈TM⊗TM
+∗
+⊗TMthere is a corresponding
+(non-unique!) tensor
+ ̃
+B
+B
+B∈TM⊗TM⊗TM
+∗
+such that both of them have the same components (in the
+same basis):
+B
+B
+B=B
+μ
+ν
+λ
+e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+⇒
+ ̃
+B
+B
+B=B
+μ
+ν
+λ
+e
+e
+e
+μ
+⊗e
+e
+e
+λ
+⊗e
+e
+e
+ν
+,
+and similarly forC
+C
+C∈TM
+∗
+⊗TM⊗TM. It is obvious that these tensors, although different, contain
+the same information. One can consider appropriate equivalence classes across these spaces, and choose
+a representative from the appropriate space as one sees fit. Therefore it is not necessary to make a sharp
+distinction between the three types of tensors, and we can consider only the complete big spaceT
+2,1
+.
+In a similar fashion, one can write down tensors and their components and bases for all other spaces
+T
+p,q
+. For example, a tensor from the spaceT
+4,3
+could be written as
+A
+A
+A=A
+μν
+ρσλ
+αβ
+e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+ρ
+⊗e
+e
+e
+σ
+⊗e
+e
+e
+λ
+⊗e
+e
+e
+α
+⊗e
+e
+e
+β
+.
+Nowdefine the space of tensors of type(0,0),T
+0,0
+, to be just the field of numbers,R,
+T
+0,0
+≡R.
+Tensors of this type are calledscalars. Using this, one can make the following final definition:
+The direct sum of all possible tensor spaces of type (p, q) over all possible values forpand
+q,
+T(P)≡
+∞
+M
+p=0
+∞
+M
+q=0
+T
+p,q
+(P),
+is called thetensor algebraat pointP. It is one of the most general algebraic structures
+one can construct from a given vector space. Its basic operations are
+•multiplication with a scalar (carried over from the vector spaceTM),
+•addition (also carried over from the vector spaceTM), and
+•multiplication (the tensor product,⊗).
+6
+
+Explicitly, the structure of the tensor algebra is the following:
+T=Rscalars
+⊕TMvectors
+⊕TM
+∗
+1-forms
+⊕TM⊗TMtensors of type(2,0)
+⊕TM⊗TM
+∗
+⊕TM
+∗
+⊗TMtensors of type(1,1)
+⊕TM
+∗
+⊗TM
+∗
+tensors of type(0,2)
+⊕TM⊗TM⊗TMtensors of type(3,0)
+⊕. . .and so on.
+1.5  Elementary operations on tensors
+There are several various operations on tensors one can construct within the tensor algebra. We shall
+introduce them all one by one, typically via examples.
+Addition.While addition is defined overall in the tensor algebra, it isnontrivial only when one
+considers tensors of the same type (p, q). For example, givenA
+A
+A,B
+B
+B∈T
+2,1
+, we have
+C
+C
+C=A
+A
+A+B
+B
+B= (A
+μν
+λ
++B
+μν
+λ
+)e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+,or in components:C
+μν
+λ
+=A
+μν
+λ
++B
+μν
+λ
+.
+Multiplication with a scalar.Any tensor can be multiplied with a number. For example, given
+a tensorA
+A
+A∈T
+2,1
+and a scalarc∈R, we have
+B
+B
+B=cA
+A
+A=cA
+μν
+λ
+e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+,or in components:B
+μν
+λ
+=cA
+μν
+λ
+.
+Tensor product.Also calledouter  multiplicationandKronecker  product, it has already been
+introduced. It is defined for all tensors. For example, givenA
+A
+A∈T
+1,0
+andB
+B
+B∈T
+2,1
+, we have
+C
+C
+C=A
+A
+A⊗B
+B
+B=A
+ρ
+B
+μν
+λ
+e
+e
+e
+ρ
+⊗e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+,or in components:C
+ρμν
+λ
+=A
+ρ
+B
+μν
+λ
+.
+Note:
+•The resulting tensor has components which are just ordinarymultiplication of components ofA
+A
+A
+andB
+B
+B, in all possible combinations.
+•C
+C
+C∈T
+3,1
+, which means that the result isoutsideof both spacesT
+1,0
+andT
+2,1
+(this is the reason
+for the name “outer multiplication”).
+•The productA
+A
+A⊗B
+B
+B6=B
+B
+B⊗A
+A
+Abecause⊗is not commutative. However, both products “carry the
+same information” since the components are multiplied using ordinary real number multiplication,
+whichiscommutative.
+•Multiplication with a scalar can be considered as a special case of tensor product between a tensor
+of typeT
+0,0
+with some other arbitrary tensor.
+Contraction.Contraction is the procedure of using some piece of a tensor coming fromTM
+∗
+and
+letting it act on some other piece coming fromTMas a functional. For example, givenA
+A
+A∈T
+2,1
+, we can
+write it down in a basis,
+A
+A
+A=A
+μν
+λ
+e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+∈TM⊗TM⊗TM
+∗
+.
+Now let theTM
+∗
+part act on the firstTMpart, as follows:
+B
+B
+B=C
+1,3
+(A
+A
+A)  =A
+μν
+λ
+C
+1,3
+(e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+)linearity of functionals
+=A
+μν
+λ
+e
+e
+e
+ν
+⊗e
+e
+e
+λ
+[e
+e
+e
+μ
+]definition: action of “3 on 1”
+=A
+μν
+λ
+e
+e
+e
+ν
+⊗δ
+λ
+μ
+biorthogonality relation
+=A
+μν
+λ
+δ
+λ
+μ
+e
+e
+e
+ν
+tensor multiplication with a scalar
+=A
+μν
+μ
+e
+e
+e
+ν
+Einstein summation convention
+7
+
+In component language,
+B
+ν
+≡C
+1,3
+(A
+μν
+λ
+) =A
+μν
+μ
+.
+Note:
+•For the example above, one can define contractionsC
+1,3
+andC
+2,3
+which are different operations
+in general (in components,A
+μν
+μ
+andA
+μν
+ν
+).  For a tensor of type (p, q) a total ofpqdifferent
+contractions are possible.
+•Given a tensor of type (p, q), the result of any of its contractions is a tensor of type (p−1, q−1).
+One basis 1-forme
+e
+e
+λ
+always “eats itself out” with one basis vectore
+e
+e
+μ
+.
+•Tensors of type (p,0) and (0, q) cannot be contracted.
+•Tensors of type (1,1) can be represented as matrices. The (single definable) contraction of these
+tensors is equivalent totaking the traceof the corresponding matrix, ie. summing the diagonal
+elements. Therefore, contraction is thegeneralization of the idea of tracefrom (1,1) tensors
+to arbitrary tensors. However, tensors of type (2,0) and (0,2), although representable in matrix
+form,cannot be contracted, regardless of any matrix trace operation.
+•The contraction is independent of the choice of the basis vectors. This is not obvious, and will be
+proved later when we discuss transformations between bases.
+Inner product.Also known asmatrix multiplication, it is the sequence of taking the tensor
+product of two tensors and then contracting them in some way.For example, given two tensors,A
+A
+A∈T
+2,1
+andB
+B
+B∈T
+1,1
+, we can write:
+C
+C
+C=A
+A
+AB
+B
+B=C
+3,4
+(A
+A
+A⊗B
+B
+B) =A
+μν
+λ
+B
+λ
+ρ
+e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+ρ
+or in components:C
+μν
+ρ
+=A
+μν
+λ
+B
+λ
+ρ
+.
+As another example, we consider matrices, ie. tensors of type (1,1). The inner product of two such
+tensors,
+A
+A
+AB
+B
+B=C
+2,3
+(A
+A
+A⊗B
+B
+B) =A
+μ
+λ
+B
+λ
+ρ
+e
+e
+e
+μ
+⊗e
+e
+e
+ρ
+,
+is again a tensor of type (1,1), ie. a matrix (so that the product of two elements inT
+1,1
+is again an
+element ofT
+1,1
+— hence the name “inner” product). From the component language it is obvious that
+this is exactly the usual matrix multiplication.
+Note that matrix multiplication is not commutative becausetensor product⊗is not commutative.
+Transpose.The transpose of a tensor is defined by interchanging the positions of two basis vectors
+in a tensor product:
+(e
+e
+e
+μ
+⊗e
+e
+e
+ν
+)
+T
+=e
+e
+e
+ν
+⊗e
+e
+e
+μ
+,(e
+e
+e
+μ
+⊗e
+e
+e
+ν
+)
+T
+=e
+e
+e
+ν
+⊗e
+e
+e
+μ
+,(e
+e
+e
+μ
+⊗e
+e
+e
+ν
+)
+T
+=e
+e
+e
+ν
+⊗e
+e
+e
+μ
+.
+For example, given a tensorA
+A
+A∈T
+2,1
+, one can define three different transposes,A
+A
+A
+T
+12
+,A
+A
+A
+T
+13
+andA
+A
+A
+T
+23
+, as
+follows:
+B
+B
+B
+1
+=A
+A
+A
+T
+12
+=A
+μν
+λ
+(e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+)
+T
+12
+=A
+μν
+λ
+e
+e
+e
+ν
+⊗e
+e
+e
+μ
+⊗e
+e
+e
+λ
+,or in components:B
+νμ
+λ
+=A
+μν
+λ
+,
+B
+B
+B
+2
+=A
+A
+A
+T
+13
+=A
+μν
+λ
+(e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+)
+T
+13
+=A
+μν
+λ
+e
+e
+e
+λ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+μ
+,or in components:B
+λ
+νμ
+=A
+μν
+λ
+,
+B
+B
+B
+3
+=A
+A
+A
+T
+23
+=A
+μν
+λ
+(e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+)
+T
+23
+=A
+μν
+λ
+e
+e
+e
+μ
+⊗e
+e
+e
+λ
+⊗e
+e
+e
+ν
+,or in components:B
+μ
+λ
+ν
+=A
+μν
+λ
+.
+Essentially, we are switching positions between a pair of indices. The transpose operation is a straight-
+forward generalization of a transpose of a matrix.
+Exterior product.Also calledwedge product, it is a completely antisymmetrized tensor product,
+and is denoted as∧. For example, given two vectors,A
+A
+A,B
+B
+B∈T
+1,0
+, we have
+C
+C
+C=A
+A
+A∧B
+B
+B=A
+A
+A⊗B
+B
+B−B
+B
+B⊗A
+A
+A= (A
+μ
+B
+ν
+−A
+ν
+B
+μ
+)e
+e
+e
+μ
+⊗e
+e
+e
+ν
+,
+8
+
+or in component language,
+C
+μν
+=A
+μ
+B
+ν
+−A
+ν
+B
+μ
+.
+Note:
+•The resulting tensorC
+C
+Cin the above example is called abivector. The result of taking the wedge
+of three vectors,A
+A
+A∧B
+B
+B∧C
+C
+C, is called atrivector, and so on to the general case of ap-vector, a
+completely antisymmetric tensor of type (p,0).
+•The result of wedging two 1-forms,f
+f
+f∧g
+g
+gis called a 2-form, and so on to the general case of a
+p-form, a completely antisymmetric tensor of type (0, p).
+•The wedge between a vector and a 1-form is not defined.  Only wedges inside spacesT
+p,0
+exist
+(p-vectors), and similarly for wedges inside spacesT
+0,p
+(p-forms).
+•The above formula for the wedge of two vectorscannot be used recursively!Namely, we could
+try to calculateA
+A
+A∧B
+B
+B∧C
+C
+Cas:
+A
+A
+A∧B
+B
+B∧C
+C
+C=A
+A
+A∧(B
+B
+B⊗C
+C
+C−C
+C
+C⊗B
+B
+B)
+=A
+A
+A⊗(B
+B
+B⊗C
+C
+C−C
+C
+C⊗B
+B
+B)−(B
+B
+B⊗C
+C
+C−C
+C
+C⊗B
+B
+B)⊗A
+A
+A
+=A
+A
+A⊗B
+B
+B⊗C
+C
+C−A
+A
+A⊗C
+C
+C⊗B
+B
+B−B
+B
+B⊗C
+C
+C⊗A
+A
+A+C
+C
+C⊗B
+B
+B⊗A
+A
+A,
+which iswrong, because the result is not totally antisymmetric! Last two terms have the wrong
+sign, and two more terms are missing! The correct result is
+A
+A
+A∧B
+B
+B∧C
+C
+C=A
+A
+A⊗B
+B
+B⊗C
+C
+C−A
+A
+A⊗C
+C
+C⊗B
+B
+B+B
+B
+B⊗C
+C
+C⊗A
+A
+A−C
+C
+C⊗B
+B
+B⊗A
+A
+A−B
+B
+B⊗A
+A
+A⊗C
+C
+C+C
+C
+C⊗A
+A
+A⊗B
+B
+B,
+and is always constructed in such a way that the interchange of any two vectors changes the overall
+sign of the product.
+•IfA
+A
+AandB
+B
+Bare ap-vector and aq-vector respectively (or ap-form and aq-form), then the following
+commutation rule is valid:
+A
+A
+A∧B
+B
+B= (−1)
+pq
+B
+B
+B∧A
+A
+A.
+•The exterior product is the basic ingredient in the so-calledexterior calculusoralgebra of
+differential forms, which will be introduced in the next section.
+1.6  Differential forms, exterior calculus
+Start from the tensor algebraT(P), and consider its quotientT /A
+A
+A⊗A
+A
+AforA
+A
+A∈TM, ie. the subset of all
+completely antisymmetric tensors. Furthermore, consideronly the tensors of type (p,0). This quotient
+is asubalgebraof the tensor algebra, and is calledexterior algebraΛ(P). Its typical element, say
+A
+A
+A∈T
+3,0
+can be written in the usual form
+A
+A
+A=A
+μνλ
+e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+.
+However, since it is completely antisymmetric, it can also be rewritten in the form
+A
+A
+A=
+1
+3!
+A
+μνλ
+e
+e
+e
+μ
+∧e
+e
+e
+ν
+∧e
+e
+e
+λ
+(the factor 1/3! appears due to the overcounting of components in the sum).In general, anyp-vector
+from Λ can be written in the form
+A
+A
+A=
+1
+p!
+A
+μ
+1
+...μ
+p
+e
+e
+e
+μ
+1
+∧∧e
+e
+e
+μ
+p
+.
+9
+
+Thus, we see that Λ(P) is an algebra with operations of addition and scalar multiplication inherited from
+T(P), while the product of elements is the exterior product,∧.
+Completely analogously, instead using tensors of type (p,0), one can use tensors of type (0, p), and
+construct thealgebra of differential forms, Λ
+∗
+(P), whose elements are
+f
+f
+f=
+1
+p!
+f
+μ
+1
+...μ
+p
+e
+e
+e
+μ
+1
+∧∧e
+e
+e
+μ
+p
+.
+Note:
+•Both algebras Λ and Λ
+∗
+are finite-dimensional. If the tangent spaceTMhas dimensionD, there
+are at mostDlinearly independent basis vectorse
+e
+e
+μ
+which can be used to construct a basis element
+in the exterior algebra,
+e
+e
+e
+0
+∧e
+e
+e
+1
+∧∧e
+e
+e
+D−1
+.
+If we try to wedge another vector, the result will be zero, since the antisymmetry of∧implies
+e
+e
+e
+μ
+∧e
+e
+e
+μ
+= 0. The total dimension of Λ is 2
+D
+. Similarly for Λ
+∗
+.
+•Due to the natural factorization of tensor algebraT, exterior algebra Λ inherits this structure:
+Λ  =  Λ
+0
+⊕Λ
+1
+⊕⊕Λ
+D
+=Rscalars
+⊕TMvectors
+⊕TM∧TM2-vectors
+⊕. . .
+⊕TM∧∧TM
+|
+{z}
+Dtimes
+D-vectors.
+Analogous factorization can be written for Λ
+∗
+, with slightly different terminology:
+Λ
+∗
+=  Λ
+∗0
+⊕Λ
+∗1
+⊕⊕Λ
+∗D
+=Rscalars or0-forms
+⊕TM
+∗
+1-forms
+⊕TM
+∗
+∧TM
+∗
+2-forms
+⊕. . .
+⊕TM
+∗
+∧∧TM
+∗
+|
+{z}
+Dtimes
+D-forms.
+•If ap-formf
+f
+fcan be written as an exterior product ofp1-formsg
+g
+g
+1
+, . . . ,g
+g
+g
+p
+,
+f
+f
+f=g
+g
+g
+1
+∧∧g
+g
+g
+p
+,
+it is called asimplep-form. Otherwise it can be written only as a linear combination of such
+products, and is not simple. Similar terminology is used also forp-vectors.
+•Exterior algebra is also known by the nameGrassmann algebra, and its elements calledGrass-
+mann numbersoranticommutative numbers(as opposed to real numbers), due to the anti-
+commutativity of exterior product.
+•If we consider the caseD= 2, and choose two vectorsA
+A
+A=A
+μ
+e
+e
+e
+μ
+andB
+B
+B=B
+μ
+e
+e
+e
+μ
+, their exterior
+product can be calculated explicitly as
+A
+A
+A∧B
+B
+B=  (A
+0
+e
+e
+e
+0
++A
+1
+e
+e
+e
+1
+)∧(B
+0
+e
+e
+e
+0
++B
+1
+e
+e
+e
+1
+)
+=A
+0
+B
+1
+e
+e
+e
+0
+∧e
+e
+e
+1
++A
+1
+B
+0
+e
+e
+e
+1
+∧e
+e
+e
+0
+=   (A
+0
+B
+1
+−A
+1
+B
+0
+)e
+e
+e
+0
+∧e
+e
+e
+1
+=   det
+
+A
+0
+A
+1
+B
+0
+B
+1
+
+e
+e
+e
+0
+∧e
+e
+e
+1
+.
+10
+
+Thus, wedge product and exterior algebra represent the generalization of the concepts ofdeter-
+minant(D-forms) andminors(p-forms), and provide natural formalism for their systematic de-
+scription.
+•Exterior algebra was first introduced and explored by Hermann Grassmann in his work on geometry
+called “Theory of Extension” (from 1844). Hence the name “exterior”.
+1.7  Transformations of basis, principle of relativity
+So far we have discussed tensor algebra using one particularchoice of the basis vectorse
+e
+e
+μ
+inTM
+P
+. This
+is however far from unique, and now we shall consider what happens when we switch from one basis to
+another.
+Start from the basise
+e
+e
+μ
+, and construct a new basis,e
+e
+e
+μ
+′
+, as a linear combination of the old one:
+e
+e
+e
+μ
+′
+=M
+μ
+μ
+′
+e
+e
+e
+μ
+.
+Note:
+•Since the new basis vectors must be linearly independent, thetransformation matrixM≡[M
+μ
+μ
+′
+]
+must be nonsingular, detM6= 0. Other than that, it iscompletely arbitrary.
+•The “prime” is used to denote the new basis. However, it is more instructive to put a prime on
+theindexrather than on the symbole
+e
+e. Such notation might seem unusual, but it has several
+advantages over the more common one, as we shall see below.
+•Indicesμandμ
+′
+inM
+μ
+μ
+′
+are to be understood as completely independent of each other, despite
+the same symbolμ. Due to the prime, there can be no confusion.
+•Since detM6= 0, one can introduce theinverse transformation matrix, denoted asM
+−1
+=
+[M
+μ
+′
+μ
+]. It cannot be confused withM
+μ
+μ
+′
+due to the different position of the prime. Since the two
+matrices are inverse to each other, following identities hold:
+M
+μ
+μ
+′
+M
+μ
+′
+ν
+=δ
+μ
+ν
+,M
+μ
+′
+μ
+M
+μ
+ν
+′
+=δ
+μ
+′
+ν
+′
+,
+whereδ
+μ
+ν
+is the familiar Kronecker delta symbol.
+Given a vectorA
+A
+A∈TM, one can expand it as a linear combination in both bases:
+A
+A
+A=A
+μ
+e
+e
+e
+μ
+=A
+μ
+′
+e
+e
+e
+μ
+′
+.
+Using the transformation rule between two bases, one can calculate the transformation rule between
+componentsA
+μ
+andA
+μ
+′
+:
+A
+μ
+′
+=M
+μ
+′
+ν
+A
+ν
+.
+Components of a vector transform using the inverse transformation matrix.It is very impor-
+tant to stress thatA
+A
+Ais ageometric object, anarrow(tangent to some curve in the manifoldM),
+which isindependentof any choice of basis. The components ofA
+A
+Atransform precisely in such a way
+to cancel the transformation of the basis vectors, so thatA
+A
+Adoes not transform at all:
+A
+A
+A
+′
+=A
+μ
+′
+e
+e
+e
+μ
+′
+= (M
+μ
+′
+ν
+A
+ν
+)(M
+λ
+μ
+′
+e
+e
+e
+λ
+) =M
+μ
+′
+ν
+M
+λ
+μ
+′
+|
+{z}
+δ
+λ
+ν
+A
+ν
+e
+e
+e
+λ
+=A
+λ
+e
+e
+e
+λ
+=A
+A
+A.
+We see thatonly quantities that carry an index actually change, so we drop the prime fromA
+A
+A
+′
+,
+and keep primes only on indices.
+11
+
+Now consider the biorthogonal basis,e
+e
+e
+μ
+. Starting from basese
+e
+e
+μ
+ande
+e
+e
+μ
+′
+inTM, one can construct
+biorthogonal basese
+e
+e
+μ
+ande
+e
+e
+μ
+′
+inTM
+∗
+, and ask what is the relation between them. The answer is easy
+to obtain from the biorthogonality relation:
+e
+e
+e
+μ
+′
+=M
+μ
+′
+μ
+e
+e
+e
+μ
+.
+Basis1-forms transform using the inverse transformation matrix.Consequently, given that any
+1-formf
+f
+f∈TM
+∗
+is also a geometric object independent of any choice of basis, one can easily deduce the
+transformation rule for the components of 1-forms:
+f
+μ
+′
+=M
+μ
+μ
+′
+f
+μ
+.
+Components of1-forms transform using the original transformation matrix.
+Now introduce some terminology:
+•Any quantity which transforms the same way as a basis inTMis said to be transformed
+covariantly(ie. “same as” the basis). Since the basis is transformed using the matrix
+M
+μ
+μ
+′
+, from the position of its indices it is easy to see that all quantities that carry a
+subscript (“down”) index transform covariantly.
+•Any quantity which transforms in the opposite way from the basis inTMis said to
+be transformedcontravariantly(ie. “opposite of” the basis). Since in this case the
+inverse transformation matrixM
+μ
+′
+μ
+is used, from the position of its indices it is easy to
+see that all quantities that carry a superscript (“up”) index transform contravariantly.
+•The covariance/contravariance is determined solely by theposition of the index, and
+is independent of the nature of the object transformed (components, bases, etc.)
+Finally, we can consider the general case of any tensor. Every tensor is (like a vector and a 1-form) a
+geometric object, independent of any basis chosen, so itdoes not transformwhen the basis is being
+changed. The components of a tensor are always transformed in precisely such a way as to cancel the
+transformation of the basis, so that the total tensor remains unchanged. As an example, consider the
+tensorA
+A
+A∈T
+2,1
+. It can be written as a linear combination in both bases:
+A
+A
+A=A
+μν
+λ
+e
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+=A
+μ
+′
+ν
+′
+λ
+′
+e
+e
+e
+μ
+′
+⊗e
+e
+e
+ν
+′
+⊗e
+e
+e
+λ
+′
+.
+Knowing the transformation rules for both basis vectors andbasis 1-forms, we can deduce that components
+ofA
+A
+Atransform in accord with the appropriate positioning of theindices:
+A
+μ
+′
+ν
+′
+λ
+′
+=A
+μν
+λ
+M
+μ
+′
+μ
+M
+ν
+′
+ν
+M
+λ
+λ
+′
+.
+Thus, componentsA
+μν
+λ
+transform twice contravariantly and once covariantly, thebasise
+e
+e
+μ
+⊗e
+e
+e
+ν
+⊗e
+e
+e
+λ
+transforms twice covariantly and once contravariantly, andA
+A
+Adoes not transform at all, since the
+former two cancel each other out.
+A general tensor of type (p, q) has components withpindices “up” andqindices “down”, and is thus
+usually said to be “ptimes contravariant andqtimes covariant”. But it is extremely important to stress
+thatonly the components of a tensor have this property, while thebasis of the tensor has the
+opposite property, in such a way that thetensor itself is invariantwith respect to the change of
+basis.
+We stress that the invariance property of tensors is so important because it offers itself as a perfect
+tool for the embodiment of theprinciple of general relativity:
+12
+
+Theprinciple of general relativitystates:
+All laws of physics must be expressed in such a way as to not depend
+on the choice of any particular coordinate system.
+If we want to express some physical theory in such a way as to fulfill this axiom, it is
+necessary and sufficient toexpress all the laws as tensor equations, since these are
+automatically independent of the choice of the basis used. Note:
+•This is the “why” for the whole story of tensor calculus in theory of general relativity.
+•The above principle is the reason why the theory of general relativity is named the
+way it is named.
+Next we turn attention to one technical issue — contraction.We have defined contraction of tensors
+as action of one basis 1-form onto one basis vector. Now we shall prove that this procedure is in fact
+independent on the choice of the basis itself.  To this end, consider an example,A
+A
+A∈T
+2,1
+, and its
+contractionC
+2,3
+in some basis:
+C
+2,3
+(A
+A
+A) =A
+μν
+ν
+e
+e
+e
+μ
+.
+We can perform the same procedure in the primed basis, to obtain
+C
+′
+2,3
+(A
+A
+A) =A
+μ
+′
+ν
+′
+ν
+′
+e
+e
+e
+μ
+′
+.
+Now transform this back to the old basis, noting thatA
+μ
+′
+ν
+′
+ν
+′
+has only one index (the other two are
+summed over):
+C
+′
+2,3
+(A
+A
+A) =A
+μ
+′
+ν
+′
+ν
+′
+e
+e
+e
+μ
+′
+= (A
+μν
+′
+ν
+′
+M
+μ
+′
+μ
+)(M
+λ
+μ
+′
+e
+e
+e
+λ
+) =A
+λν
+′
+ν
+′
+e
+e
+e
+λ
+=A
+λν
+ρ
+M
+ν
+′
+ν
+M
+ρ
+ν
+′
+e
+e
+e
+λ
+=A
+λρ
+ρ
+e
+e
+e
+λ
+=C
+2,3
+(A
+A
+A).
+As we can see, the contraction is invariant with the change ofbasis. This is due to the fact that when
+contracting, we always sum over one contravariant and one covariant index in components of the tensor
+being contracted. While the components themselves change with respect to all indices, the changes of
+summed indices cancel each other, since they transform in the opposite way.
+Finally, there is one more very important topic to be addressed. Namely, the original basise
+e
+e
+μ
+was
+introduced as a set oftangent vectors of the coordinate curvesat pointP, ie. the set of differential
+operators,
+e
+e
+e
+μ
+≡
+∂
+∂x
+μ
+,
+evaluated atP. After a change to a new basise
+e
+e
+μ
+′
+using the arbitrary nonsingular transformation matrix
+M, one can ask is it possible to construct a new set of coordinate curves, such that the new basis can be
+represented as a set of differential operators acting on these new coordinate curves. The general answer
+to this question isno, this is not always possible. In order to see this, consider a set of alternative
+coordinate curves which pass throughPand are parametrized withx
+μ
+′
+. Then construct the new basis
+relative to them in the same way as the old one was constructed:
+e
+e
+e
+μ
+′
+≡
+∂
+∂x
+μ
+′
+,
+evaluated atP. In order to deduce the explicit form of the transformation matrix between the new and
+old basis, one can employ the chain rule for differentials familiar from ordinary calculus:
+∂
+∂x
+μ
+′
+=
+∂x
+μ
+∂x
+μ
+′
+∂
+∂x
+μ
+,
+and just rewrite it in tensor notation:
+e
+e
+e
+μ
+′
+=M
+μ
+μ
+′
+e
+e
+e
+μ
+,whereM
+μ
+μ
+′
+≡
+∂x
+μ
+∂x
+μ
+′
+.
+13
+
+However, knowing that the partial derivatives commute, thefollowing identity forMholds:
+∂
+∂x
+λ
+′
+M
+μ
+μ
+′
+=
+∂
+∂x
+μ
+′
+M
+μ
+λ
+′
+.
+Now remember that in general casematrixMis arbitrary, and thusmay not satisfy the above
+identity!This means that thenew basis may not be constructible from any set of coordinate
+curves.
+Consequently, starting from some set of coordinate curves,we may construct a basis (calledcoordi-
+nate basis), and then use some arbitrary matrixMto switch to a new basis. Depending on whether
+Mwas chosen in such a way as to satisfy the above identity, the new basis is calledcoordinate (holo-
+nomic) basisornoncoordinate (anholonomic) basis. Therefore, there are two distinct classes of
+basis vectors, and later we shall give a convenient method todetermine whether a given basis is coordinate
+or noncoordinate one.
+In older literature on tensor calculus, one can find a definition saying that a tensor (of type (p, q)) is
+aset of quantitiesA
+μ
+1
+...μ
+p
+ν
+1
+...ν
+q
+that satisfies the followingtransformation rule:
+A
+μ
+′
+1
+...μ
+′
+p
+ν
+′
+1
+...ν
+′
+q
+=A
+μ
+1
+...μ
+p
+ν
+1
+...ν
+q
+∂x
+μ
+′
+1
+∂x
+μ
+1
+. . .
+∂x
+μ
+′
+p
+∂x
+μ
+p
+∂x
+ν
+1
+∂x
+ν
+′
+1
+. . .
+∂x
+ν
+1
+∂x
+ν
+′
+1
+.
+This “component” kind of approach to tensors is flawed on several grounds:
+•A tensor is not just a set of components, but rather a linear combination of these components with
+some set of basis vectors. If basis is ignored, the geometricnature of tensors and their essential
+invariance with respect to the choice of this basis is not obvious, which makes the principle of
+relativity hard to understand.
+•Due to the possible arbitrary transformation of basis, a perfectly valid tensor can be expressed via
+perfectly valid components which do not satisfy the above definition.
+•It isnotsufficient to consider just coordinate bases (as is usually done is some books), because
+(a) one misses a whole lot of powerful geometry and insight from the formalism and (b) the gen-
+eral transformation matricesM
+μ
+′
+μ
+andM
+μ
+μ
+′
+areabsent from the theory, which is amajor
+handicap.
+The final point is actually the most severe one. In order to appreciate and understand why, let us just
+say that matricesM
+μ
+′
+μ
+andM
+μ
+μ
+′
+have physical interpretationofgravitational field potentials.
+In four dimensions, they are usually calledtetrads, and are denotede
+e
+e
+μ
+′
+μ
+ande
+e
+e
+μ
+μ
+′
+. They play a very
+fundamental role in theory of general relativity, as we shall see later on. For example, if we omit them
+from the formalism, we haveno way to incorporate fermion fieldsand couple them to gravity. We
+shall revisit tetrads in third chapter.
+Contents of “Tensor Calculus Part 2” (in preparation):
+•Chapter 2: Tensor analysis
+–Tensor fields, parallel transport
+–Covariant and exterior derivatives, commutators
+–Curvature and torsion
+•Chapter 3: The metric
+–The metric tensor, principle of equivalence
+–Nonmetricity, classification of geometries
+–Associated tensors, index gymnastics
+–Cartan structure equations, calculation of curvature
+14
+
+For further reading
+[1] Milutin Blagojevi ́c, “Gravitation and Gauge Symmetries”, Institute of Physics Publishing, London
+(2002), ISBN 0-7503-0767-6
+[2] Charles W. Misner, Kip S. Thorne, John Archibald Wheeler, “Gravitation”, W. H. Freeman and
+Co. (1973), ISBN 978-0-7167-0344-0.
+15

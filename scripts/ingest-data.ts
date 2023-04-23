@@ -16,13 +16,13 @@ const use_cohere = true;
 const cohere_pinecone = await initPinecone(true);
 const openai_pinecone = await initPinecone(false);
 const pinecone = use_cohere ? cohere_pinecone : openai_pinecone;
-console.log("----- PINECONE ----- ");
-// console.log(pinecone);
-// console.log("\n\n");
-console.log(JSON.stringify(cohere_pinecone));
-console.log("\n");
-console.log(JSON.stringify(openai_pinecone));
-console.log("\n\n\n\n");
+// console.log("----- PINECONE ----- ");
+// // console.log(pinecone);
+// // console.log("\n\n");
+// console.log(JSON.stringify(cohere_pinecone));
+// console.log("\n");
+// console.log(JSON.stringify(openai_pinecone));
+// console.log("\n\n\n\n");
 
 /* Name of directory to retrieve your files from */
 const directory = 'docs';
@@ -30,9 +30,6 @@ const directory = 'docs';
 export const run = async (filePath: string) => {
   try {
     const namespace = filePath.split('/')[1];
-    if (namespace !== "stats") {
-      return;
-    }
     // console.log('namespace', namespace);
 
     /*load raw docs from the all files in the directory */
@@ -42,9 +39,9 @@ export const run = async (filePath: string) => {
 
     // const loader = new PDFLoader(filePath);
     const rawDocs = await directoryLoader.load();
-    const content = rawDocs[0].pageContent;
+    const content = rawDocs[7].pageContent;
 
-    // console.log(content);
+    console.log(content);
 
 
     // var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
@@ -62,17 +59,19 @@ export const run = async (filePath: string) => {
     // return;
 
     /* Split text into chunks */
-    const textSplitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 1000,
-      chunkOverlap: 200,
-    });
+    // const textSplitter = new RecursiveCharacterTextSplitter({
+    //   chunkSize: 1000,
+    //   chunkOverlap: 200,
+    // });
 
-    const docs = await textSplitter.splitDocuments(rawDocs);
+    // const docs = await textSplitter.splitDocuments(rawDocs);
 
-    console.log("DOCS");
-    console.log(docs);
-    console.log(JSON.stringify(docs[0].metadata.loc));
-    console.log("\n\n\n");
+    
+
+    // console.log("DOCS");
+    // console.log(docs);
+    // console.log(JSON.stringify(docs[0].metadata.loc));
+    // console.log("\n\n\n");
 
     // const cohere_embeddings = new CohereEmbeddings({
     //   verbose: true,
@@ -124,13 +123,16 @@ export const run = async (filePath: string) => {
 
 (async () => {
   await fs.readdir(directory, async (err: any, folders: string[]) => { 
-    // console.log(folders);
+    console.log(folders);
     if(err) { 
       // handle error; e.g., folder didn't exist 
       console.log(err);
     } 
     for (let folder_i in folders) {
-      await run(`${directory}/${folders[folder_i]}`);
+      if (folders[folder_i] == "tensor"){
+        await run(`${directory}/${folders[folder_i]}`);
+        return;
+      }
     }
     // console.log('ingestion complete');
   });

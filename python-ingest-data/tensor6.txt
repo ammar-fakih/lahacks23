@@ -1,0 +1,4527 @@
+Introduction to Tensor Calculus
+Kees Dullemond & Kasper Peeters
+c
+
+1991-2010
+
+This booklet contains an explanation about tensor calculusfor students of physics
+and engineering with a basic knowledge of linear algebra. The focus lies mainly on
+acquiring an understanding of the principles and ideas underlying the concept of
+‘tensor’. We have not pursued mathematical strictness and pureness, but instead
+emphasise practical use (for a more mathematically pure resum ́e, please see the bib-
+liography). Although tensors are applied in a very broad range of physics and math-
+ematics, this booklet focuses on the application in specialand general relativity.
+We are indebted to all people who read earlier versions of this manuscript and gave
+useful comments, in particular G. B ̈auerle (University of Amsterdam) and C. Dulle-
+mond Sr. (University of Nijmegen).
+The original version of this booklet, in Dutch, appeared on October 28th, 1991. A
+major update followed on September 26th, 1995. This versionis a re-typeset English
+translation made in 2008/2010.
+Copyright
+c
+
+1991-2010 Kees Dullemond & Kasper Peeters.
+
+1  The index notation5
+2  Bases, co- and contravariant vectors9
+2.1  Intuitive approach. . . . . . . . . . . . . . . . . . . . . . . . . . . . .9
+2.2  Mathematical approach. . . . . . . . . . . . . . . . . . . . . . . . . .   11
+3  Introduction to tensors15
+3.1  The new inner product and the first tensor. . . . . . . . . . . . . . .   15
+3.2  Creating tensors from vectors. . . . . . . . . . . . . . . . . . . . . . .   17
+4  Tensors, definitions and properties21
+4.1  Definition of a tensor. . . . . . . . . . . . . . . . . . . . . . . . . . . .   21
+4.2  Symmetry and antisymmetry. . . . . . . . . . . . . . . . . . . . . . .   21
+4.3  Contraction of indices. . . . . . . . . . . . . . . . . . . . . . . . . . .   22
+4.4  Tensors as geometrical objects. . . . . . . . . . . . . . . . . . . . . . .   22
+4.5  Tensors as operators. . . . . . . . . . . . . . . . . . . . . . . . . . . .   24
+5  The metric tensor and the new inner product25
+5.1  The metric as a measuring rod. . . . . . . . . . . . . . . . . . . . . . .   25
+5.2  Properties of the metric tensor. . . . . . . . . . . . . . . . . . . . . . .   26
+5.3  Co versus contra. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   27
+6  Tensor calculus29
+6.1  The ‘covariance’ of equations. . . . . . . . . . . . . . . . . . . . . . .   29
+6.2  Addition of tensors. . . . . . . . . . . . . . . . . . . . . . . . . . . . .   30
+6.3  Tensor products. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   31
+6.4  First order derivatives: non-covariant version. . . . . . . . . . . . . .   31
+6.5  Rot, cross-products and the permutation symbol. . . . . . . . . . . .   32
+7  Covariant derivatives35
+7.1  Vectors in curved coordinates. . . . . . . . . . . . . . . . . . . . . . .   35
+7.2  The covariant derivative of a vector/tensor field. . . . . . . . . . . .   36
+A Tensors in special relativity39
+B  Geometrical representation41
+C  Exercises47
+C.1  Index notation. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   47
+C.2  Co-vectors. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   49
+C.3  Introduction to tensors. . . . . . . . . . . . . . . . . . . . . . . . . . .   49
+C.4  Tensoren, algemeen. . . . . . . . . . . . . . . . . . . . . . . . . . . . .   50
+C.5  Metrische tensor. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   51
+C.6  Tensor calculus. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   51
+3
+
+4
+
+1
+The index notation
+Before we start with the main topic of this booklet, tensors,we will first introduce a
+new notation for vectors and matrices, and their algebraic manipulations: the index
+notation. It will prove to be much more powerful than the standard vector nota-
+tion. To clarify this we will translate all well-know vectorand matrix manipulations
+(addition, multiplication and so on) to index notation.
+Let us take a manifold (=space) with dimensionn. We will denote the compo-
+nents of a vector~vwith the numbersv
+1
+, . . . ,v
+n
+. If one modifies the vector basis, in
+which the componentsv
+1
+, . . . ,v
+n
+of vector~vare expressed, then these components
+will change, too. Such a transformation can be written usinga matrixA, of which
+the columns can be regarded as the old basis vectors~e
+1
+, . . . ,~e
+n
+expressed in the new
+basis~e
+1
+′
+, . . . ,~e
+n
+′
+,
+
+
+
+v
+′
+1
+.
+.
+.
+v
+′
+n
+
+
+
+=
+
+
+
+A
+11
+  A
+1n
+.
+.
+.
+.
+.
+.
+A
+n1
+  A
+nn
+
+
+
+
+
+
+v
+1
+.
+.
+.
+v
+n
+
+
+
+(1.1)
+Note that the first index ofAdenotes the row and the second index the column. In
+the next chapter we will say more about the transformation ofvectors.
+According to the rules of matrix multiplication the above equation means:
+v
+′
+1
+=A
+11
+v
+1
++A
+12
+v
+2
++  +A
+1n
+v
+n
+,
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+v
+′
+n
+=A
+n1
+v
+1
++A
+n2
+v
+2
++  +A
+nn
+v
+n
+,
+(1.2)
+or equivalently,
+v
+′
+1
+=
+n
+∑
+ν=1
+A
+1ν
+v
+ν
+,
+.
+.
+.
+.
+.
+.
+v
+′
+n
+=
+n
+∑
+ν=1
+A
+nν
+v
+ν
+,
+(1.3)
+or even shorter,
+v
+′
+m
+=
+n
+∑
+ν=1
+A
+mν
+v
+ν
+(∀m∈N|1≤m≤n).(1.4)
+In this formula we have put the essence of matrix multiplication. The indexνis a
+dummy indexandmis arunning index. The names of these indices, in this casemand
+5
+
+CHAPTER 1. THE INDEX NOTATION
+ν, are chosen arbitrarily. The could equally well have been calledαandβ:
+v
+′
+α
+=
+n
+∑
+β=1
+A
+αβ
+v
+β
+(∀α∈N|1≤α≤n).(1.5)
+Usually the conditions form(in Eq.
+1.4) orα(in Eq.1.5) are not explicitly stated
+because they are obvious from the context.
+The following statements are therefore equivalent:
+~v=~y⇔v
+m
+=y
+m
+⇔v
+α
+=y
+α
+,
+~v=A~y⇔v
+m
+=
+n
+∑
+ν=1
+A
+mν
+y
+ν
+⇔v
+ν
+=
+n
+∑
+m=1
+A
+νm
+y
+m
+.
+(1.6)
+Thisindex notationis also applicable to other manipulations, for instance theinner
+product. Take two vectors~vand~w, then we define the inner product as
+~v~w:=v
+1
+w
+1
++  +v
+n
+w
+n
+=
+n
+∑
+m=1
+v
+m
+w
+m
+.(1.7)
+(We will return extensively to the inner product. Here it is just as an example of the
+power of the index notation). In addition to this type of manipulations, one can also
+just take the sum of matrices and of vectors:
+C=A+B⇔C
+mν
+=A
+mν
++B
+mν
+~z=~v+~w⇔z
+α
+=v
+α
++w
+α
+(1.8)
+or their difference,
+C=A−B⇔C
+mν
+=A
+mν
+−B
+mν
+~z=~v−~w⇔z
+α
+=v
+α
+−w
+α
+(1.9)
+◮
+Exercises
+1to6of SectionC.1.
+From the exercises it should have become clear that the summation symbols
+∑
+can always be put at the start of the formula and that their order is irrelevant. We can
+therefore in principle omit these summation symbols, if we make clear in advance
+over which indices we perform a summation, for instance by putting them after the
+formula,
+n
+∑
+ν=1
+A
+mν
+v
+ν
+→A
+mν
+v
+ν
+{ν}
+n
+∑
+β=1
+n
+∑
+γ=1
+A
+αβ
+B
+βγ
+C
+γδ
+→A
+αβ
+B
+βγ
+C
+γδ
+{β,γ}
+(1.10)
+From the exercises one can already suspect that
+•almost never is a summation performed over an index if that index only ap-
+pears once in a product,
+•almost always a summation is performed over an index that appears twice in
+a product,
+•an index appears almost never more than twice in a product.
+6
+
+CHAPTER 1. THE INDEX NOTATION
+When one uses index notation in every day routine, then it will soon become
+irritating to denote explicitly over which indices the summation is performed. From
+experience (see above three points) oneknowsover which indices the summations
+are performed, so one will soon have the idea to introduce theconvention that,
+unless explicitly stated otherwise:
+•a summation is assumed over all indices that appear twice in aproduct, and
+•nosummation is assumed over indices that appear only once.
+From now on we will write all our formulae in index notation with this particular
+convention, which is called theEinstein summation convection. For a more detailed
+look at index notation with the summation convention we refer to [
+4]. We will thus
+from now on rewrite
+n
+∑
+ν=1
+A
+mν
+v
+ν
+→A
+mν
+v
+ν
+,
+n
+∑
+β=1
+n
+∑
+γ=1
+A
+αβ
+B
+βγ
+C
+γδ
+→A
+αβ
+B
+βγ
+C
+γδ
+.
+(1.11)
+◮
+Exercises
+7to10of SectionC.1.
+7
+
+CHAPTER 1. THE INDEX NOTATION
+8
+
+2
+Bases, co- and contravariant vectors
+In this chapter we introduce a new kind of vector (‘covector’), one that will be es-
+sential for the rest of this booklet. To get used to this new concept we will first show
+in an intuitive way how one can imagine this new kind of vector. After that we will
+follow a more mathematical approach.
+2.1. Intuitive approach
+We can map the space around us using a coordinate system. Let us assume that
+we use a linear coordinate system, so that we can use linear algebra to describe
+it. Physical objects (represented, for example, with an arrow-vector) can then be
+described in terms of the basis-vectors belonging to the coordinate system (there
+are some hidden difficulties here, but we will ignore these for the moment).  In
+this section we will see what happens when we choose another set of basis vectors,
+i.e. what happens upon a basis transformation.
+In a description with coordinates we must be fully aware thatthe coordinates
+(i.e. the numbers) themselves have no meaning. Only with thecorresponding basis
+vectors (which span up the coordinate system) do these numbers acquire meaning.
+It is important to realize that the object one describes is independent of the coordi-
+nate system (i.e. set of basis vectors) one chooses. Or in other words: an arrow does
+not change meaning when described an another coordinate system.
+Let us write down such a basis transformation,
+~e
+1
+′
+=a
+11
+~e
+1
++a
+12
+~e
+2
+,
+~e
+2
+′
+=a
+21
+~e
+1
++a
+22
+~e
+2
+.
+(2.1)
+This could be regarded as a kind of multiplication of a ‘vector’ with a matrix, as long
+as we take for the components of this ‘vector’ the basis vectors. If we describe the
+matrix elements with words, one would get something like:
+
+~e
+1
+′
+~e
+2
+′
+
+=
+ 
+projection of~e
+1
+′
+onto~e
+1
+projection of~e
+1
+′
+onto~e
+2
+projection of~e
+2
+′
+onto~e
+1
+projection of~e
+2
+′
+onto~e
+2
+!
+
+~e
+1
+~e
+2
+
+.(2.2)
+Note that the basis vector-colums
+
+.
+.
+
+arenotvectors, but just a very useful way to
+write things down.
+We can also look at what happens with the components of avectorif we use a
+different set of basis vectors. From linear algebra we know that the transformation
+9
+
+2.1 Intuitive approach
+e
+e
+v=(
+0.4
+0.8
+)
+1
+2
+v=(
+0.4
+)
+2
+e’
+e’
+1
+1.6
+Figure 2.1:The behaviour of the transformation of the components of a vector under
+the transformation of a basis vector~e
+1
+′
+=
+1
+2
+~e
+1
+→v
+1
+′
+=2v
+1
+.
+matrix can be constructed by putting the old basis vectorsexpressed in the new basis
+in the columns of the matrix. In words,
+
+v
+1
+′
+v
+2
+′
+
+=
+
+projection of~e
+1
+onto~e
+1
+′
+projection of~e
+2
+onto~e
+1
+′
+projection of~e
+1
+onto~e
+2
+′
+projection of~e
+2
+onto~e
+2
+′
+
+v
+1
+v
+2
+
+.(2.3)
+It is clear that the matrices of Eq. (
+2.2) and Eq. (2.3) arenotthe same.
+We now want to compare the basis-transformation matrix of Eq. (2.2) with the
+coordinate-transformation matrix of Eq. (
+2.3). To do this we replace all the primed
+elements in the matrix of Eq. (
+2.3) by non-primed elements and vice-versa. Compar-
+ison with the matrix in Eq. (2.2) shows that we also have to transpose the matrix. So
+if we call the matrix of Eq. (
+2.2)Λ, then Eq. (2.3) is equivalent to:
+~v
+′
+= (Λ
+−1
+)
+T
+~v.(2.4)
+The normal vectors are called ‘contravariant vectors’, because they transform con-
+trary to the basis vector columns. That there must be a different behavior is also
+intuitively clear: if we described an ‘arrow’ by coordinates, and we then modify the
+basis vectors, then the coordinates must clearly change in the opposite way to make
+sure that the coordinates times the basis vectors produce the same physical ‘arrow’
+(see Fig.
+??).
+In view of these two opposite transformation properties, wecould now attempt
+to construct objects that, contrary to normal vectors, transform the same as the basis
+vector columns. In the simple case in which, for example, thebasis vector~e
+1
+′
+trans-
+forms into
+1
+2
+×~e
+1
+, the coordinate of this object must then also
+1
+2
+times as large. This
+is precisely what happens to the coordinates of a gradient ofa scalar function! The
+reason is that such a gradient is the difference of the function per unit distance in
+the direction of the basis vector. When this ‘unit’ suddenlyshrinks (i.e. if the basis
+vector shrinks) this means that the gradient must shrink too(see Fig.
+??for a one-
+dimensional example). A ‘gradient’, which we so far have always regarded as a true
+vector, will from now on be called a ‘covariant vector’ or ‘covector’: it transforms in
+the same way as the basis vector columns.
+The fact that gradients have usually been treated as ordinary vectors is that if
+the coordinate transformation transforms one cartesian coordinate system into the
+other (or in other words: one orthonormal basis into the other), then the matricesΛ
+en(Λ
+−1
+)
+T
+are the same.
+◮
+Exercises
+1,2of SectionC.2.
+As long as one transforms only between orthonormal basis, there is no difference
+between contravariant vectors and covariant vectors. However, it is not always pos-
+sible in practice to restrict oneself to such bases. When doing vector mathematics in
+10
+
+2.2 Mathematical approach
+e
+e
+1
+2
+F
+grad F = -1.4
+F
+2
+e’
+grad F = -0.7
+e’
+1
+Figure 2.2:Basis vector~e
+1
+′
+=
+1
+2
+~e
+1
+→
+~
+∇f
+′
+=
+1
+2
+~
+∇f
+curved coordinate systems (like polar coordinates for example), one is often forced
+to use non-orthonormal bases. And in special relativity oneis fundamentally forced
+to distinguish between co- and contravariant vectors.
+2.2. Mathematical approach
+Now that we have a notion for the difference between the transformation of a vector
+and the transformation of a gradient, let us have a more mathematical look at this.
+Consider ann-dimensional manifold with coordinatesx
+1
+,x
+2
+, ...,x
+n
+. We define
+the gradient of a functionf(x
+1
+,x
+2
+, ...,x
+n
+),
+(∇f)
+m
+:=
+∂f
+∂x
+m
+.(2.5)
+The difference in transformation will now be demonstrated using the simplest of
+transformations: a homogeneous linear transformation (wedid this in the previous
+section already, since we described all transformations with matrices). In general a
+coordinate transformation can also be non-homogeneous linear, (e.g. a translation),
+but we will not go into this here.
+Suppose we have a vector field defined on this manifoldV:~v=~v(~x). Let us
+perform a homogeneous linear transformation of the coordinates:
+x
+′
+m
+=A
+mν
+x
+ν
+.(2.6)
+In this case not only the coordinatesx
+m
+change (and therefore the dependence of~v
+on the coordinates), but also the components of the vectors,
+v
+′
+m
+(~x) =A
+mν
+v
+ν
+(~x),(2.7)
+whereAis the same matrix as in Eq. (
+2.6) (this may look trivial, but it is useful to
+check it! Also note that we take as transformation matrix thematrix that describes
+the transformation of the vector components, whereas in theprevious section we
+took forΛthe matrix that describes the transformation of the basis vectors. SoAis
+equal to(Λ
+−1
+)
+T
+).
+Now take the functionf(x
+1
+,x
+2
+, ...,x
+n
+)and the gradientw
+α
+at a pointPin the
+following way,
+w
+α
+=
+∂f
+∂x
+α
+,(2.8)
+and in the new coordinate system as
+w
+′
+α
+=
+∂f
+∂x
+′
+α
+.(2.9)
+11
+
+2.2 Mathematical approach
+It now follows (using the chain rule) that
+∂f
+∂x
+′
+1
+=
+∂f
+∂x
+1
+∂x
+1
+∂x
+′
+1
++
+∂f
+∂x
+2
+∂x
+2
+∂x
+′
+1
++...+
+∂f
+∂x
+n
+∂x
+n
+∂x
+′
+1
+.(2.10)
+That is,
+∂f
+∂x
+′
+m
+=
+ 
+∂x
+ν
+∂x
+′
+m
+!
+∂f
+∂x
+ν
+,(2.11)
+w
+′
+m
+=
+ 
+∂x
+ν
+∂x
+′
+m
+!
+w
+ν
+.(2.12)
+This describes how a gradient transforms. One can regard thepartial derivative
+∂x
+ν
+∂x
+′
+m
+as the matrix(A
+−1
+)
+T
+whereAis defined as in Eq. (
+2.6). To see this we first take the
+inverse of Eq. (2.6):
+x
+m
+= (A
+−1
+)
+mν
+x
+′
+ν
+.(2.13)
+Now take the derivative,
+∂x
+m
+∂x
+′
+α
+=
+∂((A
+−1
+)
+mν
+x
+′
+ν
+)
+∂x
+′
+α
+= (A
+−1
+)
+mν
+∂x
+′
+ν
+∂x
+′
+α
++
+∂(A
+−1
+)
+mν
+∂x
+′
+α
+x
+′
+ν
+.(2.14)
+Because in this caseAdoes not depend onx
+′
+α
+the last term on the right-hand side
+vanishes. Moreover, we have that
+∂x
+′
+ν
+∂x
+′
+α
+=δ
+να
+,δ
+να
+=
+
+1  whenν=α,
+0  whenν6=α.
+(2.15)
+Therefore, what remains is
+∂x
+m
+∂x
+′
+α
+= (A
+−1
+)
+mν
+δ
+να
+= (A
+−1
+)
+mα
+.(2.16)
+With Eq. (
+2.12) this yields for the transformation of a gradient
+w
+′
+m
+= (A
+−1
+)
+T
+mν
+w
+ν
+.(2.17)
+The indices are now in the correct position to put this in matrix form,
+w
+′
+= (A
+−1
+)
+T
+w.(2.18)
+(We again note that the matrixAused here denotes the coordinate transformation
+from the coordinatesxto the coordinatesx
+′
+).
+We have shown here what is the difference in the transformation properties of
+normal vectors (‘arrows’) and gradients. Normal vectors wecall from now oncon-
+travariant vectors(though we usually simply call themvectors) and gradients we call
+covariant vectors(orcovectorsorone-forms). It should be noted that not every covari-
+ant vector field can be constructed as a gradient of a scalar function. A gradient has
+the property that∇ ×(∇f) =0, while not all covector fields may have this prop-
+erty. To distinguish vectors from covectors we will denote vectors with an arrow
+(~v) and covectors with a tilde (
+ ̃
+w). To make further distinction between contravari-
+ant and covariant vectors we will put the contravariant indices (i.e. the indices of
+contravariant vectors) assuperscriptand the covariant indices (i.e. the indices of co-
+variant vectors) withsubscripts,
+y
+α
+: contravariant vector
+w
+α
+: covariant vector, or covector
+12
+
+2.2 Mathematical approach
+In practice it will turn out to be very useful to also introduce this convention for
+matrices. Without further argumentation (this will be given later) we note that the
+matrixAcan be written as:
+A:A
+m
+ν
+.(2.19)
+The transposed version of this matrix is:
+A
+T
+:A
+ν
+m
+.(2.20)
+With this convention the transformation rules for vectors resp. covectors become
+v
+′
+m
+=A
+m
+ν
+v
+ν
+,(2.21)
+w
+′
+m
+= (A
+−1
+)
+T
+m
+ν
+w
+ν
+= (A
+−1
+)
+ν
+m
+w
+ν
+.(2.22)
+The deltaδof Eq. (
+2.15) also gets a matrix form,
+δ
+mν
+→δ
+m
+ν
+.(2.23)
+This is called the ‘Kronecker delta’. It simply has the ‘function’ of ‘renaming’ an
+index:
+δ
+m
+ν
+y
+ν
+=y
+m
+.(2.24)
+13
+
+2.2 Mathematical approach
+14
+
+3
+Introduction to tensors
+Tensor calculus is a technique that can be regarded as a follow-up on linear algebra.
+It is a generalisation of classical linear algebra. In classical linear algebra one deals
+with vectors and matrices. Tensors are generalisations of vectors and matrices, as
+we will see in this chapter.
+In section
+3.1we will see in an example how a tensor can naturally arise. In
+section
+3.2we will re-analyse the essential step of section3.1, to get a better under-
+standing.
+3.1. The new inner product and the first tensor
+The inner product is very important in physics. Let us consider an example. In
+classical mechanics it is true that the ‘work’ that is done when an object is moved
+equals the inner product of the force acting on the object andthe displacement vector
+~x,
+W=h
+~
+F,~xi.(3.1)
+The workWmust of course be independent of the coordinate system in which the
+vectors
+~
+Fand~xare expressed. The inner product as we know it,
+s=h~a,
+~
+bi=a
+m
+b
+m
+(old definition)(3.2)
+does not have this property in general,
+s
+′
+=h~a
+′
+,
+~
+b
+′
+i=A
+m
+α
+a
+α
+A
+m
+β
+b
+β
+= (A
+T
+)
+m
+α
+A
+m
+β
+a
+α
+b
+β
+,(3.3)
+whereAis the transformation matrix. Only ifA
+−1
+equalsA
+T
+(i.e. if we are dealing
+withorthonormaltransformations)swill not change. The matrices will then together
+form the kronecker deltaδ
+βα
+. It appears as if the inner product only describes the
+physics correctly in a special kind of coordinate system: a system which according to
+our human perception is ‘rectangular’, and has physical units, i.e. a distance of 1 in
+coordinatex
+1
+means indeed 1 meter inx
+1
+-direction. An orthonormal transformation
+produces again such a rectangular ‘physical’ coordinate system. If one has so far
+always employed such special coordinates anyway, this inner product has always
+worked properly.
+However, as we already explained in the previous chapter, itis not always guar-
+anteed that one can use such special coordinate systems (polar coordinates are an
+example in which thelocalorthonormal basis of vectors is not the coordinate basis).
+15
+
+3.1 The new inner product and the first tensor
+The inner product between a vectorxand a covectory, however,isinvariant
+under all transformations,
+s=x
+m
+y
+m
+,(3.4)
+because for allAone can write
+s
+′
+=x
+′
+m
+y
+′
+m
+=A
+m
+α
+x
+α
+(A
+−1
+)
+β
+m
+y
+β
+= (A
+−1
+)
+β
+m
+A
+m
+α
+x
+α
+y
+β
+=δ
+β
+α
+x
+α
+y
+β
+=s(3.5)
+With help of this inner produce we can introduce a new inner product between
+two contravariant vectors which also has this invariance property. To do this we
+introduce a covectorw
+m
+and define the inner product betweenx
+m
+andy
+ν
+with respect
+tothis covectorw
+m
+in the following way (we will introduce a better definition later):
+s=w
+m
+w
+ν
+x
+m
+y
+ν
+(first attempt)(3.6)
+(Warning:later it will become clear that this definition is not quite useful, but at
+least it will bring us on the right track toward finding an invariant inner product be-
+tween two contravariant vectors). The inner productswill now obviously transform
+correctly, because it is made out of two invariant ones,
+s
+′
+= (A
+−1
+)
+m
+α
+w
+m
+(A
+−1
+)
+ν
+β
+w
+ν
+A
+α
+ρ
+x
+ρ
+A
+β
+σ
+y
+σ
+= (A
+−1
+)
+m
+α
+A
+α
+ρ
+(A
+−1
+)
+ν
+β
+A
+β
+σ
+w
+m
+w
+ν
+x
+ρ
+y
+σ
+=δ
+m
+ρ
+δ
+ν
+σ
+w
+m
+w
+ν
+x
+ρ
+y
+σ
+=w
+m
+w
+ν
+x
+m
+y
+ν
+=s.
+(3.7)
+We have now produced an invariant ‘inner product’ for contravariant vectors by
+using a covariant vectorw
+m
+as a measure of length. However, this covector appears
+twice in the formula. One can also rearrange these factors inthe following way,
+s= (w
+m
+w
+ν
+)x
+m
+y
+ν
+=
+ 
+x
+1
+x
+2
+x
+3
+
+
+
+w
+1
+w
+1
+w
+1
+w
+2
+w
+1
+w
+3
+w
+2
+w
+1
+w
+2
+w
+2
+w
+2
+w
+3
+w
+3
+w
+1
+w
+3
+w
+2
+w
+3
+w
+3
+
+
+
+
+y
+1
+y
+2
+y
+3
+
+
+.    (3.8)
+In this way the two appearances of the covectorware combined intooneobject:
+some kind of product ofwwith itself. It is some kind of matrix, since it is a collection
+of numbers labeled with indicesmandν. Let us call this objectg,
+g=
+
+
+w
+1
+w
+1
+w
+1
+w
+2
+w
+1
+w
+3
+w
+2
+w
+1
+w
+2
+w
+2
+w
+2
+w
+3
+w
+3
+w
+1
+w
+3
+w
+2
+w
+3
+w
+3
+
+
+=
+
+
+g
+11
+g
+12
+g
+13
+g
+21
+g
+22
+g
+23
+g
+31
+g
+32
+g
+33
+
+
+.(3.9)
+Instead of using a covectorw
+m
+in relation to which we define the inner product,
+we can also directly define the objectg: that is more direct. So, we define the inner
+productwith respect tothe objectgas:
+s=g
+mν
+x
+m
+y
+ν
+new definition(3.10)
+Now we must make sure that the objectgis chosen such that our new inner product
+reproduces the old oneifwe choose an orthonormal coordinate system. So, with
+Eq. (
+3.8) in an orthonormal system one should have
+s=g
+mν
+x
+m
+y
+ν
+=
+ 
+x
+1
+x
+2
+x
+3
+
+
+
+g
+11
+g
+12
+g
+13
+g
+21
+g
+22
+g
+23
+g
+31
+g
+32
+g
+33
+
+
+
+
+y
+1
+y
+2
+y
+3
+
+
+=x
+1
+y
+1
++x
+2
+y
+2
++x
+3
+y
+3
+in an orthonormal system!
+(3.11)
+16
+
+3.2 Creating tensors from vectors
+To achieve this,gmust become, in an orthonormal system, something like a unit
+matrix:
+g
+mν
+=
+
+
+1  0  0
+0  1  0
+0  0  1
+
+
+in an orthonormal system!(3.12)
+One can see that one cannot produce this set of numbers according to Eq. (
+3.9).
+This means that the definition of the inner product accordingto Eq. (3.6) has to be
+rejected (hence the warning that was written there). Instead we have to start directly
+from Eq. (
+3.10). We do no longer regardgas built out of two covectors, but regard it
+as a matrix-like set of numbers on itself.
+However, it does not have the transformation properties of aclassical matrix.
+Remember that the matrixAof the previous chapter had one index up and one
+index down:A
+m
+ν
+, indicating that it has mixed contra- and co-variant transformation
+properties. The new objectg
+mν
+, however, has both indices down: it transforms in
+both indices in a covariant way, like thew
+m
+w
+ν
+which we initially used for our inner
+product. This curious object, which looks like a matrix, butdoes not transform as
+one, is an example of atensor. A matrix is also a tensor, as are vectors and covectors.
+Matrices, vectors and covectors are special cases of the more general class of objects
+called ‘tensors’. The objectg
+mν
+is a kind of tensor that is neither a matrix nor a vector
+or covector. It is a new kind of object for which only tensor mathematics has a proper
+description.
+The objectgis called ametric, and we will study its properties later in more
+detail: in Chapter
+5.
+With this last step we now have a complete description of the new inner product
+between contravariant vectors that behaves properly, in that it remains invariant
+under any linear transformation, and that it reproduces theold inner product when
+we work in an orthonormal basis. So, returning to our original problem,
+W=h
+~
+F,~xi=g
+mν
+F
+m
+x
+ν
+general formula .(3.13)
+In this section we have in fact put forward two new concepts: the new inner
+product and the concept of a ‘tensor’. We will cover both concepts more deeply: the
+tensors in Section
+3.2and Chapter4, and the inner product in Chapter5.
+3.2. Creating tensors from vectors
+In the previous section we have seen how one can produce a tensor out of two
+covectors. In this section we will revisit this procedure from a slightly different
+angle.
+Let us look at products between matrices and vectors, like wedid in the previous
+chapters. One starts with an object with two indices and thereforen
+2
+components
+(the matrix) and an object with one index and thereforencomponents (the vector).
+Together they haven
+2
++ncomponenten. After multiplication one is left with one
+object with one index andncomponents (a vector). One has therefore lost(n
+2
++
+n)−n=n
+2
+numbers: they are ‘summed away’. A similar story holds for the inner
+product between a covector and a vector. One starts with 2ncomponents and ends
+up with one number,
+s=x
+m
+y
+m
+=x
+1
+y
+1
++x
+2
+y
+2
++x
+3
+y
+3
+.(3.14)
+Summation therefore reduces the number of components.
+In standard multiplication procedures from classical linear algebra such a sum-
+mation usually takes place: for matrix multiplications as well as for inner products.
+In index notation this is denoted with paired indices using the summation conven-
+tion. However, the index notation also allows us to multiplyvectors and covectors
+17
+
+3.2 Creating tensors from vectors
+withoutpairing up the indices, and therefore without summation. The object one
+thus obtains does not have fewer components, butmore:
+s
+m
+ν
+:=x
+m
+y
+ν
+=
+
+
+x
+1
+y
+1
+x
+1
+y
+2
+x
+1
+y
+3
+x
+2
+y
+1
+x
+2
+y
+2
+x
+2
+y
+3
+x
+3
+y
+1
+x
+3
+y
+2
+x
+3
+y
+3
+
+
+.(3.15)
+We now did not produce one number (as we would have if we replacedνwithmin
+the above formula) but instead an ordered set of numbers labelled with the indicesm
+andν. So if we take the example~x= (1, 3, 5)and
+ ̃
+y= (4, 7, 6), then the tensor-
+components ofs
+m
+ν
+are, for example:s
+2
+3
+=x
+2
+y
+3
+=36=18 ands
+1
+1
+=x
+1
+y
+1
+=
+14=4, and so on.
+This is the kind of ‘tensor’ object that this booklet is about. However, this ob-
+ject still looks very much like a matrix, since a matrix is also nothing more or less
+than a set of numbers labeled with two indices. To check if this is a true matrix or
+something else, we need to see how it transforms,
+s
+′α
+β
+=x
+′α
+y
+′
+β
+=A
+α
+m
+x
+m
+(A
+−1
+)
+ν
+β
+y
+ν
+=A
+α
+m
+(A
+−1
+)
+ν
+β
+(x
+m
+y
+ν
+) =A
+α
+m
+(A
+−1
+)
+ν
+β
+s
+m
+ν
+.  (3.16)
+◮
+Exercise
+2of SectionC.3.
+If we compare the transformation in Eq.(
+3.16) with that of a true matrix of ex-
+ercise
+2we see that the tensor we constructed is indeed an ordinary matrix. But if
+instead we use two covectors,
+t
+mν
+=x
+m
+y
+ν
+=
+
+
+x
+1
+y
+1
+x
+1
+y
+2
+x
+1
+y
+3
+x
+2
+y
+1
+x
+2
+y
+2
+x
+2
+y
+3
+x
+3
+y
+1
+x
+3
+y
+2
+x
+3
+y
+3
+
+
+,(3.17)
+then we get a tensor with different transformation properties,
+t
+′
+αβ
+=x
+′
+α
+y
+′
+β
+= (A
+−1
+)
+m
+α
+x
+m
+(A
+−1
+)
+ν
+β
+y
+ν
+= (A
+−1
+)
+m
+α
+(A
+−1
+)
+ν
+β
+(x
+m
+y
+ν
+)
+= (A
+−1
+)
+m
+α
+(A
+−1
+)
+ν
+β
+t
+mν
+.
+(3.18)
+The difference withs
+m
+ν
+lies in the first matrix of the transformation equation. Fors
+it is the transformation matrix for contravariant vectors,while fortit is the trans-
+formation matrix for covariant vectors. The tensortis clearlynota matrix, so we
+indeed created something new here. Thegtensor of the previous section is of the
+same type ast.
+The beauty of tensors is that they can have an arbitrary number of indices. One
+can also produce, for instance, a tensor with 3 indices,
+A
+αβγ
+=x
+α
+y
+β
+z
+γ
+.(3.19)
+This is an ordered set of numbes labeled with three indices. It can be visualized as a
+kind of ‘super-matrix’ in 3 dimensions (see Fig.
+??).
+These are tensors ofrank 3, as opposed to tensors of rank 0 (scalars), rank 1
+(vectors and covectors) and rank 2 (matrices and the other kind of tensors we in-
+troduced so far). We can distinguish between the contravariant rank and covariant
+rank. ClearlyA
+αβγ
+is a tensor of covariant rank 3 and contravariant rank 0. Its to-
+tal rank is 3. One can also produce tensors of, for instance, contravariant rank 2
+18
+
+3.2 Creating tensors from vectors
+A
+A
+A
+AA
+A
+A
+A
+A
+131
+121
+111112
+122
+132133
+123
+113
+A
+A
+A
+AA
+A
+A
+A
+A
+231
+221
+211
+232
+222
+212
+233
+223
+213
+A
+A
+A
+AA
+A
+A
+A
+A
+331332333
+321322323
+311312313
+Figure 3.1:A tensor of rank 3.
+and covariant rank 3 (i.e. total rank 5):B
+αβ
+mνφ
+. A similar tensor,C
+α
+mνφ
+β
+, is also of
+contravariant rank 2 and covariant rank 3. Typically, when tensor mathematics is
+applied, the meaning of each index has been defined beforehand: the first index
+means this, the second means that etc. As long as this is well-defined, then one can
+have co- and contra-variant indices in any order. However, since it usuallylooks bet-
+ter(though this is a matter of taste) to have the contravariant indices first and the
+covariant ones last, usually the meaning of the indices is chosen in such a way that
+this is accomodated. This is just a matter of how one chooses to assign meaning to
+each of the indices.
+Again it must be clear that although a multiplication (without summation!) ofm
+vectors andmcovectors produces a tensor of rankm+n,not every tensor of rank m+
+n can be constructed as such a product. Tensors are much more general than these
+simple products of vectors and covectors. It is therefore important to step away
+from this picture of combining vectors and covectors into a tensor, and consider this
+construction as nothing more than a simple example.
+19
+
+3.2 Creating tensors from vectors
+20
+
+4
+Tensors, definitions and properties
+Now that we have a first idea of what tensors are, it is time for amore formal de-
+scription of these objects.
+We begin with a formal definition of a tensor in Section
+4.1. Then, Sections4.2
+and4.3give some important mathematical properties of tensors. Section4.4gives
+an alternative, in the literature often used, notation of tensors. And finally, in Sec-
+tion
+4.5, we take a somewhat different view, considering tensors as operators.
+4.1. Definition of a tensor
+‘Definition’ of a tensor: An(N,M)-tensor at a given point in space can be described
+by a set of numbers withN+Mindices which transforms, upon coordinate trans-
+formation given by the matrixA, in the following way:
+t
+′α
+1
+...α
+N
+β
+1
+...β
+M
+=A
+α
+1
+m
+1
+. . .A
+α
+N
+m
+N
+(A
+−1
+)
+ν
+1
+β
+1
+. . .(A
+−1
+)
+ν
+M
+β
+M
+t
+m
+1
+...m
+N
+ν
+1
+...ν
+M
+(4.1)
+An(N,M)-tensor in a three-dimensional manifold therefore has 3
+(N+M)
+compo-
+nents. It is contravariant inNcomponents and covariant inMcomponents. Tensors
+of the type
+t
+α
+β
+γ
+(4.2)
+are of course not excluded, as they can be constructed from the above kind of tensors
+by rearrangement of indices (like the transposition of a matrix as in Eq.
+2.20).
+Matrices (2 indices), vectors and covectors (1 index) and scalars (0 indices) are
+therefore also tensors, where the latter transforms ass
+′
+=s.
+4.2. Symmetry and antisymmetry
+In practice it often happens that tensors display a certain amount of symmetry, like
+what we know from matrices. Such symmetries have a strong effect on the proper-
+ties of these tensors. Often many of these properties or eventensor equations can be
+derived solely on the basis of these symmetries.
+A tensortis calledsymmetricin the indicesmandνif the components are equal
+upon exchange of the index-values. So, for a 2
+nd
+rank contravariant tensor,
+t
+mν
+=t
+νm
+symmetric (2,0)-tensor.(4.3)
+21
+
+4.4 Tensors as geometrical objects
+A tensortis calledanti-symmetricin the indicesmandνif the components are equal-
+but-opposite upon exchange of the index-values. So, for a 2
+nd
+rank contravariant
+tensor,
+t
+mν
+=−t
+νm
+anti-symmetric (2,0)-tensor.(4.4)
+It is not useful to speak of symmetry or anti-symmetry in a pair of indices that are
+not of the same type (co- or contravariant). The properties of symmetry only remain
+invariant upon basis transformation if the indices are of the same type.
+◮
+Exercises
+2and3of SectionC.4.
+4.3. Contraction of indices
+With tensors of at least one covariant and at least one contravariant index we can
+define a kind of ‘internal inner product’. In the simplest case this goes as,
+t
+α
+α
+,(4.5)
+where, as usual, we sum overα. This is the trace of the matrixt
+α
+β
+. Also this con-
+struction is invariant under basis transformations. In classical linear algebra this
+property of the trace of a matrix was also known.
+◮
+Exercise
+3of SectionC.4.
+One can also perform such acontraction of indiceswith tensors of higher rank, but
+then some uncontracted indices remain, e.g.
+t
+αβ
+α
+=v
+β
+,(4.6)
+In this way we can convert a tensor of type(N,M)into a tensor of type(N−1,M−
+1). Of course, this contraction procedure causes informationto get lost, since after
+the contraction we have fewer components.
+Note that contraction can only take place between one contravariant index and
+one covariant index. A contraction liket
+αα
+is not invariant under coordinate trans-
+formation, and we should therefore reject such constructions. In fact, the summa-
+tions of the summation conventiononlyhappen over a covariant and a contravariant
+index, be it a contraction of a tensor (liket
+mα
+α
+) or an inner product between two ten-
+sors (liket
+mα
+y
+αν
+).
+4.4. Tensors as geometrical objects
+Vectors can be seen as columns of numbers, but also as arrows.One can perform
+calculations with these arrows if one regards them as linearcombinations of ‘basis
+arrows’,
+~v=
+∑
+m
+v
+m
+~e
+m
+.(4.7)
+We would like to do something like this also with covectors and eventually of course
+with all tensors. For covectors it amounts to constructing aset of ‘unit covectors’ that
+serve as a basis for the covectors. We write
+ ̃
+w=
+∑
+m
+w
+m
+ ̃
+e
+m
+.(4.8)
+Note: we denote the basis vectors and basis covectors with indices, but we do not
+mean the components of these basis (co-)vectors (after all:in which basis would that
+22
+
+4.4 Tensors as geometrical objects
+be?). Instead we label the basis (co-)vectors themselves with these indices. This way
+of writing was already introduced in Section
+2.1. In spite of the fact that these indices
+have therefore a slightly different meaning, we still use the usual conventions of
+summation for these indices. Note that we mark the co-variant basis vectors with
+anupperindex and the contra-variant basis-vectors with alowerindex. This may
+sound counter-intuitive (‘did we not decide to use upper indices for contra-variant
+vectors?’) but this is precisely what we mean with the ‘different meaning of the
+indices’ here: this time theylabelthe vectors and do not denote their components.
+The next step is to express the basis of covectors in the basisof vectors. To do this,
+let us remember that the inner product between a vector and a covector is always
+invariant under transformations, independent of the chosen basis:
+~v
+ ̃
+w=v
+α
+w
+α
+(4.9)
+We now substitute Eq. (
+4.7) and Eq. (4.8) into the left hand side of the equation,
+~v
+ ̃
+w=v
+α
+~e
+α
+w
+β
+ ̃
+e
+β
+.(4.10)
+If Eq. (
+4.9) and Eq. (4.10) have to remain consistent, it automatically follows that
+ ̃
+e
+β
+~e
+α
+=δ
+β
+α
+.(4.11)
+On the left hand side one has the inner product between a covector
+ ̃
+e
+β
+and a vec-
+tor~e
+α
+. This time the inner product is written in abstract form (i.e. not written out
+in components like we did before). The indicesαandβsimply denote which of
+the basis covectors (β) is contracted with which of the basis vectors (α). A geomet-
+rical representation of vectors, covectors and the geometric meaning of their inner
+product is given in appendix
+B.
+Eq. (4.11) is the (implicit) definition of the co-basis in terms of the basis. This
+equation does not give the co-basis explicitly, but it defines it nevertheless uniquely.
+This co-basis is called the ‘dual basis’. By arranging the basis covectors in columns
+as in Section
+2.1, one can show that they transform as
+ ̃
+e
+′α
+=A
+α
+β
+ ̃
+e
+β
+,(4.12)
+when we chooseA(that was equal to(Λ
+−1
+)
+T
+) in such a way that
+~e
+′
+α
+= ((A
+−1
+)
+T
+)
+α
+β
+~e
+β
+.(4.13)
+In other words: basis-covector-columns transform as vectors, in contrast to basis-
+vector-columns, which transform as covectors.
+The description of vectors and covectors as geometric objects is now complete.
+We can now also express tensors in such an abstract way (againhere we refer to
+the mathematical description; a geometric graphical depiction of tensors is given in
+appendix
+B). We then express these tensors in terms of ‘basis tensors’.These can be
+constructed from the basis vectors and basis covectors we have constructed above,
+t=t
+mν
+ρ
+~e
+m
+⊗~e
+ν
+⊗
+ ̃
+e
+ρ
+.(4.14)
+The operator⊗is the ‘tensor outer product’. Combining tensors (in this case the
+basis (co-)vectors) with such an outer product means that the rank of the resulting
+tensor is the sum of the ranks of the combined tensors. It is the geometric (abstract)
+version of the ‘outer product’ we introduced in Section
+3.2to create tensors. The
+operator⊗is not commutative,
+~a⊗
+~
+b6=
+~
+b⊗~a.(4.15)
+23
+
+4.5 Tensors as operators
+4.5. Tensors as operators
+Let us revisit the new inner product withva vector andwa covector,
+w
+α
+v
+α
+=s.(4.16)
+If we drop index notation and we use the usual symbols we have,
+ ̃
+w~v=s,(4.17)
+This could also be written as
+ ̃
+w(~v) =s,(4.18)
+where the brackets mean that the covector
+ ̃
+w actson the vector~v. In this way,
+ ̃
+wis an
+operator (a function) which ‘eats’ a vector and produces a scalar. Therefore, written
+in the usual way to denote maps from one set to another,
+ ̃
+w:R
+n
+→R.(4.19)
+A covector is then called a linear ‘function of direction’: the result of the operation
+(i.e. the resulting scalar) is linearly dependent on the input (the vector), which is a
+directional object. We can also regard it the other way around,
+~v(
+ ̃
+w) =s.(4.20)
+where the vector is now the operator and the covector the argument. To prevent
+confusion we write Eq. (
+4.19) from now on in a somewhat different way,
+~v:R
+∗
+3
+→R.(4.21)
+An arbitrary tensor of rank(N,M)can also be regarded in this way. The tensor
+has as input a tensor of rank(M,N), or the product of more than one tensors of
+lower rank, such that the number of contravariant indices equalsMand the number
+of covariant indices equalsN. After contraction of all indices we obtain a scalar.
+Example (for a(2, 1)-tensor),
+t
+αβ
+γ
+a
+α
+b
+β
+c
+γ
+=s.(4.22)
+The tensortcan be regarded as a function of 2 covectors (aanb) and 1 vector (c),
+which produces a real number (scalar). The function is linearly dependent on its
+input, so that we can call this a ‘multilinear function of direction’. This somewhat
+complex nomenclature for tensors is mainly found in older literature.
+Of course the fact that tensors can be regarded to some degreeas functions or
+operators does not mean that it is always useful to do so.  In most applications
+tensors are considered as objects themselves, and not as functions.
+24
+
+5
+The metric tensor and the new inner
+product
+In this chapter we will go deeper into the topic of the new inner product. The new
+inner product, and the metric tensorgassociated with it, is of great importance to
+nearly all applications of tensor mathematics in non-cartesian coordinate systems
+and/or curved manifolds. It allows us to produce mathematical and physical for-
+mulae that are invariant under coordinate transformationsof any kind.
+In Section
+5.1we will give an outline of the role that is played by the metric
+tensorgin geometry. Section
+5.2covers the properties of this metric tensor. Finally,
+Section5.3describes the procedure of raising or lowering an index using the metric
+tensor.
+5.1. The metric as a measuring rod
+If one wants to describe a physical system, then one typically wants to do this with
+numbers, because they are exact and one can put them on paper.To be able to do this
+one must first define a coordinate system in which the measurements can be done.
+One could in principle take the coordinate system in any way one likes, but often
+one prefers to use an orthonormal coordinate system becausethis is particularly
+practical for measuring distances using the law of Pythagoras.
+However, often it is not quite practical to use such cartesian coordinates. For
+systems with (nearly) cylindrical symmetry or (nearly) spherical symmetry, for in-
+stance, it is much more practical to use cylindrical or polarcoordinates, even though
+onecoulduse cartesian ones. In some applications it is even impossible to use or-
+thonormal coordinates, for instance in the case of mapping of the surface of the
+Earth. In a typical projection of the Earth with meridians vertically and parallels
+horizontally, the northern countries are stretched enormously and the north/south
+pole is a line instead of a point. Measuring distances (or thelength of a vector) on
+such a map with Pythagoras would produce wrong results.
+What one has to do to get an impression of ‘true’ distances, sizes and propor-
+tions is to draw on various places on the Earth-map a ‘unit circle’ that represents,
+say, 100 km in each direction (if we wish to measure distancesin units of 100 km).
+At the equator these are presumably circles, but as one goes toward the pole they
+tend to become ellipses: they are circles that are stretchedin horizonal (east-west)
+direction. At the north pole such a ‘unit circle’ will be stretched infinitely in hori-
+zontal direction. There is a strong relation between this unit circle and the metricg.
+In appendix
+Bone can see that indeed a metric can be graphically represented with
+25
+
+5.2 Properties of the metric tensor
+a unit circle (in 2-D) or a unit sphere (in 3-D).
+So how does one measure the distance between two points on such a curved
+manifold? In the example of the Earth’s projection one sees thatgis different at dif-
+ferent lattitudes. So if points A and B have different lattitudes, there is no uniqueg
+that we can use to measure the distance. Indeed, there is no objective distance that
+one can give. What what can do is to define a path from point A to point B and mea-
+sure the distance along this path in little steps. At each step the distance travelled is
+so small that one can take thegat the middle of the step and get a reasonably good
+estimate of the lengthdsof that step. This is given by
+ds
+2
+=g
+mν
+dx
+m
+dx
+ν
+withg
+mν
+=g
+mν
+(~x).(5.1)
+By integratingdsall the way from A to B one thus obtains the distancealong this
+path. Perhaps the ‘true’ distance is then the distance along the path which yields the
+shortest distance between these points.
+What we have done here is to chop the path into such small bits that the curva-
+ture of the Earth is negligible. Within each stepgchanges so little that one can use
+the linear expressions for length and distance using the local metricg.
+Let us take a bit more concrete example and measure distancesin 3-D using
+polar coordinates. From geometric considerations we know that the length dlof an
+infinitesimally small vector at position(r,θ,φ)in polar coordinates satisfies
+dl
+2
+=s=dr
+2
++r
+2
+dθ
+2
++r
+2
+sin
+2
+θdφ
+2
+.(5.2)
+We could also write this as
+dl
+2
+=s=
+ 
+dx
+1
+dx
+2
+dx
+3
+
+
+
+1  00
+0r
+2
+0
+0  0r
+2
+sin
+2
+θ
+
+
+
+
+dx
+1
+dx
+2
+dx
+3
+
+
+=g
+mν
+dx
+m
+dx
+ν
+.(5.3)
+All the information about the concept of ‘length’ or ‘distance’ is hidden in the metric
+tensorg. The metric tensor fieldg(~x)is usually called the ‘metric of the manifold’.
+5.2. Properties of the metric tensor
+The metric tensorghas some important properties. First of all, it is symmetric. This
+can be seen in various ways. One of them is that one can always find a coordinate
+system in which, locally, the metric tensor has the shape of aunit ‘matrix’, which is
+symmetric. Symmetry of a tensor is conserved upon any transformation (see Sec-
+tion
+4.2). Another way to see it is that the inner product of two vectors should not
+depend on the order of these vectors:g
+mν
+v
+m
+w
+ν
+=g
+mν
+v
+ν
+w
+m
+≡g
+νm
+v
+m
+w
+ν
+(in the last
+step we renamed the running indices).
+Every symmetric second rank covariant tensor can be transformed into diagonal
+form in which the diagonal elements are either 1,0 or−1. For the metric tensor they
+will then all be 1: in an orthonormal coordinate system. In fact, an orthonormal
+coordinate system isdefinedas the coordinate system in whichg
+mν
+=diag(1, 1, 1).
+A normal metric can always be put into this form. However, mathematically one
+could also conceive a manifold that has a metric that can be brought into the follow-
+ing form:g
+mν
+=diag(1, 1,−1). This produces funny results for some vectors. For
+instance, the vector(0, 0, 1)would have an imaginary length, and the vector(0, 1, 1)
+has length zero. These are rather pathological properties and appear to be only in-
+teresting to mathematicians. A real metric, after all, should always produce positive
+definite lengths for vectors unequal to the zero-vector. However, as one can see in
+appendix
+A, in special relativity a metric will be introduced that can be brought to
+26
+
+5.3 Co versus contra
+the form diag(−1, 1, 1, 1). For now, however, we will assume that the metric is posi-
+tive definite (i.e. can be brought to the formg
+mν
+=diag(1, 1, 1)through a coordinate
+transformation).
+It should be noted that a metric of signatureg
+mν
+=diag(1, 1,−1)canneverbe
+brought into the formg
+mν
+=diag(1, 1, 1)by coordinate transformation, and vice
+versa. This signature of the metric is therefore an invariant. Normal metrics have
+signature diag(1, 1, 1). This does not mean that theyare g
+mν
+=diag(1, 1, 1), but they
+can be brought into this form with a suitable coordinate transformation.
+◮
+Exercise
+1of SectionC.5.
+So what about the inner product between twoco-vectors? Just as with the vectors
+we use a kind of metric tensor, but this time ofcontravariantnature:g
+mν
+. The inner
+product then becomes
+s=g
+mν
+x
+m
+y
+ν
+.(5.4)
+The distinction between these two metric tensors is simply made by upper resp. lower
+indices. The properties we have derived forg
+mν
+of course also hold forg
+mν
+. And both
+metrics are intimitely related: onceg
+mν
+is given,g
+mν
+can be constructed and vice
+versa. In a sense they are two realisations of the same metricobjectg. The easiest
+way to findg
+mν
+fromg
+mν
+is to find a coordinate system in whichg
+mν
+=diag(1, 1, 1):
+theng
+mν
+is also equal to diag(1, 1, 1). But in the next section we will derive a more
+elegant relation between the two forms of the metric tensor.
+5.3. Co versus contra
+Before we got introduced to co-vectors we presumably alwaysused orthonormal
+coordinate systems. In such coordinate systems we never encountered the differ-
+ence between co- and contra-variant vectors. A gradient wassimply a vector, like
+any kind of vector. An example is the electric field. One can regard an electric field
+as a gradient,
+ ̃
+E=−∇V⇔E
+m
+=−
+∂V
+∂x
+m
+.(5.5)
+On the other hand it is clearly also an arrow-like object, related to a force,
+~
+E=
+1
+q
+~
+F=
+1
+q
+m~a⇔E
+m
+=
+1
+q
+F
+m
+=
+1
+q
+ma
+m
+.(5.6)
+In an orthonormal system one can interchange
+~
+Rand
+ ̃
+R(or equivalentlyE
+m
+andE
+m
+)
+without punishment. But as soon as we go to a non-orthonormalsystem, we will
+encounter problems. Then one is suddenly forced to distinguish between the two.
+So the question becomes: if one has a potential fieldV, how does one obtain the
+contravariant
+~
+E? Perhaps the most obvious solution is: first produce the covariant
+tensor
+ ̃
+E, then transform to an orthonormal system, then switch from co-vector form
+to contravariant vector form (in this system their components are identical, at least
+for a positive definite metric) and then transform back to theoriginal coordinate
+system. This is possible, but very time-consuming and unwieldy. A better method
+is to use the metric tensor:
+E
+m
+=g
+mν
+E
+ν
+.(5.7)
+This is a proper tensor product, as the contraction takes place over an upper and a
+lower index. The objectE
+m
+, which was created fromE
+ν
+is now contravariant. One
+can see that this vector must indeed be the contravariant version ofE
+ν
+by taking an
+orthonormal coordinate system: hereg
+mν
+=diag(1, 1, 1), i.e.g
+mν
+is some kind of unit
+27
+
+5.3 Co versus contra
+‘matrix’. This is the same as saying that in the orthonormal basisE
+m
+=E
+ν
+, which is
+indeed true (again, only for a metric that can be diagonalised to diag(1, 1, 1), which
+for classical physics is always the case). However, in contrast to the formulaE
+m
+=
+E
+ν
+, the formula Eq. (
+5.7) is now also valid after transformation to any coordinate
+system,
+(A
+−1
+)
+m
+α
+E
+m
+= (A
+−1
+)
+m
+α
+(A
+−1
+)
+ν
+β
+g
+mν
+A
+β
+σ
+E
+σ
+= (A
+−1
+)
+m
+α
+δ
+ν
+σ
+g
+mν
+E
+σ
+= (A
+−1
+)
+m
+α
+g
+mν
+E
+ν
+,
+(5.8)
+(here we introducedσto avoid having fourνsymbols, which would conflict with
+the summation convention). If we multiply on both sides withA
+α
+ρ
+we obtain exactly
+(the indexρcan be of course replaced bym) Eq. (
+5.7).
+One can of course also do the reverse,
+E
+m
+=g
+mν
+E
+ν
+.(5.9)
+If we first lower an index withg
+νρ
+, and then raise it again withg
+mν
+, then we must
+arrive back with the original vector. This results in a relation betweeng
+mν
+eng
+mν
+,
+E
+m
+=g
+mν
+E
+ν
+=g
+mν
+g
+νρ
+E
+ρ
+=δ
+m
+ρ
+E
+ρ
+=E
+m
+⇒g
+αν
+g
+νβ
+=δ
+α
+β
+.(5.10)
+With this relation we have now defined the contravariant version of the metric ten-
+sor in terms of its covariant version.
+We call the conversion of a contravariant index into a covariant one “lowering an
+index”, while the reverse is “raising an index”. The vector and its covariant version
+are each others “dual”.
+28
+
+6
+Tensor calculus
+Now that we are familiar with the concept of ‘tensor’ we need to go a bit deeper in
+the calculus that one can do with these objects. This is not entirely trivial. The index
+notation makes it possible to write all kinds of manipulations in an easy way, but
+makes it also all too easy to write down expressions that haveno meaning or have
+bad properties. We will need to investigate where these pitfalls may arise.
+We will also start thinking about differentiation of tensors. Also here the rules of
+index notation are rather logical, but also here there are problems looming. These
+problems have to do with the fact that ordinary derivatives of tensors do no longer
+transform as tensors. This is a problem that has far-reaching consequences and we
+will deal with them in Chapter
+7. For now we will merely make a mental note of
+this.
+At the end of this chapter we will introduce another special kind of tensor, the
+Levi-Civita tensor, which allows us to write down cross-products in index notation.
+Without this tensor the cross-product cannot be expressed in index notation.
+6.1. The ‘covariance’ of equations
+In chapter
+3we saw that the old inner product was not a good definition. It said
+that the work equals the (old) inner product between
+~
+Fen~x. However, while the
+work is a physical notion, and thereby invariant under coordinate transformation,
+the inner product was not invariant. In other words: the equation was only valid in
+a prefered coordinate system. After the introduction of thenew inner product the
+equation suddenly kept its validity in any coordinate system. We call this ‘universal
+validity’ of the equation: ‘covariance. Be careful not to confuse this with ‘covariant
+vector’: it is a rather unpractical fate that the word ‘covariant’ has two meanings
+in tensor calculus: that of the type of index (or vector) on the one hand and the
+‘universal validity’ of expressions on the other hand.
+The following expressions and equations are therefore covariant,
+x
+m
+=y
+m
+,(6.1)
+x
+m
+=y
+m
+,(6.2)
+because both sides transform in the same way. The following expression isnotco-
+variant:
+x
+m
+=y
+m
+,(6.3)
+because the left-hand-side transforms as a covector (i.e. with(A
+−1
+)
+T
+)) and the right-
+hand-side as a contravariant vector (i.e. withA). If this equation holdsby chancein
+29
+
+6.2 Addition of tensors
+one coordinate system, then it will likelynothold in another coordinate system.
+Since we are only interested in vectors and covectors aregeometric objectsand not
+in their components in some arbitrary coordinate system, wemust conclude that
+covectors cannot be set equal to contravariant vectors.
+The same as above we can say about the following equation,
+t
+mν
+=s
+m
+ν
+.(6.4)
+This expression is also not covariant. The tensors on both sides of the equal sign are
+of different type.
+If we choose to stay in orthonormal coordinatesthen we can drop the distinction be-
+tween co- and contra-variant vectors and we do not need to check if our expressions
+or equations are covariant. In that case we put all indices assubscript, to avoid
+giving the impression that we distinguish between co- and contravariant vectors.
+6.2. Addition of tensors
+Two tensors can only be added if they have the same rank: one cannot add a vector
+to a matrix. Addition of two equal-rank tensors is only possible if they are of the
+same type. So
+v
+m
++w
+m
+(6.5)
+is not a tensor. (The fact that the indexmoccurs double here does not mean that
+they need to be summed over, since according to the summationconvention one
+only sums over equal indices occuring in a product, not in a sum. See chapter
+1). If
+one adds two equal type tensors but with unequal indices one gets a meaningless
+expression,
+v
+m
++w
+ν
+.(6.6)
+If tensors are of the same type, one can add them. One should thenchoosethe indices
+to be the same,
+x
+mν
++y
+mν
+,(6.7)
+or
+x
+αβ
++y
+αβ
+.(6.8)
+Both the above expressions areexactlythe same. We just chosemandνas the indices
+in the first expression andαandβin the second. This is merely a matter of choice.
+Now what about the following expression:
+t
+α
+β
+γ
++r
+αγ
+β
+.(6.9)
+Both tensors are of same rank, have the same number of upper and lower indices,
+but their order is different. This is a rather peculiar contruction, since typically (as
+mentioned before) one assigns meaning to each index before one starts working
+with tensors.  Evidently the meaning assigned to index 2 is different in the two
+cases, since in the case oft
+α
+β
+γ
+it is a covariant index while in the case ofr
+αγ
+β
+it is
+a contravariant index. But this expression, though highly confusing (and therefore
+not recommendable) is not formally wrong. One can see this ifone assumes that
+r
+αγ
+β
+=u
+α
+v
+γ
+w
+β
+. It is formally true thatu
+α
+v
+γ
+w
+β
+=u
+α
+w
+β
+v
+γ
+, because multiplication
+is commutative. The problem is, that a tensor has only meaning for the user if one
+can, beforehand, assign meaning to each of the indices (i.e.”first index means this,
+second index means that...”). This will be confused if one mixes the indices up.
+Fortunately, in most applications of tensors the meaning ofthe indices will be clear
+from the context. Often symmetries of the indices will help in avoiding confusion.
+30
+
+6.4 First order derivatives: non-covariant version
+6.3. Tensor products
+The most important property of the product between two tensors is:
+The result of a product between tensors is again a tensor if ineach summation
+the summation takes place over one upper index and one lower index.
+According to this rule, the following objects are thereforenot tensors, and we will
+forbid them from now on:
+x
+m
+T
+mν
+,h
+α
+β
+γ
+t
+α
+β
+γ
+.(6.10)
+The following productsaretensors,
+x
+m
+T
+mν
+h
+α
+β
+γ
+t
+α
+β
+γ
+.(6.11)
+and the following expression is a covariant expression:
+t
+mν
+=a
+mρ
+σ
+b
+νσ
+ρ
+.(6.12)
+If we nevertheless want to sum over two covariant indices or two contravariant
+indices, then this is possible with the use of the metric tensor. For instance: an inner
+product betweent
+mν
+env
+ν
+could look like:
+w
+m
+=g
+αβ
+t
+mα
+v
+β
+.(6.13)
+The metric tensor is then used as a kind of ‘glue’ between two indices over which
+one could normally not sum because they are of the same kind.
+6.4. First order derivatives: non-covariant version
+Up to now we have mainly concerned ourselves with the properties of individual
+tensors.  In differential geometry one usually usestensor fields, where the tensor
+depends on the location given by~x. One can now take the derivative of such tensor
+fields and these derivatives can also be denoted with index notation. We will see in
+Chapter
+7that in curved coordinates or in curved manifols, these derivatives will
+not behave as tensors and are not very physically meaningful. But for non-curved
+coordinates on a flat manifold this problem does not arise. Inthis section we will
+therefore, temporarily, avoid this problem by assuming non-curved coordinates on
+a flat manifold.
+We start with the gradient of a scalar field, which we already know,
+(gradf)
+m
+=
+∂f
+∂x
+m
+.(6.14)
+In a similar fashion we can now define the ‘gradient’ of a vector field:
+(grad~v)
+m
+ν
+=
+∂v
+m
+∂x
+ν
+,(6.15)
+or of a tensor-field,
+(gradt)
+mνα
+=
+∂t
+mν
+∂x
+α
+.(6.16)
+As long as we employ only linear transformations, the above objects are all tensors.
+Now let us introduce an often used notation,
+v
+m
+,ν
+:=∂
+ν
+v
+m
+:=
+∂v
+m
+∂x
+ν
+.(6.17)
+31
+
+6.5 Rot, cross-products and the permutation symbol
+For completeness we also introduce
+v
+m,ν
+:=∂
+ν
+v
+m
+:=g
+νρ
+∂v
+m
+∂x
+ρ
+.(6.18)
+With index notation we can also define the divergence of a vector field (again all
+under the assumption of non-curved coordinates),
+∇ ~v=
+∂v
+ρ
+∂x
+ρ
+=∂
+ρ
+v
+ρ
+=v
+ρ
+,ρ
+.(6.19)
+Note, just to avoid confusion: the symbol∇will be used in the next chapter for a
+more sophisticated kind of derivative. We can also define thedivergence of a tensor,
+∂T
+αβ
+∂x
+β
+=∂
+β
+T
+αβ
+=T
+αβ
+,β
+.(6.20)
+6.5. Rot, cross-products and the permutation symbol
+A useful set of numbers, used for instance in electrodynamics, is the permutation
+symbolǫ. It is a set of numbers with three indices, if we work in a 3-dimensional
+space, ornindices if we work inn-dimensional space.
+The objectǫdoes not transform entirely like a tensor (though almost), and it is
+therefore not considered a true tensor. In fact it is atensor density(orpseudo tensor),
+which is a near cousin of the tensor family. Tensor densitiestransform as tensors, but
+are additionally multiplied by a power of the Jacobian determinant of the transfor-
+mation matrix. However, to avoid these complexities, we will in this section assume
+an orthonormal basis, and forget for the moment about covariance.
+Theǫsymbol is completely anti-symmetric,
+ǫ
+ijk
+=−ǫ
+jik
+=−ǫ
+ikj
+=−ǫ
+kji
+.(6.21)
+If two of the three indices have then same value, then the above equation clearly
+yields zero. The only elements ofǫthat are non-zero are those for which none of the
+indices is equal to another. We usually define
+ǫ
+123
+=1 ,(6.22)
+and with Eq. (
+6.21) all the other non-zero elements follow. Any permutation ofin-
+dices yields a−1. As a summary,
+ǫ
+ijk
+=
+
+
+
+
+
+1    ifijkis an even permutation of 123,
+−1  ifijkis an odd permutation of 123,
+0    if two indices are equal.
+(6.23)
+This pseudo-tensor is often called the Levi-Civita pseudo-tensor.
+The contraction between two epsilons yields a useful identity,
+ǫ
+αmν
+ǫ
+αρσ
+=δ
+mρ
+δ
+νσ
+−δ
+mσ
+δ
+νρ
+.(6.24)
+From this it follows that
+ǫ
+αβν
+ǫ
+αβσ
+=2δ
+νσ
+,(6.25)
+and also
+ǫ
+αβγ
+ǫ
+αβγ
+=6 .(6.26)
+32
+
+6.5 Rot, cross-products and the permutation symbol
+With the epsilon object we can express the cross-product between two vectors~a
+and
+~
+b,
+~c=~a×
+~
+b→c
+i
+=ǫ
+ijk
+a
+j
+b
+k
+.(6.27)
+For the first component ofcone therefore has
+c
+1
+=ǫ
+1jk
+a
+j
+b
+k
+=ǫ
+123
+a
+2
+b
+3
++ǫ
+132
+a
+3
+b
+2
+=a
+2
+b
+3
+−b
+2
+a
+3
+,(6.28)
+which is indeed the familiar first component of the cross-product betweenaandb.
+This notation has advantages if we, for instance, want to compute the divergence
+of a rotation. When we translate to index notation this becomes
+c=∇ (∇ ×~a) =∇
+i
+(ǫ
+ijk
+∇
+j
+a
+k
+) =ǫ
+ijk
+∂
+i
+∂
+j
+a
+k
+,(6.29)
+because
+∇=
+
+
+
+
+∂
+∂x
+1
+∂
+∂x
+2
+∂
+∂x
+3
+
+
+
+
+and therefore∇
+i
+=
+∂
+∂x
+i
+:=∂
+i
+.(6.30)
+On the right-hand-side of Eq. (
+6.29) one sees the complete contraction between a set
+that is symmetric in the indicesiandj(∂
+i
+∂
+j
+) and a set that is antisymmetric in the
+indicesiandj(ǫ
+ijk
+). From the exercise below we will see that such a contraction
+always yields zero, so that we have proven that a divergence of a rotation is zero.
+◮
+Exercise
+4of SectionC.4.
+One can also define another kind of rotation: thegeneralised rotationof a covector,
+(rot
+ ̃
+w)
+αβ
+=∂
+α
+w
+β
+−∂
+β
+w
+α
+.(6.31)
+This transforms as a tensor (in non-curved coordinates/space) and is anti-symmetric.
+33
+
+6.5 Rot, cross-products and the permutation symbol
+34
+
+7
+Covariant derivatives
+One of the (many) reasons why tensor calculus is so useful is that it allows a proper
+description of physically meaningful derivatives of vectors. We have not mentioned
+this before, but taking a derivative of a vector (or of any tensor for that matter) is
+a non-trivial thing if one wants to formulate it in a covariant way. As usual, in a
+rectangular orthonormal coordinate system this is usuallynot an issue. But when
+the coordinates are curved (like in polar coordinates, for example) then this becomes
+a big issue. It is even more of an issue when the manifold is curved (like in general
+relativity), but this is beyond the scope of this booklet – even though the techniques
+we will discuss in this chapter will be equally well applicable for curved manifolds.
+We want to construct a derivative of a vector in such a way thatit makes physical
+sense even in the case of curved coordinates. One may ask: whyis there a problem?
+We will show this by a simple example in Section??. In this section we will also
+show how one defines vectors in curved coordinates by using a local set of basis
+vectors derived from the coordinate system. In Section??we will introduce without
+proof the mathematical formula for a covariant derivative,and introduce thereby
+the so-called Christoffel symbol. In Section??we will return to the polar coordinates
+to demonstrate how this machinery works in practice.
+This chapter will, however, take quite large steps. The reason is that the concepts
+of covariant derivatives are usually described in detail inintroductory literature
+on general relativity and Riemannian geometry. In principle this is well beyond
+the scope of this booklet. However, since tensors find much oftheir application in
+problems in which differential operators are used, we wish to at least briefly address
+the concept of covariant derivative. For further details werefer to***************
+LITERATURE LIST **************
+7.1. Vectors in curved coordinates
+Defining vectors in curvilinear coordinates is not trivial.Since the coordinates are
+curved (maybe even the manifold itself is curved, like the surface of the Earth), there
+is no meaningful global set of basis vectors in which one can express the vectors. If
+a vector or tensor field is given, then at each location this vector or tensor could
+be decomposed into thelocalbasis (co-)vectors. This basis may be different from
+location to location, but we always assume that the changes are smooth.
+In principle there are two useful set of basis vectors one canchoose:
+1.A local orthonormal set of basis vectors: If the coordinates are such that they are
+locally perpendicular with respect to each other, then it ispossible to choose
+35
+
+7.2 The covariant derivative of a vector/tensor field
+the basis vectors such that they point along these coordinates (though not nec-
+essarily are normalized the same as the coordinate units).
+2.A local coordinate basis: The covector basis can be seen as unit steps in each of
+the directions:
+ ̃
+e
+m
+=dx
+m
+. The contravariant basis vectors are then~e
+m
+=∂/∂x
+m
+.
+Typically this coordinate basis is not orthonormal.
+So far in the entire booklet we have implicitly assumed a local coordinate basis (re-
+member that we used the words coordinate transformation on equal footing as basis
+transformation). For tensor mathematics this basis is usually the easiest to use. But
+in realistic applications (like in Chapter??) a local orthonormal basis has more phys-
+ical meaning. In the application of Chapter??we will first convert everything to the
+coordinate basis in order to do the tensor math, and then, once the final answer is
+there, we will convert back to the local orthonormal basis, which is physically more
+intuitive. But since the tensor mathematics works best for the local coordinate basis,
+we will assume this basis for the rest of this chapter.
+Now let us take the example of circular coordinates in two dimensions. We can
+express the usualx- andy-coordinates in terms ofrandφas:x=rcosφandy=
+rsinφ. Inr-direction the coordinate basis vector∂/∂rcan act as a normal basis
+vector. In theφ-direction, however, the coordinate basis vector∂/∂φhas a different
+length at different radii. However,
+1
+r
+∂/∂φis again a normalized (unit) vector. The
+set of basis vectors(∂/∂r,∂/∂φ)is the local coordinate basis, while the set of basis
+vectors(∂/∂r,
+1
+r
+∂/∂φ)is a local orthonormal basis, which happens to be parallel to
+the coordinates.
+Now let us use the coordinate basis. Let us take a vector field that, at every
+location, when expressed in this local basis, takes the form(1, 0). This is shown in
+Fig.XXXX. Expressed in cartesian coordinates (for which a global basis is possible)
+this would be a vector field(x/
+p
+x
+2
++y
+2
+,y/
+p
+x
+2
++y
+2
+). Clearly this vector field is
+not constant. In cartesian coordinates one would write, forinstance,
+∂
+∂x
+
+x/
+p
+x
+2
++y
+2
+y/
+p
+x
+2
++y
+2
+
+=
+
+y
+2
+/(x
+2
++y
+2
+)
+3/2
+−xy/(x
+2
++y
+2
+)
+3/2
+
+,(7.1)
+which is clearly non-zero. However, if we switch to circularcoordinates, and take
+the derivative with respect to, for instance,φ, then we obtain zero,
+∂
+∂φ
+
+1
+0
+
+=
+
+0
+0
+
+.(7.2)
+In the circular coordinate system itlooksas if the vector does not change in space,
+but in reality it does. This is the problem one encounters with derivatives of tensors
+in curved coordinates. Going to the local orthonormal basisdoes not help. One has
+to define a new, ‘covariant’ form of the derivative.
+7.2. The covariant derivative of a vector/tensor field
+In this section we will introduce the covariant derivative of a vector field. We will
+do sowithout proof. Again, for a more detailed discussion we refer to the literature.
+We define∂
+m
+to be the ordinary coordinate-derivative∂/∂x
+m
+, and∇
+m
+to be the new
+covariant derivative. The covariant derivative of a vector fieldv
+m
+is defined as
+∇
+m
+v
+α
+=∂
+m
+v
+α
++Γ
+α
+mν
+v
+ν
+,(7.3)
+whereΓ
+α
+mν
+is an object called theChristoffel symbol. The Christoffel symbol isnot
+a tensor because it contains all the information about the curvature of the coordi-
+nate system and can therefore be transformed entirely to zero if the coordinates are
+36
+
+7.2 The covariant derivative of a vector/tensor field
+straightened. Nevertheless we treat it as any ordinary tensor in terms of the index
+notation.
+The Christoffel symbol can be computed from the metricg
+mν
+(and its companion
+g
+αβ
+) in the following way,
+Γ
+α
+mν
+=
+1
+2
+g
+αβ
+
+∂g
+βν
+∂x
+m
++
+∂g
+βm
+∂x
+ν
+−
+∂g
+mν
+∂x
+β
+
+≡
+1
+2
+g
+αβ
+(g
+βν,m
++g
+βm,ν
+−g
+mν,β
+).(7.4)
+The covariant derivative of a covector can also be defined with this symbol,
+∇
+m
+w
+α
+=∂
+m
+w
+α
+−Γ
+ν
+mα
+w
+ν
+.(7.5)
+The covariant derivative of a tensort
+αβ
+is then
+∇
+m
+t
+αβ
+=∂
+m
+t
+αβ
++Γ
+α
+mσ
+t
+σβ
++Γ
+β
+mσ
+t
+ασ
+,(7.6)
+and of a tensort
+α
+β
+,
+∇
+m
+t
+α
+β
+=∂
+m
+t
+α
+β
++Γ
+α
+mσ
+t
+σ
+β
+−Γ
+σ
+mβ
+t
+α
+σ
+.(7.7)
+◮
+NOW MAKE EXERCISES TO SHOW WHAT HAPPENS WITH THE ABOVE EX-
+AMPLE
+From the exercise we can see that the above recipe indeed gives the correct an-
+swer even in curved coordinates. We can also prove that the covariant derivative of
+the metric itself is always zero.
+◮
+ANOTHER EXERCISE
+The covariant derivative∇
+m
+produces, as its name says, covariant expressions.
+Therefore∇
+α
+t
+mν
+γ
+is a perfectly valid tensor. We can also contract indices:∇
+α
+t
+αν
+γ
+,
+or with help of the metric:g
+αγ
+∇
+α
+t
+mν
+γ
+. Since∇
+m
+g
+αβ
+=0 (as we saw in the above
+exercise) we can always bring theg
+αβ
+and/org
+αβ
+inside or outside the∇
+m
+operator.
+We can therefore write
+g
+αγ
+∇
+α
+t
+mν
+γ
+=∇
+α
+(t
+mν
+γ
+g
+αγ
+) =∇
+α
+t
+mνα
+(7.8)
+We can also define:
+∇
+α
+=g
+αβ
+∇
+β
+(7.9)
+37
+
+7.2 The covariant derivative of a vector/tensor field
+38
+
+A
+Tensors in special relativity
+Although tensors are mostly useful in general relativity, they are also quite conve-
+nient in special relativity. Moreover, when we express the formulas using tensors,
+they expose the structure of the theory much better than the formulas without ten-
+sors do. We will start here at the point when four-vectors areintroduced into special
+relativity.
+From the simple thought experiments with moving trains, meant to give a visual
+understanding of the Lorentz transformations, it has become clear that 3-dimensional
+space and 1-dimensional time are not separate entities, butrather should be seen as
+one. In matrix form one found for a pure Lorentz transformation
+
+
+
+
+
+x
+0
+′
+x
+1
+′
+x
+2
+′
+x
+3
+′
+
+
+
+
+
+=
+
+
+
+
+γ−γβ0  0
+−γβγ0  0
+00    1  0
+00    0  1
+
+
+
+
+
+
+
+
+x
+0
+x
+1
+x
+2
+x
+3
+
+
+
+
+,(1.1)
+withγ=1/
+√
+1−v
+2
+/c
+2
+andβ=
+v
+c
+. Moreover, we found that the inner product now
+satisfies the somewhat strange formula
+h~a,
+~
+bi=−a
+0
+b
+0
++a
+1
+b
+1
++a
+2
+b
+2
++a
+3
+b
+3
+.(1.2)
+With the knowledge which we now have about the ‘metric tensor’, this formula can
+be understood much better. Namely, we know that the inner product of two vectors
+does not really exist (at least not in a form which is independent of the coordinate
+system). Rather, we should be talking about the inner product of a vector with a
+covector. We can obtain one from the other by raising or lowering an index, making
+use of the metric tensor,
+a
+α
+=g
+αβ
+a
+β
+.(1.3)
+Eq. (
+1.2) should thus really be viewed as
+h~a,
+~
+bi
+g
+=a
+m
+b
+m
+=g
+mν
+a
+m
+b
+ν
+.(1.4)
+where
+ ̃
+bis a covector. From the fact that inner products such as (
+1.2) are invariant
+under Lorentz transformations we now find the components of the metric tensor,
+g
+mν
+=
+
+
+
+
+−1  0  0  0
+0   1  0  0
+0   0  1  0
+0   0  0  1
+
+
+
+
+.(1.5)
+39
+
+APPENDIX A. TENSORS IN SPECIAL RELATIVITY
+Minkowski space, which is the space in which the rules of special relativity hold, is
+thus a space which has a metric which is different from the metric in an ordinary
+Euclidean space. In order to do computations in this space, we do not have to in-
+troduce any strange inner products. Rather, we simply applyour new knowledge
+about inner products, which automatically leads us to the modified metric tensor.
+Let us end with a small related remark. We have seen in Chapter(
+5) that the
+metric can also be used to describe curved spaces. The Minkowski metric which we
+have encountered in the present section can be used to describe curvedspace-time.
+This concept is at the basis of the general theory of relativity. In that theory, gravity
+is explained as a consequence of the curvature of space-time. A good introduction
+to this theory is given in [
+5].
+40
+
+B
+Geometrical representation
+The tensors as we have seen them in the main text may appear rather abstract. How-
+ever, it is possible to visualise their meaning quite explicitly, in terms of geometrical
+objects. A simple example of this is the arrow-vector. An arrow-vector is effectively
+just a set of numbers that transforms in a particular way under a basis transforma-
+tion. However, it is useful to think about it in terms of an arrow, so as to visualise
+its meaning.
+We can make a similar geometrical visualisation of a covector, as well as for all
+other tensors. The present appendix contains a list of thesegeometrical representa-
+tions. As we go along we will also describe how various manipulations with tensors
+(such as additions and inner products) can be translated to this geometrical picture.
+None of this is necessary in order to be able to compute with tensors, but it may
+help in understanding such computations.
+•arrow-vector
+An arrow-vector is represented by (how else) an arrow in ann-dimensional
+space. The components of the vector (i.e. the numbersv
+m
+) are obtained by
+determining the projections of the arrow onto the axes. See figure
+B.1.
+Figure B.1:Geometrical representation of a vector, and the determination of its com-
+ponents by projection onto the axes.
+•co-vector
+A co-vectors is closely related to the gradient of a functionf(~x), so it makes
+sense to look for a geometrical representation which is somehow connected
+to gradients. A useful related concept is that of contour lines (curves of equal
+height, in two dimensions) or contour surfaces (in three dimensions). Now
+consider two consecutive contour lines. The intersection they make with a
+neighbouringx
+2
+=constant lijne is equal to the increase ofx
+1
+necessary to
+41
+
+APPENDIX B. GEOMETRICAL REPRESENTATION
+increasef(~x)by 1, if the other coordinate is kept constant. So in two dimen-
+sions,
+intersection atx
+1
+-axis=
+
+∂x
+1
+∂f
+
+x
+2
+constant
+=
+
+∂f
+∂x
+1
+
+−1
+x
+2
+constant
+(2.1)
+Therefore, if we take the inverse of this intersection, we again obtain the first
+component of the gradient.
+Given the above, it makes sense to use, for the generic representation of a
+co-vector, two consecutive lines (or, in three dimensions,planes), such that
+the intersections with the axes are equal to the components of the co-vector.
+Note that one should also keep track of the order of the lines or planes. In the
+representation sketched in figure
+B.2we have drawn a flexible type of arrow.
+This is not an arrow-vector as above, but only meant to indicate the order of
+the surfaces. We could equally well have labelled the surfaces with different
+numbers or colours.
+asafsnede
+Figure B.2:Geometrical representation of a co-vector, and the determination of its
+components by computing the inverse of the intersection with the axes.
+•anti-symmetric contravariant second-order tensort
+mν
+An anti-symmetric contravariant second order tensor can bemade from two
+vectors according to
+t
+mν
+=v
+m
+w
+ν
+−w
+m
+v
+ν
+.(2.2)
+This is a bit like an outer product. The order of the two vectors is clearly
+of relevance. We can visualise this object as a surface with agiven area and
+orientation. The components of the tensor can be obtained bymeasuring the
+projection of the surface onto the various coordinate surfaces. A negative com-
+ponent is obtained when the orientation of the surface assocatiated to the ten-
+sor is negative. Let us illustrate this with an example: if the surface of the
+projection on thex
+1
+,x
+2
+surface is equal to 2, then thet
+12
+component equals 2
+and thet
+21
+component equals−2. See figures
+B.3andB.4.
+2
+1
+1
+2
+Figure B.3:Representation of an anti-symmetric contravariant 2nd-order tensor.
+•anti-symmetric covariant second order tensort
+mν
+This object can again be seen as a kind of outer product of two vectors, or
+rather two co-vectors,
+t
+mν
+=v
+m
+w
+ν
+−w
+m
+v
+ν
+.(2.3)
+42
+
+APPENDIX B. GEOMETRICAL REPRESENTATION
+Figure B.4:Determination of the components of an anti-symmetric contravariant
+second order tensor.
+We can visualise this object as a kind of tube with an orientation. The compo-
+nents can be found by computing the intersections of this tube with all coor-
+dinate surfaces, and inverting these numbers. Again one hasto keep track of
+the orientation of the intersections. See figure
+B.5.
+1
+2
+1
+2
+Figure B.5:Geometrical representation of an anti-symmetric covariant second order
+tensor.
+•addition of vectors
+Addition of vectors is of course a well-known procedure. Simply translate one
+arrow along the other one until the top. This translated arrow now points to
+the sum-arrow. See figure
+B.6.
+Figure B.6:Geometrical representation of the addition of vectors.
+•addition of co-vectors
+The addition of covectors is somewhat more complicated. Instead of trying to
+describe this in words, it is easier to simply give the visualrepresentation of
+this addition. See figure for a two-dimensional representation.
+•inner product between a vector and a co-vector
+The inner product of a vector and a co-vector is the ratio of the length of the in-
+tersection which the co-vector has with the vector and the length of the vector.
+See figure
+B.8for a three-dimensional representation.
+43
+
+APPENDIX B. GEOMETRICAL REPRESENTATION
+v
+w
+v+w
+Figure B.7:Geometrical representation of the addition of co-vectors.
+Figure B.8:Representation of the inner prdouct between a vector and a co-vector.
+•second order symmetric co-variant tensorg
+mν
+The metric tensor belongs to this class. It therefore makes sense to look for
+a representation which is related to the inner product. A suitable one is to
+consider the set of all points which have a unit distance to a given point~x
+0
+,
+{~x∈R
+3
+|g
+mν
+x
+m
+x
+ν
+=1}.(2.4)
+If the metric is position-dependent,g=g(~x), then the point~x
+0
+is equal to the
+point at which the corresponding metricg
+mν
+is evaluated.
+Now it is also clear what is the connection to the ellipses of chapter
+5. See
+figure
+B.9for a three-dimensional representation: an ellipsoid.
+Figure B.9:Geometrical representation of a second order symmetric covariant ten-
+sor.
+It is considerably more complicated to make a geometrical representation of a
+second order symmetric contravariant tensor, so we will omit that case.
+•turning an arrow-vector into a co-vector
+The procedure of converting a vector to a co-vector can also be illustrated ge-
+ometrically, see figure
+B.10for a two-dimensional representation. The two
+44
+
+APPENDIX B. GEOMETRICAL REPRESENTATION
+long slanted lines are tangent to the circle, and the bottom horizontal line
+goes through the center of the circle. This representation fails when the arrow-
+vector is shorter than the radius of the circle.
+Figure B.10:Geometrical representation of turning an arrow-vector into a co-vector.
+45
+
+APPENDIX B. GEOMETRICAL REPRESENTATION
+46
+
+C
+Exercises
+C.1. Index notation
+1.A,BandCare matrices. Assume that
+A=BC
+Write out this matrix multiplication using index notation.
+2.AandBare matrices andxis a position vector. Show that
+n
+∑
+ν=1
+A
+mν
+(
+n
+∑
+α=1
+B
+να
+x
+α
+) =
+n
+∑
+ν=1
+n
+∑
+α=1
+(A
+mν
+B
+να
+x
+α
+)
+=
+n
+∑
+α=1
+n
+∑
+ν=1
+(A
+mν
+B
+να
+x
+α
+)
+=
+n
+∑
+α=1
+(
+n
+∑
+ν=1
+(A
+mν
+B
+να
+)x
+α
+)
+3. Which of the following statements are true?
+(a) The summation signs in an expression can always be moved to the far
+left, without changing the meaning of the expression.
+(b) If all summation signs are on the far left of an expression, you can ex-
+change their order without changing the meaning of the expression.
+(c) If all summation signs are on the far left of an expression, you cannot just
+change the order of the variables in the expression, becausethis changes
+the order in which matrices are multiplied, and genericallyAB6=BA.
+(d)A
+mν
+= (A
+T
+)
+νm
+(e)A
+mν
+= (A
+T
+)
+mν
+4.A,B,C,DandEare matrices. Write out the following matrix multiplications
+using index notation (with all summation signs grouped together).
+(a)
+A=B(C+D)
+(b)
+A=BCD
+47
+
+C.1 Index notation
+(c)
+A=BCDE
+5. Assume you have three vectors~x,~yand~zwhich satisfy the following relations,
+~y=B~x
+~z=A~y
+Write these relations using index notation. Now write down the relation be-
+tween~zand~xusing index notation.
+6. Write in matrix form
+D
+βν
+=
+n
+∑
+m1
+n
+∑
+α=1
+A
+mν
+B
+αm
+C
+αβ
+.
+7. Try a couple of the previous exercises by making use of the summation con-
+vention.
+8. Write as a matrix multiplication:
+(a)
+D
+αβ
+=A
+αm
+B
+mν
+C
+βν
+(b)
+D
+αβ
+=A
+αm
+B
+βγ
+C
+mγ
+(c)
+D
+αβ
+=A
+αγ
+(B
+γβ
++C
+γβ
+)
+9. Consider a vector field in ann-dimensional space,
+~v(~x).
+We perform a coordinate transformation,
+~x
+′
+=A~xAis a transformation matrix.
+Show that
+~v
+′
+=A~v,
+where the matrixAis the same matrix as in the first equation.
+10. For a transformation we have
+~x
+′
+=A~x.
+This corresponds to
+x
+′
+m
+=
+n
+∑
+ν=1
+A
+mν
+x
+ν
+.
+Can you understand the expression
+n
+∑
+ν=1
+x
+ν
+A
+mν
+=?
+And how can you construct the matrix multiplication equivalent of
+n
+∑
+m=1
+x
+m
+A
+mν
+=?
+(note the position of the indices).
+48
+
+C.3 Introduction to tensors
+C.2. Co-vectors
+1. The matrix for a rotation over an angleφin thex-yplane is given by
+Λ=
+
+cosφsinφ
+−sinφcosφ
+
+.
+Compute the inverse of this matrix (either by replacingφby−φor by matrix
+inversion). Show that(Λ
+−1
+)
+T
+is equal toΛ.
+2. In Cartesian coordinate systems the basis vectors are orthogonal to each other,
+~e
+1
+~e
+2
+=0 .
+(This is a somewhat misleading notation. You might be tempted to interpret
+this as the inner product of two basis vectors, in which the components of the
+basis vectors are expressed in the basis itself. That would of coursealways
+yield a trivial zero).
+If we transform from one such Cartesian coordinate system toanother one,
+~e
+1
+′
+=Λ~e
+1
+&~e
+2
+′
+=Λ~e
+2
+,
+(whereΛis the transformation matrix) then this relation should of course con-
+tinue to hold,
+~e
+1
+′
+~e
+2
+′
+=0 .
+Insert the transformation rule given above and show that, for transforma-
+tions between two Cartesian systems, the tranformation matrixΛis equal
+to(Λ
+−1
+)
+T
+. These are thus orthogonal transformations.
+C.3. Introduction to tensors
+1. With the help of various mathematical operators you can make new tensors
+out of old ones. For instance
+w
+m
+=t
+mν
+v
+ν
+,
+in whicht
+mν
+andv
+ν
+are tensors.
+(a) Show that in this casew
+m
+is also a tensor (that is, show that it transforms
+correctly under a basis transformation).
+(b) Show thatw
+m
+isnota tensor if we make it according to
+w
+m
+=t
+mν
+v
+ν
+.
+2. A matrix can be viewed as an object which transforms one vector into another
+one. We have seen that this can be a normal transformation or abasis transfor-
+mation. The question is now: does a normal transformation matrix transform
+too upon a change of basis. And how? Write this out in normal matrix no-
+tation, withSthe matrix which transforms from the original system to the
+primed system, andAthe matrix which is to be transformed.
+Hint:
+~y=A~x,
+and after a basis (or coordinate) transformation
+A~y=S(A~x),
+but there is also a matrixA
+′
+which satisfies
+S~y=A
+′
+(S~x).
+49
+
+C.4 Tensoren, algemeen
+3. Show that, if you start with a number of tensors and construct a new object
+out of them, and use the summation convention (that is, only sum over one
+upper and one lower index, never over two indices at the same position), the
+new object is again a tensor.
+C.4. Tensoren, algemeen
+1. You have seen that there are four types of 2nd-order tensors. How many 3rd
+order tensors are there?
+2. Take an anti-symmetric tensort
+mν
+. Show that the property of anti-symmetry
+is preserved under a basis transformation. Do the same thingfor a symmetric
+tensor. This shows that symmetry and anti-symmetry are fundamental prop-
+erties of tensors.
+3. Show, by writing out the transformation of a(1, 1)-tensor, op te schrijven, dat
+het geen zin heeft om te spreken van symmetrie of anti-symmetrie van een
+tensor in indices die niet van hetzelfde soort zijn. (Laat dus zien dat die eigen-
+schap na transformatie meestal verloren is).
+4. Gegeven een tweede orde contravariante symmetrische tensorten een tweede
+orde covariante antisymmetrische tensorr. Toon aan dat de dubbele contractie
+t
+αβ
+r
+αβ
+altijd gelijk is aan nul.
+5. De vogende tensor is gedefinieerd uit twee vectoren:
+t
+mν
+=v
+m
+w
+ν
+−w
+ν
+v
+m
+Laat zien dat deze antisymmetrisch is.
+6. Hoe transformeert een kronecker-delta? De kronecker-delta is symmetrisch;
+waarom blijft de eigenschap van symmetrie hier wel behouden, terwijl toch is
+bewezen dat de symmetrie in een boven en onderindex niet behouden blijft?
+7. We hebben in opgave
+2in paragraafC.3gezien hoe een matrixAtransformeert.
+Laat aan de hand daarvan zien hoe de matrixA
+T
+transformeert. Toon aan de
+hand van de twee gevonden vergelijkingen aan dat het objectguit de tekst
+niet transformeert als een matrix, maar ook niet als de getransponeerde van
+een matrix.
+8. Neem twee tensoren:s
+mν
+ent
+mν
+. Maak een product van die twee dat
+(a) geen vrije indices heeft.
+(b) twee vrije indices heeft.
+(c) vier vrije indices heeft.
+9. Hoe transformeert een 3
+e
+orde geheel covariante tensor? Kan dit in matrixvorm
+geschreven worden?
+10. Je kunt een niet-lineaire co ̈ordinatentransformatie geven door de nieuwe co ̈ordinaten
+uit te drukken als een functie van de oude co ̈ordinaten:
+x
+′1
+=f
+′1
+(x
+1
+,x
+2
+. . . ,x
+n
+)
+.
+.
+.
+x
+′n
+=f
+′n
+(x
+1
+,x
+2
+. . . ,x
+n
+)
+50
+
+C.6 Tensor calculus
+Deze functies zijn nu naar hunnco ̈ordinaten te Taylor-ontwikkelen om het
+punt
+~
+0. Maak zo’n Taylor-ontwikkeling.
+Aanwijzing:
+Bij het afleiden van de Taylorreeks van een gewone functie ging men uit van
+een eenvoudige machtreeks:
+f(x) =a
+0
++a
+1
+x+a
+2
+x
+2
++a
+3
+x
+3
+. . .
+Door deze vergelijking steeds te differenti ̈eren kon men deco ̈efficientena
+0...n
+bepalen. Doe iets dergelijks ook in dit geval.
+C.5. Metrische tensor
+1. Laat zien dat het onmogelijk is om een metrische tensor diezowel 1’en als
+−1’en op de hoofddiagonaal heeft, te transformeren naar een vorm waarin er
+nog uitsluitend 1’en aanwezig zijn.
+2. Het nieuwe inproduct, met de metrische tensor, is invariant onder co ̈ordina-
+tentransformaties:
+g
+′
+mν
+x
+′
+m
+x
+′
+ν
+=g
+mν
+x
+m
+x
+ν
+Bij de behandeling van de Speciale Relativiteitstheorie komen we echter ook
+vaak de volgende vergelijking tegen:
+g
+mν
+x
+′
+m
+x
+′
+ν
+=g
+mν
+x
+m
+x
+ν
+(dus zonder accent bijg) Leg uit waarom we deze vergelijking mogen ge-
+bruiken in alle gevallen datgde Minkowskimetriek is en we uitsluitend in
+lorentzframes werken.
+C.6. Tensor calculus
+1. Bewijs dat de volgende vergelijkingen covariant zijn:
+z
+αβ
+=x
+βα
+z
+αβ
+=x
+αβ
++y
+βα
+2. Stel, je hebt 2 berekeningen uitgevoerd:
+x
+α
+=. . .
+en
+y
+β
+=. . .
+Hoe kan je nu, terwijl de indices vanxenyverschillend zijn, toch deze twee
+vectoren optellen?
+3. Waarom is het bij
+(grad~v)
+m
+ν
+=
+∂v
+m
+∂x
+ν
+niet nodig om de indices (aan de linkerkant van de vergelijking) op volgorde
+te zetten?
+51
+
+C.6 Tensor calculus
+52
+
+C
+Bibliography
+[1] B ̈auerle G. G. A. (1981)Syllabus‘Algemene Relativiteitstheorie I’ (UvA)
+[2] Dullemond C. (1986)Syllabus‘Algemene Relativiteitstheorie’ (KUN)
+[3] Kay D. C. (1988) ‘Tensor Calculus (Schaum’s outline series)’ (McGraw-Hill)
+[4] Schouten J. A. (1951) ‘Tensor Analysis for Physicists’ (Oxford)
+[5] Schutz B. F. (1985) ‘A first course in general relativity’ (Cambridge)
+[6] Takens R. J. (1985)Syllabus‘Hemelmechanica’ (UvA)
+53
