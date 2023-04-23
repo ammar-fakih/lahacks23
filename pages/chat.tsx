@@ -233,7 +233,7 @@ export default function Home() {
 
               </input>
 
-              <input type="button" value="What are the main ideas of the book?"
+              <input type="button" value="What are the main ideas of the textbook?"
                 onClick={() => 
                   setQuery("What are the main ideas of the textbook?")
                   //handleSubmit
