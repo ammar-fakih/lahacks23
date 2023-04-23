@@ -17,12 +17,12 @@ export default function Layout({
   styleLighter?: React.CSSProperties;
 }) {
   return (
-    <div style={styleDarker} className="mx-auto flex flex-col space-y-4">
+    <div style={styleDarker} className="mx-auto flex flex-col  ">
       <header
-        className="container sticky top-0 z-40"
+        className="container sticky top-0 z-40 drop-shadow-lg"
         style={{ minWidth: '100%' }}
       >
-        <div style={styleDarker} className="border-b border-b-slate-200 p-2">
+        <div style={styleDarker} className=" p-2">
           <nav style={styleLighter} className="ml-4 p-1 mr-4">
             <Link
               href="/"
@@ -31,15 +31,16 @@ export default function Layout({
               <Image
                 src="/logo.jpg"
                 alt="MuddBot Logo"
-                width={40}
-                height={40}
+                width={50}
+                height={50}
                 style={{
                   padding: '6px',
                   borderRadius: '0.5rem',
                 }}
               />
               &nbsp;&nbsp;
-              {title}
+              <h2 className="text-4xl font-bold">{title}</h2>
+              {/* {title} */}
             </Link>
           </nav>
         </div>

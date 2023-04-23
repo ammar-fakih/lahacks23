@@ -105,35 +105,44 @@ export default function ListPage() {
   };
 
   return (
-    <div className="flex h-screen flex-col">
-      <Layout title="MuddBot">
-        <h1 style={{ fontSize: '2.5rem' }}>My Textbooks</h1>
-        <br />
-        <h2 style={{ fontSize: '1rem', display: 'flex', alignItems: 'center' }}>
-          <span>My College:</span>
-          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-            <Select
-              style={{ marginLeft: 10, color: 'black' }}
-              labelId="demo-select-small-label"
-              id="demo-simple-select"
-              value={college}
-              label="College"
-              onChange={(updatedCollege) =>
-                setCollege(updatedCollege.target.value)
-              }
-            >
-              {collegeList.map((c) => {
-                return (
-                  <MenuItem key={c} value={c}>
-                    {c}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-        </h2>
+    <Layout title="MuddBot">
+      <div
+        className="flex flex-col"
+        style={{
+          background:
+            'radial-gradient(circle at 18.7% 37.8%, rgb(250, 250, 250) 0%, rgb(225, 234, 238) 90%)',
+        }}
+      >
+        <div className="flex full-width justify-around mt-6">
+          <p className="mb-4 text-2xl font-normal text-gray-800">
+            My Textbooks
+          </p>
+          <div className="flex items-center">
+            <span className="text-gray-700">My College:</span>
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <Select
+                style={{ marginLeft: 10, color: 'black' }}
+                labelId="demo-select-small-label"
+                id="demo-simple-select"
+                value={college}
+                label="College"
+                onChange={(updatedCollege) =>
+                  setCollege(updatedCollege.target.value)
+                }
+              >
+                {collegeList.map((c) => {
+                  return (
+                    <MenuItem key={c} value={c}>
+                      {c}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </div>
+        </div>
 
-        <div style={{ flex: 10, padding: 30 }}></div>
+        <br />
         <div
           className="flex flex-wrap space-x-2"
           style={{
@@ -147,8 +156,12 @@ export default function ListPage() {
         >
           {renderListings(textbooks)}
         </div>
-
-        <h1 style={{ fontSize: '2.5rem' }}>My Courses</h1>
+        <div className="flex full-width justify-around">
+          <p className="mb-4 text-2xl font-normal text-gray-800 mt-10">
+            My Courses
+          </p>
+          <div className="w-96" />
+        </div>
 
         <div
           className="flex flex-wrap space-x-2"
@@ -163,7 +176,7 @@ export default function ListPage() {
         >
           {renderListings(courses)}
         </div>
-      </Layout>
-    </div>
+      </div>
+    </Layout>
   );
 }
