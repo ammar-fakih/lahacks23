@@ -45,7 +45,7 @@ function linkToPDF(title: string) {
       url = 'public-docs/english/Williams Style 11th edition.pdf';
   }
   return (
-    <a target="_blank" href="url">
+    <a target="_blank" href={url}>
       here
     </a>
   );
@@ -298,7 +298,6 @@ export default function Chat() {
                 })}
               </div>
             </div>
-            let hasEntry:boolean = false;
             <div>
               Suggested Questions:
               <input

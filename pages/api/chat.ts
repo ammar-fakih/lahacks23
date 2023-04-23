@@ -5,15 +5,16 @@ import { makeChain } from '@/utils/makechain';
 import { initPinecone } from '@/utils/pinecone-client';
 import { GET_PINECONE_INDEX_NAME } from '@/config/pinecone';
 
-const use_cohere = true;
-
-const pinecone = await initPinecone(use_cohere)
-const PINECONE_INDEX_NAME = GET_PINECONE_INDEX_NAME(use_cohere);
+const use_cohere = false;
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+
+  const pinecone = await initPinecone(use_cohere)
+  const PINECONE_INDEX_NAME = GET_PINECONE_INDEX_NAME(use_cohere);
+
   console.log('currently in api/chat.ts')
   const { question, history, filePath } = req.body;
 
