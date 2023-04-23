@@ -1,4 +1,3 @@
-import Chat from "./Chat";
 import ListPage from "./ListPage";
 
 
