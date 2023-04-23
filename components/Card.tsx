@@ -9,19 +9,19 @@ interface CardProps {
 
 export default function Card({ data }: CardProps) {
 
-
+  const scale = 100;
   return (
-    <Link href={`${data.url}`}>
-      <div style={{width: "20rem"}} className="hidden lg:block rounded-2xl border-2 border-gray-100 shadow-md bg-white hover:shadow-xl hover:-translate-y-1 transition-all ease duration-200">
-        <div className="rounded-t-2xl overflow-hidden">
+    <Link href={`${data.url}`} className='p-4'>
+      <div style={{width: "20rem"}} className="hidden m-3 lg:block rounded-2xl border-2 border-gray-100 shadow-md bg-white hover:shadow-xl hover:-translate-y-1 transition-all ease duration-200">
+        <div className="rounded-t-2xl overflow-hidden" 
+          style={{display: 'flex', alignItems: 'flex-start'}}>
           <BlurImage
             alt={data.name ?? 'Card Thumbnail'}
-            width={500}
-            height={400}
+            style={{height: '300px'}}
+            width={8*scale}
+            height={11*scale}
             className="w-full h-64 object-cover"
             src={data.image}
-            // placeholder="blur"
-            // blurDataURL={data.imageBlurhash ?? undefined}
           />
         </div>
         <div className="py-6 px-5 h-36 w-500">
@@ -33,16 +33,17 @@ export default function Card({ data }: CardProps) {
           </p>
         </div>
       </div>
-      <div className="lg:hidden overflow-hidden rounded-xl flex items-center md:h-48 h-36 border-2 border-gray-100 focus:border-black active:border-black bg-white transition-all ease duration-200">
-        <div className="w-2/5 relative h-full">
+      <div className="lg:hidden overflow-hidden rounded-xl m-2 flex items-center md:h-48 h-36 border-2 border-gray-100 focus:border-black active:border-black bg-white transition-all ease duration-200">
+        <div className="w-2/5 relative h-full"
+          style={{display: 'flex', alignItems: 'flex-start'}}
+        >
           <BlurImage
             alt={data.name ?? 'Card thumbnail'}
-            width={500}
-            height={400}
+            style={{height: '300px'}}
+            width={8*scale}
+            height={11*scale}
             className="h-full object-cover"
             src={data.image}
-            // placeholder="blur"
-            // blurDataURL={data.imageBlurhash ?? undefined}
           />
         </div>
         <div className="py-6 px-5 w-3/5">
