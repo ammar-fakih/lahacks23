@@ -140,7 +140,9 @@ export default function Chat() {
     setQuery('');
 
     try {
-      const formatted_question = question.replaceAll('book', title).trim();
+      const formatted_question = question.replaceAll('book', " "+title).trim();
+      console.log("question:", formatted_question);
+      console.log("filePath:", filePath);
       const response = await fetch('api/chat', {
         method: 'POST',
         headers: {
@@ -152,11 +154,20 @@ export default function Chat() {
           filePath,
         }),
       });
+      console.log(response);
       const data = await response.json();
 
       if (data.error) {
         setError(data.error);
       } else {
+        // const repeated_text: string = data.text;
+        // const repeated_responses = repeated_text.replaceAll("\"", "").replaceAll('\'', '').split(".");
+        // let new_resp = "";
+        // for(let i = 0; i < repeated_responses.length-1; ++i) {
+
+        // }
+        
+        
         setMessageState((state) => ({
           ...state,
           messages: [
@@ -176,6 +187,7 @@ export default function Chat() {
       //scroll to bottom
       messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
     } catch (error) {
+      console.log("encountered an error")
       setLoading(false);
       setError('An error occurred while fetching the data. Please try again.');
       console.log('error', error);
@@ -296,8 +308,10 @@ export default function Chat() {
                 })}
               </div>
             </div>
-            <div>
+            <div className="pt-5" style={{display: 'flex', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly'}}>
+              <span>
               Suggested Questions:
+              </span>
               <input
                 type="button"
                 value="What is the subject of the textbook?"

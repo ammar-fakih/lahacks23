@@ -52,7 +52,7 @@ export default function ListPage() {
       subject: 'Probability and Statistics',
       folder: '/Chat?filePath=stats&title=OpenIntro Statistics',
       image: '/math62.jpeg',
-      pdf: 'public-docs/stats/Intro Stats.pdf',
+      pdf: ['public-docs/stats/Intro Stats.pdf'],
       colleges: ['Harvey Mudd College'],
     },
     {
@@ -61,7 +61,7 @@ export default function ListPage() {
       folder:
         '/Chat?filePath=english&title=Style: Lessons in Clarity and Grace',
       image: '/writ1.png',
-      pdf: '/public-docs/english/Williams Style 11th edition.pdf',
+      pdf: ['/public-docs/english/Williams Style 11th edition.pdf'],
       colleges: ['Harvey Mudd College'],
     },
     {
@@ -70,7 +70,7 @@ export default function ListPage() {
       folder:
         '/Chat?filePath=chemistry&title=Elementary Principles of Chemical Processes',
       image: '/chem24.png',
-      pdf: '/public-docs/stats/ElementaryChemical.pdf',
+      pdf: ['/public-docs/stats/ElementaryChemical.pdf'],
       colleges: ['Harvey Mudd College'],
     },
   ]);
@@ -81,7 +81,7 @@ export default function ListPage() {
       subject: string;
       folder: string;
       image: string;
-      pdf: string;
+      pdf: string | string[];
       colleges: string[];
     }[],
   ) => {

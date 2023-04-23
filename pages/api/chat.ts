@@ -1,24 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
+import { CohereEmbeddings } from 'langchain/embeddings/cohere';
 import { PineconeStore } from 'langchain/vectorstores/pinecone';
 import { makeChain } from '@/utils/makechain';
 import { initPinecone } from '@/utils/pinecone-client';
 import { GET_PINECONE_INDEX_NAME } from '@/config/pinecone';
 
-const use_cohere = false;
+const use_cohere = true;
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  console.log("arrived into api/char.ts")
-
-  const pinecone = await initPinecone(use_cohere)
+  const pinecone = await initPinecone(use_cohere);
   const PINECONE_INDEX_NAME = GET_PINECONE_INDEX_NAME(use_cohere);
 
-  console.log('currently in api/chat.ts')
   const { question, history, filePath } = req.body;
-
 
   //only accept post requests
   if (req.method !== 'POST') {
@@ -37,7 +34,9 @@ export default async function handler(
 
     /* create vectorstore*/
     const vectorStore = await PineconeStore.fromExistingIndex(
-      new OpenAIEmbeddings({}),
+      use_cohere
+        ? new CohereEmbeddings({ modelName: 'small' })
+        : new OpenAIEmbeddings({}),
       {
         pineconeIndex: index,
         textKey: 'text',
