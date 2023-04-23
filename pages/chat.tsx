@@ -220,10 +220,10 @@ export default function Home() {
             <div>
               Suggested Questions: 
 
-              <input type="button" value="What is the subject of the book?"
+              <input type="button" value="What is the subject of the textbook?"
                 color="primary"
                 onClick={() => 
-                  setQuery("What is the subject of the book?")
+                  setQuery("What is the subject of the textbook?")
                   //handleSubmit
                 }
                 className={styles.generatesuggestion}
@@ -235,13 +235,13 @@ export default function Home() {
 
               <input type="button" value="What are the main ideas of the book?"
                 onClick={() => 
-                  setQuery("What are the main ideas of the book?")
+                  setQuery("What are the main ideas of the textbook?")
                   //handleSubmit
                 }
                 className={styles.generatesuggestion}
               ></input>
 
-              <input type="button" value="Make a review guide for the book."
+              <input type="button" value="Make a review guide for the textbook."
                 onClick={() => 
                   setQuery("Make a review guide for the book.")
                   //{handleSubmit}
