@@ -32,6 +32,16 @@ function getMessageState(title: string) {
   };
 }
 
+function linkToPDF(title: string) {
+  if (title == "OpenIntro Statistics") {
+    return (<a href="public-docs/stats/Intro Stats.pdf">here</a>)
+  } else if (title == "Elementary Principles of Chemical Processes") {
+    return (<a href="public-docs/stats/ElementaryChemical.pdf">here</a>)
+  } else {
+    return (<a href="public-docs/english/Williams Style 11th edition.pdf">here</a>)
+  }
+}
+
 export default function Chat() {
   const router = useRouter();
 
@@ -161,18 +171,6 @@ export default function Chat() {
     }
   };
 
-  const getPdf = () => {
-    let fileNames: string[] = [];
-    // filePath as string
-    readdir("public-docs/stats", (err, files) => {
-      fileNames = files;
-    });
-
-    return fileNames.map((file) => {
-      return <li><a href={file}>Textbook Name</a></li>
-    });
-  };
-
   return (
     <>
       <Layout>
@@ -186,10 +184,7 @@ export default function Chat() {
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             Chat With Your Textbook
           </h1>
-          <p>Read the full textbook:</p>
-          <ul>
-            {getPdf()}
-          </ul>
+          <p>Read the full textbook <b>{linkToPDF(title)}</b>.</p>
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
