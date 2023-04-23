@@ -302,10 +302,10 @@ export default function Chat() {
               Suggested Questions:
               <input
                 type="button"
-                value="What is the subject of the book?"
+                value="What is the subject of the textbook?"
                 color="primary"
                 onClick={
-                  () => setQuery('What is the subject of the book?')
+                  () => setQuery('What is the subject of the textbook?')
                   //handleSubmit
                 }
                 className={styles.generatesuggestion}
@@ -313,18 +313,18 @@ export default function Chat() {
               ></input>
               <input
                 type="button"
-                value="What are the main ideas of the book?"
+                value="What are the main ideas of the textbook?"
                 onClick={
-                  () => setQuery('What are the main ideas of the book?')
+                  () => setQuery('What are the main ideas of the textbook?')
                   //handleSubmit
                 }
                 className={styles.generatesuggestion}
               ></input>
               <input
                 type="button"
-                value="Make a review guide for the book."
+                value="Make a review guide for the textbook."
                 onClick={
-                  () => setQuery('Make a review guide for the book.')
+                  () => setQuery('Make a review guide for the textbook.')
                   //{handleSubmit}
                 }
                 className={styles.generatesuggestion}
