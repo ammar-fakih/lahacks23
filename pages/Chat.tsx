@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import Layout from '@/components/layout';
-import styles from '@/styles/Home.module.css';
+import styles from '@/styles/Chat.module.css';
 import { Message } from '@/types/chat';
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
@@ -74,6 +74,10 @@ export default function Chat() {
   // On Page Load:
   useEffect(() => {
     textAreaRef.current?.focus();
+
+    getColorPallete(filePath as string).then((colors) => {
+      setThemeColors(colors);
+    });
   }, []);
 
   useEffect(() => {
@@ -173,13 +177,16 @@ export default function Chat() {
 
   return (
     <>
-      <Layout>
+      <Layout style={{
+            backgroundColor: themeColors[0].hex(),
+            color: themeColors[1].hex(),
+          }}>
         <div
-          style={{
-            backgroundColor: themeColors[0].brighten(0).hex(),
-            color: themeColors[1].brighten(0).hex(),
-          }}
           className="mx-auto flex flex-col gap-4"
+          style={{
+            backgroundColor: themeColors[0].brighten(1).hex(),
+            color: themeColors[1].darken(1).hex(),
+          }}
         >
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             Chat With Your Textbook
@@ -277,16 +284,40 @@ export default function Chat() {
                 })}
               </div>
             </div>
-            <div className={styles.center}>
-              <input
-                type="button"
-                value="What is the subject of the book?"
-                onClick={(e) => {
-                  setQuery('What is the subject of the book?');
-                  handleSubmit;
-                }}
+            <div>
+              Suggested Questions: 
+
+              <input type="button" value="What is the subject of the book?"
+                color="primary"
+                onClick={() => 
+                  setQuery("What is the subject of the book?")
+                  //handleSubmit
+                }
+                className={styles.generatesuggestion}
+                disabled={loading}
+              >
+
+
+              </input>
+
+              <input type="button" value="What are the main ideas of the book?"
+                onClick={() => 
+                  setQuery("What are the main ideas of the book?")
+                  //handleSubmit
+                }
+                className={styles.generatesuggestion}
               ></input>
 
+              <input type="button" value="Make a review guide for the book."
+                onClick={() => 
+                  setQuery("Make a review guide for the book.")
+                  //{handleSubmit}
+                }
+                className={styles.generatesuggestion}
+              ></input>
+
+            </div>
+            <div className={styles.center}>
               <div className={styles.cloudform}>
                 <form onSubmit={handleSubmit}>
                   <textarea
@@ -301,7 +332,7 @@ export default function Chat() {
                     placeholder={
                       loading
                         ? 'Waiting for response...'
-                        : 'What is chapter 3 about?'
+                        : 'Enter your question here'
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
