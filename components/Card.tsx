@@ -1,6 +1,7 @@
 import BlurImage from './BlurImage';
 
 import type { MdxCardData } from '@/types';
+import Link from 'next/link';
 
 interface CardProps {
   data: MdxCardData;
@@ -10,7 +11,7 @@ export default function Card({ data }: CardProps) {
 
 
   return (
-    <a href={`${data.url}`}>
+    <Link href={`${data.url}`}>
       <div style={{width: "20rem"}} className="hidden lg:block rounded-2xl border-2 border-gray-100 shadow-md bg-white hover:shadow-xl hover:-translate-y-1 transition-all ease duration-200">
         <div className="rounded-t-2xl overflow-hidden">
           <BlurImage
@@ -53,6 +54,6 @@ export default function Card({ data }: CardProps) {
           </p>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
