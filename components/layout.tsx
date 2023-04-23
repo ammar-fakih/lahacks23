@@ -1,17 +1,29 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import styles from '@/styles/Chat.module.css';
 
 interface LayoutProps {
   children?: React.ReactNode;
   title?: string;
 }
 
-export default function Layout({ style, children, title = 'MuddBot' }: LayoutProps & {style?: React.CSSProperties}) {
+export default function Layout({
+  styleDarker,
+  styleLighter,
+  children,
+  title = 'MuddBot',
+}: LayoutProps & {
+  styleDarker?: React.CSSProperties;
+  styleLighter?: React.CSSProperties;
+}) {
   return (
-    <div style={style} className="mx-auto flex flex-col space-y-4">
-      <header className="container sticky top-0 z-40">
-        <div className="h-16 border-b border-b-slate-200 py-4">
-          <nav className="ml-4 pl-6">
+    <div style={styleDarker} className="mx-auto flex flex-col space-y-4">
+      <header
+        className="container sticky top-0 z-40"
+        style={{ minWidth: '100%' }}
+      >
+        <div style={styleDarker} className="border-b border-b-slate-200 p-2">
+          <nav style={styleLighter} className="ml-4 p-1 mr-4">
             <Link
               href="/"
               className="hover:text-slate-600 cursor-pointer flex flex-row items-center"
@@ -19,9 +31,14 @@ export default function Layout({ style, children, title = 'MuddBot' }: LayoutPro
               <Image
                 src="/logo.jpg"
                 alt="MuddBot Logo"
-                width={35}
-                height={35}
+                width={40}
+                height={40}
+                style={{
+                  padding: '6px',
+                  borderRadius: '0.5rem',
+                }}
               />
+              &nbsp;&nbsp;
               {title}
             </Link>
           </nav>
